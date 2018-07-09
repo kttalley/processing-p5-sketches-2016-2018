@@ -1,0 +1,20 @@
+<hmtl>
+<script src = "lib/p5.js"></script>
+<script>
+function setup () {
+       createCanvas(1000,1000);
+}
+var x = 0;
+var w = 0;
+
+draw = function () {
+    noFill();
+   x=x+0.07;
+   w = w + 2;
+    //fill(200,100,100,50);
+    //rect(300,300,600,600);
+arc(400,300,100+w,100+w,PI,4*PI/3+x);
+
+};
+</script>
+</html>

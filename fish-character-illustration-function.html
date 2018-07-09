@@ -1,0 +1,47 @@
+<html>
+    ,<script src="lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup(){
+            createCanvas(1000, 1000);
+        }
+        var fish = function (x,y,r,g,b,sze){
+    translate(x,y);
+    scale(sze);
+    stroke(100);
+    //body
+    fill(r,g,b);
+    ellipse(0,0,25,50);
+    //tail fin
+    fill(r-75,g-75,b-75);
+    triangle(0,20,-5,45,5,55);
+    //arm fins
+    //l
+    triangle(-12,-5,-22,15,-17,20);
+    //r
+    triangle(12,-5,22,15,17,20);
+    fill(255);
+    //left eye
+    ellipse(-10,-15,10,10);
+    //right eye
+    ellipse(10,-15,10,10);
+    fill(25);
+    //left pupil
+    ellipse(-10,-15,3,3);
+    //right pupil
+    ellipse(10,-15,3,3);
+    resetMatrix();
+    
+};
+var tank = function (x,y,r,g,b){
+    //rect(0,0,)
+};
+
+draw = function () {
+    fish(200,200,250,250,0);
+    fish(600,700,250,250,0,2);
+    fish(300,500,50,0,150,2);
+
+};
+    </script>
+</html>

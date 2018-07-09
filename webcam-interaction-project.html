@@ -1,0 +1,79 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script src = "lib/p5.dom.js"></script>
+    <script>
+        new p5 ();
+        var WIDTH = 800;
+var HEIGHT = 600;
+var bufferCanvas = createElement('canvas');
+var bufferCtx = bufferCanvas.elt.getContext('2d');
+
+var outputCanvas = createElement('canvas');
+var outputCtx = outputCanvas.elt.getContext('2d');
+
+var capture;
+var mic;
+
+function styleCanvases() {
+    document.querySelector('video').style.display = 'none';
+    bufferCanvas.elt.setAttribute('height', WIDTH);
+    bufferCanvas.elt.setAttribute('width', HEIGHT);
+    bufferCanvas.elt.style.display = 'none';
+    outputCanvas.elt.setAttribute('height', WIDTH);
+    outputCanvas.elt.setAttribute('width', HEIGHT);
+}
+
+
+function getColorIndicesForCoord(x, y, width) {
+  var red = y * (width * 4) + x * 4;
+  return [red, red + 1, red + 2, red + 3];
+}
+
+
+function setup() {
+    capture = createCapture(VIDEO, function (e) {
+        styleCanvases();
+    });
+    mic = new p5.AudioIn();
+    fft = new p5.FFT();
+    mic.start();
+    mic.connect(fft);
+}
+
+function draw() {
+    var spectrum = fft.analyze();
+    const avgAmplitudes = [];
+    const numSplits = 3;
+    const splitLength = ~~(spectrum.length / numSplits);
+    for (let i = 0; i < numSplits; i++) {
+        let sum = 0;
+        for(let j = splitLength * i; j < splitLength * (i + 1); j++) {
+            sum += spectrum[j];
+        }
+        let avg = Math.max(~~(sum / splitLength) / 123, 0.2);
+        avgAmplitudes.push(avg);
+    }
+    if (capture) {
+        bufferCtx.drawImage(capture.elt, 0, 0, WIDTH, HEIGHT );
+    }
+    var pixelData = bufferCtx.getImageData( 0, 0, WIDTH, HEIGHT );
+    for(let i = 0; i < WIDTH; i++ ) {
+        for(let j = 0; j < HEIGHT; j++) {
+            let colorIndices = getColorIndicesForCoord(i,j,WIDTH);
+            var redIndex   = colorIndices[0];
+            var greenIndex = colorIndices[1];
+            var blueIndex  = colorIndices[2];
+            var alphaIndex = colorIndices[3];
+            var redForCoord   = pixelData.data[redIndex];
+            var greenForCoord = pixelData.data[greenIndex];
+            var blueForCoord  = pixelData.data[blueIndex];
+            var alphaForCoord = pixelData.data[alphaIndex];
+            pixelData.data[redIndex]    = redForCoord * avgAmplitudes[0];    // red
+            pixelData.data[greenIndex]  = greenForCoord * avgAmplitudes[1];  // green
+            pixelData.data[blueIndex]   = blueForCoord * avgAmplitudes[2];   // blue
+        }
+    }
+    outputCtx.putImageData( pixelData, 0, 0 );
+}
+    </script>
+</html>

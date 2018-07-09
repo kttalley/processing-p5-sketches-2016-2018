@@ -1,0 +1,98 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        function setup () {
+            createCanvas(1000,1000);
+        }
+
+        var t1xa = 400;
+var t2xa = 400;
+var t3xa = 400;
+var t4xa = 400;
+
+var t1xb = 450;
+var t3xb = 450;
+var t4xb = 450;
+
+var t4xc = 450;
+
+var t2b = 50;
+var t3g = 204;
+draw = function () {
+noStroke();
+background(153,153,102);
+fill(255,255,0);
+ellipse(600,100,50,50);
+fill(255,255,102);
+triangle(t4xc,200,t4xa,250,t4xb,300);
+fill(255,255,t2b);
+triangle(350,200,t2xa,250,350,300);
+
+if(t4xa < 350){
+    fill(255,255,102);
+triangle(t4xc,200,t4xa,250,t4xb,300);
+
+}
+fill(255,255,153);
+triangle(350,200,t1xa,250,t1xb,200);
+fill(255,t3g,0);
+triangle(350,300,t3xa,250,t3xb,300);
+
+
+if(key == 'a' && keyIsPressed){
+    t1xa = t1xa - 1;
+    t2xa = t2xa - 1;
+    t3xa = t3xa - 1;
+    t4xa = t4xa - 1;
+    t1xb = t1xb - 1;
+    t3xb = t3xb - 1;
+    t4xb = t4xb - 1;
+    t4xc = t4xc - 1;
+    t2b = t2b - 3;
+    t3g = t3g - 0.25;
+
+}
+
+if(key == 'd' && keyIsPressed){
+    t1xa = t1xa + 1;
+    t2xa = t2xa + 1;
+    t3xa = t3xa + 1;
+    t4xa = t4xa + 1;
+    t1xb = t1xb + 1;
+    t3xb = t3xb + 1;
+    t4xb = t4xb + 1;
+    t4xc = t4xc + 1;
+    t2b = t2b + 3;
+    t3g = t3g + 0.25;
+
+}
+
+if(key == 'a' && keyIsPressed && t1xa < 300){
+    t1xa = t1xa + 1;
+    t2xa = t2xa + 1;
+    t3xa = t3xa + 1;
+    t4xa = t4xa + 1;
+    t1xb = t1xb + 1;
+    t3xb = t3xb + 1;
+    t4xb = t4xb + 1;
+    t4xc = t4xc + 1;
+    t2b = t2b + 3;
+    t3g = t3g + 0.25;
+
+}
+if(key == 'd' && keyIsPressed && t1xa > 400){
+    t1xa = t1xa - 1;
+    t2xa = t2xa - 1;
+    t3xa = t3xa - 1;
+    t4xa = t4xa - 1;
+    t1xb = t1xb - 1;
+    t3xb = t3xb - 1;
+    t4xb = t4xb - 1;
+    t4xc = t4xc - 1;
+    t2b = t2b - 3;
+    t3g = t3g - 0.25;
+
+}
+};
+    </script>
+</html>

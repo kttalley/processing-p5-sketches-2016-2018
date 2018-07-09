@@ -1,0 +1,257 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        //this is an object
+var mage = {
+    Name: 'Tal Rasha',
+    HP: 150,
+    MP: 450,
+    x: 200,
+    y: 500,
+    r: 0,
+    speed: 5,
+    
+    manaOrb: 3,
+    manaTimer: 0,
+    
+    
+    
+    charge: 0,
+    timerUp: 0,
+    timerDown: 100,
+    
+    projectileX: 0,
+    projectileY: 0,
+    inv: [],
+    
+    charcDraw: function(){
+        this.charcSpells();
+        this.charcspellStance();
+        translate(this.x,this.y);
+        noStroke();
+        //body
+        fill(0,153,255);
+        rect(0,15,50,100,50,0,0,0);
+        //head
+        fill(50);
+        ellipse(40,37,35,45);
+        //eyes
+        fill(255,255,0);
+        rect(30,25,10,6,7);
+        rect(45,25,10,6,7);
+        //arms
+        fill(0,153,255);
+        rect(2,45,15,50,100);
+        fill(0,103,205);
+        rect(0,45,15,50,100);
+        //health bar
+        fill(255,10,0);
+        rect(0,-40,this.HP/2,10);
+        resetMatrix();
+        //movement
+        this.manaOrbs();
+        this.charcWalk();
+        
+        
+        
+    },
+    
+    charcWalk: function (){
+       if(key=='d'&&keyIsPressed){
+           this.x = this.x + this.speed;
+       }
+       if(key=='a'&&keyIsPressed){
+           this.x = this.x - this.speed;
+       }
+       /*
+       if(key=='w'&&keyIsPressed){
+           this.y = this.y - this.speed;
+       }
+       if(key=='s'&&keyIsPressed){
+           this.y = this.y + this.speed;
+       }
+       //sprint
+       /*
+       if(key==' '&&keyIsPressed){
+           this.timerUp = this.timerUp + 1; 
+           if(this.timerUp<=5){
+               this.speed = 15;
+           }
+           if(this.timerUp>5){
+                this.speed = 5;
+              }
+           
+       }*/
+    },
+    
+    charcSpells: function () {
+        translate(this.x,this.y);
+        fill(255,0,0);
+        text(""+this.timerDown,100,0);
+        if(mouseIsPressed && key == 'r' && keyIsPressed){
+            
+                this.charge = this.charge + 1;
+                fill(255,255,0);
+                ellipse(100,45,0+this.charge,0+this.charge);
+                this.timerDown = this.timerDown - 1;
+                if(this.timerDown<10){
+                    this.charge = 0;
+                    this.timerDown = 100;
+                }
+                   
+        }
+        /*
+        else{
+                    this.timerDown = 100;
+                    this.charge = 0;
+                }
+                */
+        if(mouseIsPressed && key == 'f' && keyIsPressed && this.timerDown<50){
+                    fill(255,255,0);
+                    rect(100,35,0+this.projectileX,20-this.projectileY,50-this.projectileY);
+                    this.projectileX = this.projectileX + 30;
+                    this.projectileY = this.projectileY + 0.5;
+                    this.timerUp = this.timerUp + 1;
+                    if(this.timerUp>25){
+                    this.timerDown = 100;
+                    this.charge = 0;
+                    this.projectileX = 0;
+                    this.timerUp = 0;
+                    this.manaOrb = this.manaOrb - 1;
+                    this.projectileY = 0;
+                    }
+        }
+        else{
+            this.projectileY = 0;
+        }
+         
+        
+        
+        resetMatrix();
+    }, 
+    
+    charcspellStance: function(){
+       
+        //spell stance
+        if(mouseIsPressed){
+            fill(0,103,205);
+            rect(this.x+35,this.y+45,50,15,100);
+       
+        }
+        
+    },
+    
+    manaOrbs: function(){
+        
+           //mana orbs
+        if(this.manaOrb === 3){  
+            translate(this.x,this.y);
+            fill(255,255,0);
+            rotate(this.r);
+            this.r = this.r + 0.1;
+            ellipse(-5,-10,10,10);
+            ellipse(10,10,10,10);
+            ellipse(-10,10,10,10);
+        }
+        if(this.manaOrb === 2){
+             translate(this.x,this.y);
+            fill(255,255,0);
+            rotate(this.r);
+            this.r = this.r + 0.1;
+            //ellipse(0,-10,10,10);
+            ellipse(10,10,10,10);
+            ellipse(-10,10,10,10);
+        }
+        if(this.manaOrb === 1){
+             translate(this.x,this.y);
+            fill(255,255,0);
+            rotate(this.r);
+            this.r = this.r + 0.1;
+            //ellipse(0,-10,10,10);
+            //ellipse(10,10,10,10);
+            ellipse(-10,10,10,10);
+        }
+        if(this.manaOrb< 1){
+            this.charge = 0;
+            this.timerDown = 100;
+             this.manaTimer= this.manaTimer+ 1;
+             if(this.manaTimer>100){
+                 this.manaOrb = 3;
+                 this.manaTimer = 0;
+                 
+             }
+        }
+        
+        resetMatrix();
+    }
+    
+    
+};
+
+var ghost = {
+    Name: 'Azure',
+    HP: 150,
+    MP: 0,
+    x: 800,
+    y: 500,
+    r: 0,
+    speed: 5,
+    
+    enemyDraw: function(){
+        translate(this.x,this.y);
+        fill(75,75,75,100);
+        rect(0,0,50,100,100,100,0,0);
+        //eyes
+        fill(255,100,0);
+        ellipse(10,10,5,5);
+        ellipse(30,10,5,5);
+        //health bar
+        fill(255,50,0);
+        rect(0,-20,this.HP/3,10);
+        this.enemyMove();
+        resetMatrix();
+    },
+    
+    enemyMove: function(){
+        this.x = this.x - this.speed;
+        if(this.x < 20){
+            this.x = 1000;
+            this.y = random(450,700);
+            this.speed = random(4,15);
+        }
+    },
+    
+    
+};
+
+draw = function(){
+    background(100);
+    noStroke();
+    fill(150);
+    rect(0,550,1000,1000);
+    
+    ghost.enemyDraw();
+    mage.charcDraw();
+    if(dist(mage.x,mage.y,ghost.x,ghost.y)<50){
+        mage.HP = mage.HP - 1;
+        fill(255,0,0);
+        ellipse(mage.x+random(-25,50),mage.y+random(-25,60),10,10);
+        //background(0);
+    }
+    if(dist(mage.projectileX,550,ghost.x,ghost.y)<50){
+        ghost.HP = ghost.HP - 10;
+        background(0);
+    }
+    
+    
+    if(mage.HP <1){
+        background(0);
+        exit();
+    }
+};
+    </script>
+</html>

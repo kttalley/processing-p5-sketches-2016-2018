@@ -1,0 +1,154 @@
+<html>
+    <script src = "lib/p5.js"></script>
+<script>
+
+
+new p5();
+
+function setup () {
+    createCanvas(1000,1000);
+}
+
+
+var idahoLandscape = {
+    x: 0,
+    y: -100,
+    s: 1.5,
+    xSpeed: 0.5,
+    rev: false,
+    draw: function(){
+    translate(this.x,this.y);
+    scale(this.s);
+    background(235);
+    noStroke();
+    fill(223);
+    //backmost hills
+    bezier(600,350,600,300,700,250,1100,350);
+    fill(190,190,190,200);
+     quad(10,400,1100,450,1150,500,1000,400);
+    fill(215);
+    bezier(0,400,600,250,890,350,1000,400);
+    fill(199);
+    rect(0,550,1000,500);
+    bezier(0,550,300,450,450,425,1000,550);
+    //sky
+    fill(250);
+    rect(0,0,1000,100);
+    fill(255,255,255,200);
+    rect(0,25,1000,100);
+     fill(250,250,250,100);
+    rect(0,50,1000,100);
+    fill(250,250,250,50);
+    rect(0,75,1000,100);
+    fill(250,250,250,25);
+    rect(0,100,1000,100);
+    resetMatrix();
+    },
+    pan: function() {
+        if(this.x > 0){
+            this.rev = false;
+        }
+        if(this.rev === false){
+            this.x = this.x - this.xSpeed;
+        }
+      if(this.x < -500){
+          this.rev = true;
+      }
+      if(this.rev === true){
+          this.x = this.x + this.xSpeed;
+      }
+    },
+    
+};
+
+function Tree(x,y,sze){
+    this.x = x;
+    this.y = y;
+    this.sze = sze;
+    var xSpeed = 5;
+    this.draw = function(){
+        noStroke();
+        fill(153,121,70);
+        rect(this.x,this.y,this.sze/2,this.sze * 1.5);
+        fill(180,235,180);
+        triangle(this.x-this.sze/2,this.y,this.x+this.sze/4,this.y-this.sze*2,this.x+this.sze,this.y);
+    };
+    this.pan = function(){
+    if(idahoLandscape.rev === false){
+        this.x = this.x - xSpeed;
+        
+    }
+    if(idahoLandscape.rev === true){
+        this.x = this.x + xSpeed;
+        
+    }
+    if(this.x < -100){
+        this.x = 1100;
+         if(this.sze >= 20 && this.y < 500){
+        this.y = random(325,475);
+        }
+        if(this.sze <= 20&& this.y< 500){
+        this.y = random(325,475);
+        }
+        if(this.sze >= 20 && this.y > 500){
+        this.y = random(575,750);
+        }
+        if(this.sze <= 20&& this.y> 500){
+        this.y = random(675,900);
+        }
+        xSpeed = this.sze/12;
+    }
+     if(this.x > 1100){
+        this.x = -100;
+        if(this.sze >= 20 && this.y < 500){
+        this.y = random(325,475);
+        }
+        if(this.sze <= 20&& this.y< 500){
+        this.y = random(325,475);
+        }
+        if(this.sze >= 20 && this.y > 500){
+        this.y = random(575,750);
+        }
+        if(this.sze <= 20&& this.y> 500){
+        this.y = random(675,900);
+        }
+        xSpeed = this.sze/12;
+    }
+        
+    };
+}
+
+var trees = [
+    new Tree(random(1000,1100),random(800,1000),random(25,35)),
+    new Tree(random(1000,1100),random(850,1000),random(15,30)),
+    new Tree(random(1000,1100),random(850,1000),random(15,30)),
+    new Tree(random(1000,1100),random(800,1000),random(15,30)),
+    new Tree(random(1000,1100),random(800,1000),random(15,35)),
+    new Tree(random(1000,1100),random(800,1000),random(15,35)),
+    new Tree(random(1000,1100),random(800,1000),random(10,30)),
+    new Tree(random(1000,1100),random(800,1000),random(10,35)),
+    new Tree(random(1000,1100),random(800,1000),random(10,30))
+    ];
+
+var bgTrees = [
+    new Tree(random(1000,1500),random(375,475),random(5,10)),
+    new Tree(random(1000,1500),random(375,475),random(5,10)),
+    new Tree(random(1000,1500),random(375,475),random(5,10)),
+    new Tree(random(1000,1500),random(375,475),random(5,10)),
+    new Tree(random(1000,1500),random(375,475),random(5,10))
+    ];
+draw = function () {
+    idahoLandscape.draw();
+    idahoLandscape.pan();
+    for(var t = 0; t < trees.length; t++){
+        trees[t].draw();
+        trees[t].pan();
+    }
+    for(var b = 0; b < bgTrees.length; b++){
+        bgTrees[b].draw();
+        bgTrees[b].pan();
+    }
+
+};
+</script>
+</html>

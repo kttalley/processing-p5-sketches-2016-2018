@@ -1,0 +1,243 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        var rocket = function (x,y){ 
+    translate(x, y); 
+    noStroke();
+    fill(0,102,153); 
+    triangle(0,0,30,0,15,30); 
+    fill(130,150,153);
+    triangle(30,-30,15,15,50,15); 
+    fill(0,102,153); 
+    triangle(30,0,60,0,45,30);
+    //rocket smoke 
+    //fill(130,150,153,100);
+    fill(
+        random(190,255),
+        random(120,220),
+        random(150),
+        random(50,150)
+    );
+    triangle(15,25,50,25,32.5,random(25,55)); 
+    /* broken rocket flare
+    fill(
+        random(100,255),
+        random(100,120),
+        random(150),
+        random(100,200)
+    ); 
+    triangle(
+        x+10,y+30,
+        x+30,y+random(40,50),
+        50,30
+    ); 
+    fill(
+        random(190,255),
+        random(120,220),
+        random(150),
+        random(50,150)
+    ); 
+    triangle(
+        x,y+30,
+        x+30,y+random(3,50),
+        x+60,y+30
+    ); 
+    resetMatrix(); 
+    */
+    
+};
+
+function Stars (x,y,speed,sze){
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    this.sze = sze;
+    this.draw = function () {
+        fill(255,255,255);
+        ellipse(this.x,this.y,this.sze,this,sze); 
+        fill(255,255,255,200);
+        ellipse(this.x,this.y,this.sze+10,this.sze+10);
+        fill(255,255,255,150);
+        ellipse(this.x,this.y,this.sze+20,this.sze+20);
+        fill(255,255,255,100);
+        ellipse(this.x,this.y,this.sze+30,this,sze+30); 
+        fill(255,255,255,50);
+        ellipse(this.x,this.y,this.sze+40,this.sze+40);
+        fill(255,255,255,25);
+        ellipse(this.x,this.y,this.sze+50,this.sze+50);
+        
+    };
+    this.move = function() {
+        this.y = this.y + this.speed;
+        if(this.y>1100){
+            this.y = 0;
+        }
+    };
+}
+var stars = [
+    new Stars(random(850),-100,random(5),random(10)),
+    new Stars(random(850),-100,random(5),random(10)),
+    new Stars(random(850),-100,random(5),random(10)),
+    new Stars(random(850),-100,random(5),random(10)),
+    new Stars(random(850),-100,random(5),random(10))
+    ];
+
+var shipX = 100;
+var shipY = 150;
+var shipSpeedX = 0;
+var shipSpeedY = 0;
+var gravX = 0;
+var gravY= 0.005;
+var flyU = false;
+var flyD = false;
+var flyR = false;
+var flyL = false;
+
+
+var moveTimer = 0;
+var downTimer = 0;
+var bublTimer = 0;
+draw = function () {
+    background(30);
+    for(var s = 0; s < stars.length; s++){
+        stars[s].draw();
+        stars[s].move();
+    }
+    //character
+    rocket(shipX,shipY);
+    
+    //ellipse(shipX,shipY,10,10);
+    //character movement
+    //inertia physics
+    shipX = shipX + shipSpeedX;
+    shipSpeedX = shipSpeedX + gravX;
+    shipY = shipY + shipSpeedY;
+    shipSpeedY=shipSpeedY + gravY;
+    
+    //swim intertia limits
+    if(shipSpeedX > 3){
+        shipSpeedX = 3;
+    }
+    if(shipSpeedX < -3){
+        shipSpeedX = -3;
+    }
+    if(gravX >= 2){
+        gravX = -gravX;
+    }
+    if(gravX <= -2){
+        gravX = -gravX;
+    }
+    if(gravX === 0){
+        shipSpeedX = 0;
+    }
+    if(shipSpeedY > 3){
+        shipSpeedY = 3;
+    }
+    if(shipSpeedY < -3){
+        shipSpeedY = -3;
+    }
+    if(gravY >= 2){
+        gravY = -gravY;
+    }
+    if(gravY <= -2){
+        gravY = -gravY;
+    }
+    if(gravY === 0){
+        shipSpeedY = 0;
+    }
+    //bondaries
+    if(shipY< 60){
+        shipY = 60;
+    }
+    if(shipY>550){
+        shipY = 550;
+    }
+    if(shipX<90){
+        shipX = 90;
+        
+    }
+     if(shipX>775){
+        shipX = 775;
+        
+    }
+    noStroke();
+    if(key =='w' && keyIsPressed){
+       flyU = true;
+       if(flyU === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravY = -0.009;
+           }
+           if(moveTimer > 100){
+               flyU = false;
+               gravY = 0;
+               moveTimer = 0;
+               
+           }
+           if(flyU === false){
+               gravY = 0;
+           }
+       }
+    }
+    if(key =='s' && keyIsPressed){
+       flyD = true;
+       if(flyD === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravY = 0.009;
+           }
+           if(moveTimer > 100){
+               flyU = false;
+               gravY = 0;
+               moveTimer = 0;
+               
+           }
+           if(flyD === false){
+               gravY = 0;
+           }
+       }
+    }
+    if(key =='a' && keyIsPressed){
+       flyL = true;
+       if(flyL === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravX = -0.009;
+           }
+           if(moveTimer > 100){
+               flyL = false;
+               gravX = 0;
+               moveTimer = 0;
+               
+           }
+           if(flyL === false){
+               gravX = 0;
+           }
+       }
+    }
+    if(key =='d' && keyIsPressed){
+       flyR = true;
+       if(flyR === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravX = 0.009;
+           }
+           if(moveTimer > 100){
+               flyR = false;
+               gravX = 0;
+               moveTimer = 0;
+               
+           }
+           if(flyR === false){
+               gravX = 0;
+           }
+       }
+    }
+
+};
+    </script>
+</html>

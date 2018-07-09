@@ -1,0 +1,312 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+            createCanvas(1000, 1000);
+        }
+        //map[0] is first row
+//map[1] is second
+//map[2] is third etc.
+
+//map[i] is number of rows
+//map[j] is number of characters??
+
+var map2 = {
+        colisionOn: 0,
+        colisionOff: 1,
+        map: [
+    [this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn],
+    [this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOff,this.colisionOff,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOff],
+    [this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOn,this.colisionOff,this.colisionOff,this.colisionOff,this.colisionOn,this.colisionOn,this.colisionOff]
+    /*
+    [1,1,1,1,0,0,0,1,0,0],
+    [1,1,1,1,1,1,1,1,0,0],
+    [1,1,0,0,0,1,1,0,0,0],
+    [1,1,0,0,0,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1]
+      */
+            ],
+    };
+    
+var map4 = [
+    ["false","false","false","false","false","false"],
+    ["false","false","false","false","false","false"],
+    ["false","true","true","true","false","false"],
+    ["false","false","true","true","false","false"],
+    ["false","false","false","false","false","true"],
+    ["false","false","false","false","false","true"],
+    ["false","false","false","false","false","true"],
+    ];
+
+
+var c = true;
+var m = false;
+var map1 = [
+    [m,m,m,m,m,m,m,m,m,m],
+    [m,c,c,c,m,m,m,m,m,m],
+    [m,c,c,c,c,m,c,c,c,c],
+    [m,c,c,c,c,m,c,c,c,c],
+    [m,c,c,c,c,m,c,c,c,c],
+    [m,c,c,c,c,m,c,c,c,m],
+    [m,c,c,c,c,m,m,m,m,m],
+    [m,c,c,c,c,m,m,m,m,m],
+    [m,m,m,m,m,m,c,c,c,c],
+    [m,m,m,m,m,m,c,c,c,c]
+    
+    ];
+    
+
+var tileSize = 100;
+
+function toXY(i) {
+    return i * 100;
+}
+
+function toXY(j) {
+    return j * 100;
+}
+
+function drawTile(i, j, tile){
+    var x = toXY(i);
+    var y = toXY(j);
+    noStroke();
+    if(tile){
+        fill(100);
+        rect(x, y, tileSize, tileSize);
+    }
+    else{
+        fill(200);
+        rect(x, y, tileSize, tileSize);
+        
+    }
+    
+}
+//.length denotes row
+//map[i].length denotes number of characters
+
+function drawMap1 () {
+    for( var i = 0; i < map1.length; i++){
+        for(var j = 0; j < map1[0].length; j++){
+                drawTile(j, i, map1[i][j]);
+            }
+        }
+        mage.charcDraw();
+        
+        
+}
+//this is an object
+var mage = {
+    Name: 'Tal Rasha',
+    HP: 150,
+    MP: 450,
+    x: 0,
+    y: 0,
+    r: 0,
+    speed: 5,
+    
+    manaOrb: 3,
+    manaTimer: 0,
+    
+    
+    
+    charge: 0,
+    timerUp: 0,
+    timerDown: 100,
+    
+    projectileX: 0,
+    projectileY: 0,
+    inv: [],
+    
+    charcDraw: function(){
+        this.charcSpells();
+        this.charcspellStance();
+        translate(this.x,this.y);
+        noStroke();
+        //body
+        fill(0,153,255);
+        rect(0,15,50,100,50,0,0,0);
+        //head
+        fill(50);
+        ellipse(40,37,35,45);
+        //eyes
+        fill(255,255,0);
+        rect(30,25,10,6,7);
+        rect(45,25,10,6,7);
+        //arms
+        fill(0,153,255);
+        rect(2,45,15,50,100);
+        fill(0,103,205);
+        rect(0,45,15,50,100);
+        resetMatrix();
+        //movement
+        this.manaOrbs();
+        this.charcWalk();
+        
+        
+        
+    },
+    
+    charcWalk: function (){
+       if(key=='d'&&keyIsPressed){
+           this.x = this.x + this.speed;
+       }
+       if(key=='a'&&keyIsPressed){
+           this.x = this.x - this.speed;
+       }
+       if(key=='w'&&keyIsPressed){
+           this.y = this.y - this.speed;
+       }
+       if(key=='s'&&keyIsPressed){
+           this.y = this.y + this.speed;
+       }
+       //sprint
+       /*
+       if(key==' '&&keyPressed){
+           this.timerUp = this.timerUp + 1; 
+           if(this.timerUp<=5){
+               this.speed = 15;
+           }
+           if(this.timerUp>5){
+                this.speed = 5;
+              }
+           
+       }*/
+    },
+    
+    charcSpells: function () {
+        translate(this.x,this.y);
+        fill(255,0,0);
+        text(""+this.timerDown,100,0);
+        if(mouseIsPressed && key == 'r' && keyIsPressed){
+            
+                this.charge = this.charge + 1;
+                fill(255,255,0);
+                ellipse(100,45,0+this.charge,0+this.charge);
+                this.timerDown = this.timerDown - 1;
+                if(this.timerDown<10){
+                    this.charge = 0;
+                    this.timerDown = 100;
+                }
+                   
+        }
+        /*
+        else{
+                    this.timerDown = 100;
+                    this.charge = 0;
+                }
+                */
+        if(mouseIsPressed && key == 'f' && keyIsPressed && this.timerDown<50){
+                    fill(255,255,0);
+                    rect(100,35,0+this.projectileX,20-this.projectileY,50-this.projectileY);
+                    this.projectileX = this.projectileX + 30;
+                    this.projectileY = this.projectileY + 0.5;
+                    this.timerUp = this.timerUp + 1;
+                    if(this.timerUp>25){
+                    this.timerDown = 100;
+                    this.charge = 0;
+                    this.projectileX = 0;
+                    this.timerUp = 0;
+                    this.manaOrb = this.manaOrb - 1;
+                    this.projectileY = 0;
+                    }
+        }
+        else{
+            this.projectileY = 0;
+        }
+         
+        
+        
+        resetMatrix();
+    }, 
+    
+    charcspellStance: function(){
+       
+        //spell stance
+        if(mouseIsPressed){
+            fill(0,103,205);
+            rect(this.x+35,this.y+45,50,15,100);
+       
+        }
+        
+    },
+    
+    manaOrbs: function(){
+        
+           //mana orbs
+        if(this.manaOrb === 3){  
+            translate(this.x,this.y);
+            fill(255,255,0);
+            rotate(this.r);
+            this.r = this.r + 0.1;
+            ellipse(-5,-10,10,10);
+            ellipse(10,10,10,10);
+            ellipse(-10,10,10,10);
+        }
+        if(this.manaOrb === 2){
+             translate(this.x,this.y);
+            fill(255,255,0);
+            rotate(this.r);
+            this.r = this.r + 0.1;
+            //ellipse(0,-10,10,10);
+            ellipse(10,10,10,10);
+            ellipse(-10,10,10,10);
+        }
+        if(this.manaOrb === 1){
+             translate(this.x,this.y);
+            fill(255,255,0);
+            rotate(this.r);
+            this.r = this.r + 0.1;
+            //ellipse(0,-10,10,10);
+            //ellipse(10,10,10,10);
+            ellipse(-10,10,10,10);
+        }
+        if(this.manaOrb< 1){
+            this.charge = 0;
+            this.timerDown = 100;
+             this.manaTimer= this.manaTimer+ 1;
+             if(this.manaTimer>100){
+                 this.manaOrb = 3;
+                 this.manaTimer = 0;
+                 
+             }
+        }
+        
+        resetMatrix();
+    }
+    
+    
+};
+var colision = false;
+var x = mage.x;
+var y = mage.y;
+
+draw = function () {
+    
+    
+    drawMap1();
+    
+    fill(0);
+    /*if(tile){
+        colision = false;
+    }*/
+    if(colision === true){
+        mage.speed = 0;
+    }
+    if(colision === false){
+        mage.speed = 5;
+    }
+    /*if(map1[x][y] === false){
+       colision = false;
+        
+    }*/
+    
+    fill(255);
+    textSize(40);
+    //text(""+String.prototype.search()),500,500);
+
+};
+    </script>
+</html>

@@ -1,0 +1,127 @@
+<html>
+    <script src = "lib/p5.js">
+    </script>
+    <script>
+        new p5();
+        function setup (){
+            createCanvas(1000,1000);
+        }
+
+        var Rocket = function(x,y){
+    noStroke();
+    fill(0,102,153);
+    triangle(x,y,x+30,y,x+15,y+30);
+    fill(130,150,153);
+    triangle(x+30,y-30,x+15,y+15,x+50,y+15);
+    fill(0,102,153);
+    triangle(x+30,y,x+60,y,x+45,y+30);
+};
+
+
+var Alien = function(x, y, s){
+    translate(x,y);
+    scale(s);
+    noStroke();
+    fill(30,255,10,40);
+    ellipse(0,-15,200,200);
+    fill(30,255,10,50);
+    ellipse(0,-15,175,175);
+    fill(30,255,10,75);
+    ellipse(0,-15,150,150);
+    //alien
+    fill(0,255,0);
+    //bezier(534,234,)
+    rect(-16,-30,30,30,20);
+    ellipse(0,-35,15,20);
+    fill(0);
+    ellipse(3,-40, 2,2);
+    ellipse(-3,-40, 2,2);
+    //ufo
+    fill(0,255,255,100);
+    ellipse(0,-25,50,75);
+    fill(255,102,255);
+    ellipse(0,0,150,30);
+    resetMatrix();
+  
+    
+};
+var angle = 0;
+var playx = 400;
+var playy = 400;
+
+var enx = 50;
+var eny = 50;
+
+var playspeed = 10;
+var enspeed = 5;
+var enspeedx = 0;
+var enspeedy = 0;
+
+
+var timer = 0;
+draw = function () {
+    background(0);
+    Alien(enx,eny,1);
+    Rocket(playx, playy);
+    
+    if(keyIsPressed){
+        switch (key){
+            case 'w':
+                if(timer<=2){
+                    timer = timer + 1;
+                    playspeed = 20;
+                }else{
+                    playspeed = 10;
+                }
+                playy -= playspeed;
+                break;
+            case 's':
+                playy += playspeed;
+                break;
+            case 'd':
+                playx += playspeed;
+                break;
+            case 'a':
+                playx -= playspeed;
+                break;
+        }
+    }
+    
+    
+    
+/*
+     angle = atan((playy - eny) / (playx - enx));
+    enspeedx = cos(angle) * enspeed;
+    enspeedy = sin(angle) * enspeed;
+    
+    if(playx >= enx){
+        enx += enspeedx;
+        eny += enspeedy;
+    }
+    else{
+        enx -= enspeedx;
+        eny -= enspeedy;
+    }
+    
+*/
+
+
+angle = atan((playy-eny) / (playx - enx));
+enspeedx = cos(angle) * enspeed;
+enspeedy = sin(angle) * enspeed;
+
+if(playx >= enx){
+    enx += enspeedx;
+    eny += enspeedy;
+}
+else{
+    enx -= enspeedx;
+    eny -= enspeedy;
+}
+
+
+
+
+};
+    </script>
+</html>

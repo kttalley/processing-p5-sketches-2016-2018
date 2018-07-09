@@ -1,0 +1,114 @@
+<html>
+    <script src = "lib/p5.js"></script>
+<script>
+    new p5();
+    var bricks = [];
+var rectX = 50;
+var rectY = 50;
+
+var ballX = 400;
+var ballY = 200;
+var speedX = random(2,6);
+var speedY = random(2,6);
+
+var liveY = 100;
+
+var hitBrick = false;
+
+var lives = 4;
+var addition = 30;
+function setup () {
+    createCanvas(1000,1000);
+}
+// populates array before draw function so that code only runs once
+for (var i=0; i<3; i++){
+    for (var j=0; j<6; j++){
+        bricks.push([rectX, rectY, random(255), random(50), random(50)]);
+        rectX += 150;
+    }
+    rectX = 50;
+    rectY += 30;
+}
+draw = function () {
+    background(255);
+    noStroke();
+   
+    fill(0,153,0);
+    rect(0, 0, 950, 600);
+   
+// draws each brick in the array
+    for (var k=0; k<bricks.length; k++){
+        fill(bricks[k][2], bricks[k][3], bricks[k][4]);
+        rect(bricks[k][0], bricks[k][1], 130, 20);
+       
+        if (ballX > bricks[k][0] && ballX < bricks[k][0] + 130 && ballY > bricks[k][1] && ballY < bricks[k][1] + 20){
+            speedY = -speedY;
+            bricks.splice(k, 1);
+        }
+    }
+   
+    fill(0, 0, 255);
+    rect(mouseX - 50, 500, 100, 20);
+   
+    fill(255, 0, 255);
+    ellipse(ballX, ballY, 10, 10);
+    ballX += speedX;
+    ballY += speedY;
+   
+    if (ballX > 950 || ballX < 0){
+        speedX = -speedX;
+    }
+   
+    hitBrick = ballX > mouseX - 50 && ballX < mouseX + 50 && ballY > 500 && ballY < 520;
+   
+    if (hitBrick || ballY < 0){
+        speedY = -speedY;
+    }
+   
+    textSize(20);
+    fill(0);
+    text('lives:', 950, 75);
+    for (var x=0; x<lives - 1; x++){
+
+        fill(255,0,255);
+        ellipse(975, liveY, 10, 10);
+       
+        liveY += addition;
+    }
+   
+    liveY = 100;
+   
+    if (ballY > 600){
+        lives -= 1;
+        ballX = 400;
+        ballY = 200;
+        speedX = random(2,6);
+        speedY = random(2,6);
+    }
+   
+    if (bricks.length === 0){
+        background(0,0,255);
+        textSize(50);
+        fill(255);
+        text('you win', 200, 200);
+        exit();
+    }
+   
+    if (lives <= 0){
+        background(255,0,0);
+        textSize(50);
+        fill(255);
+        text('you lose', 200, 200);
+        exit();
+    }
+   
+   
+
+   
+   
+   
+
+};
+
+</script>
+</html>

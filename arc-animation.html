@@ -1,0 +1,21 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup() {
+    createCanvas(1000, 1000, WEBGL);
+}
+var x = 1;
+var z = 0;
+draw = function () {
+arc(350,300,300-z,300-z,0.1,x);
+x = x + 0.1;
+if(x > 6.28){
+    strokeWeight(random(10));
+    stroke(random(255),random(255),random(255));
+    x = 0;
+    z = z + 25;
+}
+};
+    </script>
+</html>

@@ -1,0 +1,19 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        var obj;
+function setup() {
+    createCanvas(displayWidth,displayHeight,WEBGL);
+    obj = loadModel('https://raw.githubusercontent.com/kttalley/Sculptris-Obj/master/bust2.obj', true);
+
+}
+
+function draw() {
+    translate(mouseX-width/2,0,mouseY-width/2);
+    //rotateX(frameCount * 0.01);
+    rotateX(frameCount * 0.01);
+    model(obj);
+}
+    </script>
+</html>

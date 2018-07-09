@@ -1,0 +1,517 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        
+        var  food = [
+        new Food (random(50,750),0,random(3,15),random(1),random(3)),
+        new Food (random(50,750),0,random(3,15),random(1),random(3)),
+        new Food (random(50,750),0,random(3,15),random(1),random(3)),
+        new Food (random(50,750),0,random(3,15),random(1),random(3)),
+        new Food (random(50,750),0,random(3,15),random(1),random(3)),
+        new Food (random(50,75),0,random(3,15),random(1),random(3)),
+        new Food (random(50,75),0,random(3,15),random(1),random(3))    
+    ];
+var    bubbles = [
+        new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+        new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+        new Bubble(random(150,800),600,random(10,100),random(-3,3),random(8)),
+        new Bubble(random(150,800),600,random(10,100),random(-3,3),random(8))
+    ];
+    function setup () {
+            createCanvas(800, 600);
+        }
+var fish = function (x,y,r,g,b,sze){
+    translate(x,y);
+    scale(sze);
+    stroke(100);
+    noStroke();
+    //body
+    fill(r,g,b);
+    ellipse(0,0,25,50);
+    //tail fin
+    fill(r-75,g-75,b-75);
+    triangle(0,20,-5,45,5,55);
+    //arm fins
+    //l
+    triangle(-12,-5,-22,15,-17,20);
+    //r
+    triangle(12,-5,22,15,17,20);
+    fill(255);
+    //left eye
+    ellipse(-10,-15,10,10);
+    //right eye
+    ellipse(10,-15,10,10);
+    fill(25);
+    //left pupil
+    ellipse(-10,-15,3,3);
+    //right pupil
+    ellipse(10,-15,3,3);
+    resetMatrix();
+    
+};
+
+   
+var tank = {
+    x: random(50,800),
+    y: 650,
+    xSpeed: random(0.5,1),
+    ySpeed: random(4),
+
+    draw: function(){
+        background(100,150,150);
+        //tanktable
+        fill(154,103,0);
+        quad(75,500,0,600,800,600,800,500);
+        //tank water
+        fill(0,100,220,100,50);
+        strokeWeight(1);
+        rect(50,50,835,600);
+        noStroke();
+        //pineapple
+        fill(200,250,150);
+        triangle(600,475,595,485,580,450);
+        triangle(600,475,605,440,605,485);
+        triangle(600,475,610,485,615,450);
+        fill(250,200,0);
+        ellipse(600,550,50,150);
+        fill(200);
+        ellipse(600,500,25,25);
+        fill(0,200,255);
+        ellipse(600,500,15,15);
+        //tank starting ground
+        fill(220,170,80);
+        rect(50,525,835,75);
+        //seaweed
+        fill(200,250,150);
+        stroke(200,250,150);
+        strokeWeight(15);
+        //left seaweed
+        line(170,600,270,300);
+        line(170,600,80,300);
+        ellipse(170,450,5,350);
+        //right seaweed
+        line(670,600,770,300);
+        line(670,600,580,300);
+        ellipse(670,450,5,350);
+        noStroke();
+        //top water
+        stroke(200,250,250);
+        strokeWeight(28);
+        //tank glass
+        noStroke();
+        fill(240,240,240,100);
+        rect(50,50,835,600,20);
+        //topwater
+        fill(140,240,240,200);
+        quad(50,50,100,150,888,150,885,50);
+        fill(100,240,250,100);
+        quad(50,50,100,150,100,600,50,600);
+    },  
+    //bubble: function()
+};
+
+
+function Bubble (x,y,sze,xspeed,yspeed){
+  this.x = x;
+  this.y = y;
+  this.sze = sze;
+  this.xspeed = xspeed;
+  this.yspeed = yspeed;
+  var pop = false;
+  var boop = 1;
+  var timer = 0;
+  this.floatn = function(){ //float is a global function
+    this.y = this.y - this.yspeed/2;
+    if(this.y < 700){
+        pop = false;
+    }
+    if(this.y < 200){
+        pop = true;
+    }
+    
+    if(timer < 200){
+        timer = timer + 1;
+        this.x = this.x + this.xspeed;
+    }
+    if(timer > 50){
+        //this.xspeed = -this.xspeed*1.1;
+        //this.sze = this.sze * 0.5;
+    }
+    if(timer > 100){
+        //this.xspeed = -this.xspeed*1.1;
+        //this.sze = this.sze * 2.5;
+    }
+    if(timer > 200){
+        timer = 0;
+    }
+  };
+  this.draw = function(){
+      
+    if(pop === false){
+        fill(170,200,255);
+        ellipse(this.x,this.y,this.sze,this.sze);
+        fill(255,255,255,200);
+        ellipse(this.x + this.sze/4,this.y-this.sze/7,this.sze/4,this.sze/4);
+    }
+    if(pop === true){
+        fill(255,255,255,150);
+        ellipse(this.x,this.y,this.sze*1.25,this.sze/2);
+        this.sze = this.sze+ boop;
+        if(this.sze > 500){
+            this.sze = random(10,20);
+            this.x = random(750);
+            this.y = 700;
+            pop = false;
+        }
+        if(this.y< -100){
+            this.sze = random(10,20);
+            this.x = random(750);
+            this.y = 700;
+            pop = false;
+        }
+      }
+      
+  };
+}
+
+function Food (x,y,sze,xspeed,yspeed){
+    this.x = x;
+    this.y = y;
+    this.sze = sze;
+    this.xspeed = xspeed;
+    this.yspeed = yspeed;
+    var sink = true;
+    this.fallIn = function(){
+        if(sink === true){
+            fill(255,200,10);
+            ellipse(this.x,this.y,this.sze,this.sze);
+            this.x = this.x + this.xspeed;
+            this.y = this.y + this.yspeed;
+            if(this.x > 100){
+                this.xspeed = -this.xspeed;
+            }
+            if(this.y < 75){
+                //this.yspeed = this.yspeed*2;
+            }
+            if(this.y> random(510,600)){
+                //food.push(new Food (random(50,750),0,random(3,15),random(1),random(3)));
+               foodCount = foodCount - 1;
+                sink = false;
+                
+            }
+        }
+        
+        if(sink === false){
+                this.yspeed = 0;
+                this.xspeed = 0;
+                //a = 0;
+                fill(185,100,10);
+            ellipse(this.x,this.y,this.sze,this.sze);
+                //push(new Food (random(50,750),0,random(3,15),random(1),random(3)));
+        }
+        
+    };
+    this.buildUp = function(){
+        if(foodCount < 80){
+            fill(185,100,10);
+            rect(50,545,750,200);
+        }
+        if(foodCount < 50){
+            fill(185,100,10);
+            rect(50,535,750,200);
+        }
+        if(foodCount < 40){
+            fill(185,100,10);
+            rect(50,500,750,200);
+        }
+    };
+}
+    
+
+
+var fishX = 400;
+var fishY = 350;
+var scl = 1;
+var a = 0.1;
+
+var fishSpeedX = 0;
+var fishSpeedY = 0;
+var gravX = 0;
+var gravY= 0.005;
+var swimU = false;
+var swimD = false;
+var swimR = false;
+var swimL = false;
+
+
+var moveTimer = 0;
+var downTimer = 0;
+var bublTimer = 0;
+var points = 0;
+var foodCount = 100;
+draw = function () {
+    
+    noStroke();
+    tank.draw();
+    strokeWeight(1);
+    //character
+    
+    //character movement
+    //water physics
+    fishX = fishX + fishSpeedX;
+    fishSpeedX = fishSpeedX + gravX;
+    fishY = fishY + fishSpeedY;
+    fishSpeedY=fishSpeedY + gravY;
+    
+    //swim intertia limits
+    if(fishSpeedX > 1){
+        fishSpeedX = 1;
+    }
+    if(fishSpeedX < -1){
+        fishSpeedX = -1;
+    }
+    if(gravX >= 4){
+        gravX = -gravX;
+    }
+    if(gravX <= -4){
+        gravX = -gravX;
+    }
+    //if(gravX === 0){
+        //fishSpeedX = 0;
+    //}
+    if(fishSpeedY > 1){
+        fishSpeedY = 1;
+    }
+    if(fishSpeedY < -1){
+        fishSpeedY = -1;
+    }
+    if(gravY >= 4){
+        gravY = -gravY;
+    }
+    if(gravY <= -4){
+        gravY = -gravY;
+    }
+    //if(gravY === 0){
+        //fishSpeedY = 0;
+    //}
+    //bondaries
+    if(fishY< 60){
+        fishY = 60;
+    }
+    if(fishY>550){
+        fishY = 550;
+    }
+    if(fishX<90){
+        fishX = 90;
+        
+    }
+     if(fishX>775){
+        fishX = 775;
+        
+    }
+    noStroke();
+    if(keyIsDown(87)){
+       swimU = true;
+       if(swimU === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravY = -0.009;
+           }
+           if(moveTimer > 100){
+               swimU = false;
+               gravY = 0;
+               moveTimer = 0;
+               
+           }
+           if(swimU === false){
+               gravY = 0;
+           }
+       }
+    }
+    if(keyIsDown(83)){
+       swimD = true;
+       if(swimD === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravY = 0.009;
+           }
+           if(moveTimer > 100){
+               swimU = false;
+               gravY = 0;
+               moveTimer = 0;
+               
+           }
+           if(swimD === false){
+               gravY = 0;
+           }
+       }
+    }
+    if(keyIsDown(65)){
+       swimL = true;
+       if(swimL === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravX = -0.009;
+           }
+           if(moveTimer > 100){
+               swimL = false;
+               gravX = 0;
+               moveTimer = 0;
+               
+           }
+           if(swimL === false){
+               gravX = 0;
+           }
+       }
+    }
+    if(keyIsDown(68)){
+       swimR = true;
+       if(swimR === true){
+           if(moveTimer <= 100){
+           moveTimer = moveTimer + 1;
+           gravX = 0.009;
+           }
+           if(moveTimer > 100){
+               swimL = false;
+               gravX = 0;
+               moveTimer = 0;
+               
+           }
+           if(swimR === false){
+               gravX = 0;
+           }
+       }
+    }
+    noStroke();
+    
+    for (var f = 0; f < food.length; f++){
+        let fishWalker = {
+          pos: createVector(fishX,fishY),
+          vel: createVector(fishSpeedX,fishSpeedY),
+          acc: createVector(gravX,gravY),
+          //acc: p5.Vector.fromAngle(12),
+          timer: 2,
+          face: 40,
+          update: function () {
+            this.pos.add(this.vel);
+            this.vel.add(this.acc);
+            this.acc.rotate(this.face*random(-4,4));
+           
+          },
+          /*
+          colide: function() {
+            if(this.pos.x > width){
+                this.pos.x = width;
+                this.vel.x = -this.vel.x;
+                //this.face = 90;
+            }
+            if(this.pos.x < 0){
+                this.pos.x = 0;
+                this.vel.x = -this.vel.x;
+                //this.face = 90;
+            }
+            if(this.pos.y > 500){
+                this.pos.y = 500;
+                this.vel.y = -this.vel.y;
+                //this.face = 90;
+            }
+            if(this.pos.y < 0){
+                this.pos.y = 0;
+                //this.face = 90;
+                this.vel.y = -this.vel.y;
+            }
+          },*/
+          draw: function () {
+              
+              translate(this.pos.x,this.pos.y);
+              rotate(this.pos.x/100);
+              //rectMode(CENTER);
+              fish(0,0,this.pos.x/4,this.pos.y/4,this.pos.y/1.5,scl);
+              rect(0,0,50,50);
+              resetMatrix();
+              /*
+              if(this.pos.x > 0 && this.pos.x < 200){
+                  textSize(15);
+                  fill(255);
+                  text("*SNORT*",this.pos.x+25,this.pos.y-25);
+              } else  if(this.pos.x > 200 && this.pos.x < 400){
+                  textSize(15);
+                  fill(255);
+                  text("*SNARL*",this.pos.x+25,this.pos.y-25);
+              } else if(this.pos.x > 400 && this.pos.x < 600){
+                  textSize(15);
+                  fill(255);
+                  text("*GROWL*",this.pos.x+25,this.pos.y-25);
+              } else if(this.pos.x > 600){
+                  textSize(15);
+                  fill(255);
+                  text("*COUGH*",this.pos.x+25,this.pos.y-25);
+              }*/
+          },
+        };
+        
+        const fishy =  function () {
+            //fishWalker.colide();
+            fishWalker.update();
+            fishWalker.draw();
+        };
+        
+        noStroke();
+        food[f].fallIn();
+        food[f].buildUp();
+        //character
+        fishy();
+        if(dist(food[f].x,food[f].y,fishX,fishY)<50){
+            var sclTimer = 100;
+                scl = scl + a;   
+                points = points + 1;
+                food[f].x = random(65,750);
+                food[f].y = 0;
+        }
+        
+    }
+    
+    textSize(25);
+    fill(0);
+    //text(food.x,500,500);
+    //bubbles
+    
+    for(var b = 0; b < bubbles.length; b++){
+        noStroke();
+        bubbles[b].draw();
+        bubbles[b].floatn();
+    }
+    bublTimer = bublTimer + 1;
+    if(bublTimer > 100){
+        delete bubbles[b];
+       bubbles.push(
+           new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+           new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+           new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8))
+       );
+     bublTimer = 0;
+    }
+    //topwater
+    fill(140,240,240,200);
+    quad(50,50,100,150,888,150,885,50);
+    fill(100,240,250,100);
+    quad(50,50,100,150,100,600,50,600);
+    //food
+    //frame
+    fill(100,150,150);
+    rect(0,0,50,530);
+    rect(0,0,800,50);
+    text("Chances: "+foodCount, 625,550);
+    text("score: "+points, 685,575);
+    text(gravY,685,100);
+    text(gravX,685,120);
+    text(fishSpeedY,635,100);
+    text(fishSpeedX,635,120);
+    
+    
+    
+};
+        
+    </script>
+</html>

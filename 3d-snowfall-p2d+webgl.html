@@ -1,0 +1,213 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+    createCanvas(1000,1000,WEBGL);
+}
+
+let glows = [
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1)),
+    new GlowingParticle(random(-700,500),random(-400,400),random(-100,100),random(1,5),random(0.01,0.1))
+];
+
+
+let camZ = 0;
+function GlowingParticle(x,y,z,m,s){
+    let glow = 2;
+    let glowRate = 0.55;
+    this.pos = createVector(x,y,z);
+    this.acc = createVector(0,0,0);
+    this.vel = createVector(0,0,0);
+    this.mass = m;
+    
+    this.applyForce = function(force) {
+        let forceCopy = force.copy();
+        forceCopy.div(this.mass);
+        this.acc.add(forceCopy);
+    };
+    
+    this.update = function () {
+      this.vel.add(this.acc);
+      this.pos.add(this.vel);
+      this.acc.set(0,0,0);
+    };
+    this.display = function(){
+        translate(this.pos.x,this.pos.y,this.pos.z);
+        scale(s); //added exaggeration for eye animation
+        
+        //background frame incase of no looping background
+        // ambientLight(0);
+        //sphere(350);,mouseX,mouseY,this.pos.z       
+        camera(mouseX,mouseY,camZ);
+        pointLight(255,255,255,100,mouseX,mouseY,camZ-100);
+        
+        if(key == 'w' && keyIsPressed){
+            camZ = camZ - 5;
+        }
+         if(key == 's' && keyIsPressed){
+            camZ = camZ + 5;
+        }
+        specularMaterial(255,250,250,30);
+       // ambientLight(55,25,55,155-glow);
+        sphere(120);
+        //ambientLight(55,55,55,102-glow);
+        specularMaterial(255,250,250,25);
+        sphere(160+glow/2.8);
+        //ambientLight(55,55,55,80+glow);
+        specularMaterial(255,250,250,20);
+        sphere(200-glow/2.8);
+        //ambientLight(55,55,55,65+glow);
+        specularMaterial(255,250,250,15);
+        sphere(250+glow/2.4);
+        //ambientLight(55,55,55,35+glow);
+        specularMaterial(255,250,250,10);
+        sphere(320-glow);
+        //animation
+        glow = glow + glowRate;
+        if(glow>30){
+            glowRate = -glowRate;
+        }
+        if(glow<0){
+            glowRate = -glowRate;
+        }
+        resetMatrix();
+    };
+    this.edges = function () {
+        
+      if(dist(0,0,camZ,this.pos.x,this.pos.y,this.pos.z)<50){
+          this.vel.y *= -1;
+          this.vel.x *= -1;
+          this.vel.z *= -1;
+      }
+      if(this.pos.x >450){
+          this.pos.x =450;
+          this.vel.x *= -1;
+      }  
+      if(this.pos.x < -950){
+          this.pos.x = -950;
+          this.vel.x *= -1;
+      }  
+    //   if(this.pos.y < -950){
+    //       this.pos.y = -950;
+    //       this.vel.y *= -1;
+    //   }  
+      if(this.pos.y > 1500){
+          this.pos.y = 0;
+        // this.vel.y = 0;
+      }  
+    //   if(this.pos.z< -550){
+    //       this.pos.z = -550;
+    //       this.vel.z *= -1;
+    //   }  
+    //   if(this.pos.z > 500){
+    //       this.pos.z = 500;
+    //       this.vel.z *= -1;
+    //   }  
+    };
+}
+
+let gravity;
+let wind;
+let Gravity = function(){
+    gravity = createVector(0,0.01,0);
+};
+let Wind = function () {
+    wind = createVector(0.1,1,0.1);
+};
+const Forces = function(){
+          Gravity();
+          Wind();
+};
+
+function draw () {
+    //idaho landscape background
+    translate(-450,-400);
+    camera(mouseX/10,mouseY/10,camZ/10);
+    background(235);
+    noStroke();
+    fill(223);
+    //backmost hills
+    bezier(600,350,600,300,700,250,1100,350);
+    fill(190,190,190,200);
+     quad(10,400,1100,450,1150,500,1000,400);
+    fill(215);
+    bezier(0,400,600,250,890,350,1000,400);
+    fill(199);
+    rect(0,550,1000,500);
+    bezier(0,550,300,450,450,425,1000,550);
+    //sky
+    fill(250);
+    rect(0,0,1000,100);
+    fill(255,255,255,200);
+    rect(0,25,1000,100);
+     fill(250,250,250,100);
+    rect(0,50,1000,100);
+    fill(250,250,250,50);
+    rect(0,75,1000,100);
+    fill(250,250,250,25);
+    rect(0,100,1000,100);
+    //fire
+    ambientLight(255,153,0,random(100,255),325,600);
+    directionalLight(255,153,0,random(100,255),325,600);
+    fill(255,223,0,random(185));
+    ellipse(325,600,175,25);
+    fill(255,153,0,random(100,255));
+    ellipse(335,550,random(15,20),random(20,45));
+    triangle(random(325,330),random(525,530),random(275,280),random(600,590),365,600);
+    fill(255,223,0,random(155));
+    ellipse(335,550,random(15,20),random(20,45));
+    triangle(random(325,330),random(525,530),random(275,280),random(600,590),365,600);
+    //person
+    strokeWeight(4);
+    stroke(255,223,0,random(255));
+    quad(300,500,280,520,random(295,299),random(595,600),315,515);
+    fill(180);
+    quad(250,550,260,650,400,650,random(306,310),random(537,543));
+    triangle(306,537,330,545,350,610);
+    noStroke();
+    strokeWeight(4);
+    stroke(255,223,0,random(255));
+    quad(300,500,280,520,random(295,299),random(595,600),315,515);
+    noStroke();
+     fill(180);
+    quad(250,550,260,650,400,650,random(306,310),random(537,543));
+    triangle(306,537,330,545,350,610);
+    fill(150);
+    //cast shadow
+    quad(300,500,280,520,random(295,299),random(595,600),315,515);
+    fill(150,150,150,random(155));
+    quad(260,650,random(340,350),1100,random(690,700),1000,400,650);
+    fill(150,150,150,220);
+    quad(260,650,random(340,350),1100,random(690,700),1000,400,650);
+    for (var p = 0; p < glows.length; p++){
+        Forces();
+        glows[p].display();
+        glows[p].applyForce(gravity.mult(glows[p].mass));
+        glows[p].update();
+        glows[p].edges();
+        if(mouseIsPressed){
+            glows[p].applyForce(wind);
+        }
+    }
+}
+        
+    </script>
+</html>

@@ -1,0 +1,30 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+        createCanvas(1000,1000,P2D);
+
+    }
+    let counter = 10;
+    function draw () {
+        counter=counter+20;
+        background(50);
+        stroke(255);
+        noFill();
+        drawCircle(width/2,height/2,counter);
+    }
+
+    function drawCircle(x, y, d){
+            ellipse(x, y, d+mouseX/10, d+mouseX/10);
+
+       
+            if(d > 10){
+                drawCircle(x-d/2,y, d/2);
+                drawCircle(x+d/2,y, d/2);
+                // drawCircle(x,y+d/2, d/2);
+                // drawCircle(x,y-d/2, d/2);
+            }
+    }
+    </script>
+</html>

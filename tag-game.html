@@ -1,0 +1,184 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        let cX, cY, cSpeedX, cSpeedY;
+
+let eX, eY, eSpeedX, eSpeedY;
+
+let gameScreen; //var gamescreen will start undefined. Undefined
+//can be used in comparisons
+
+let tagged = false;
+let timer = 0;
+
+function setup() {
+    
+    height = 600;
+    width = 900;
+    
+    createCanvas(width, height, P2D);
+    cX = 100;
+    cY = 550;
+    cSpeedX = 0;
+    cSpeedY = 0;
+    
+    eX = 500;
+    eY = 100;
+    eSpeedX = 0;
+    eSpeedY = 0;
+    
+    gameScreen = 'start';
+}
+
+function protaginist(x,y){
+    translate(x,y);
+    fill(180,20,40);
+    ellipse(0,0,50,50);
+    resetMatrix();
+   
+}
+
+function enemy(x,y){
+    rectMode(CENTER);
+    translate(x,y);
+    if(tagged === false){
+    fill(40,20,180);
+    }
+    if(tagged === true){
+        fill(0);
+    }
+    rect(0,0,50,50);
+    resetMatrix();
+    rectMode(CORNER);
+   
+}
+
+
+
+function draw() {
+    //start screen
+    
+    if(gameScreen === 'start'){
+        background(0);
+        if(mouseIsPressed){
+            gameScreen = 'game';
+        }
+    }
+    
+    if(gameScreen === 'game'){
+        
+        cX = cX + cSpeedX;
+        cY = cY + cSpeedY;
+        
+        background(153,153,255);
+        //protaginist movement
+        protaginist(cX,cY);
+        if(keyIsDown(87)){
+            cSpeedY = -5;
+        }
+        if(keyIsDown(83)){
+            cSpeedY = 5;
+        }
+        if(keyIsDown(68)){
+            cSpeedX = 5;
+        }
+        if(keyIsDown(65)){
+            cSpeedX = -5;
+        }
+        //protaginist boundaries
+         //boundaries
+        if(cX > width){
+            cX = 0;
+        }
+        if(cX < 0){
+            cX = width;
+        }
+        if(cY > height){
+            cY = 0;
+        }
+        if(cY < 0){
+            cY = height;
+        }
+        
+        
+        //enemy movement
+        eX = eX + eSpeedX;
+        eY = eY + eSpeedY;
+        enemy(eX,eY);
+        //if enemy is it
+        if(tagged === false){
+            if(eX < cX){
+                eSpeedX = 2;
+            }
+            if(eX > cX){
+                eSpeedX = -2;
+            }
+            if(eY < cY){
+                eSpeedY = 2;
+            }
+            if(eY > cY){
+                eSpeedY = -2;
+            }
+             if(dist(eX,eY,cX,cY)<50){
+                 
+                 timer = timer + 1;
+                 if(timer === 1){
+                    tagged = true;
+                 }
+                 if(timer > 50){
+                     timer = 0;
+                 }
+            }
+            
+        }
+        //if player is it
+        if(tagged === true){
+            if(eX < cX){
+                eSpeedX = -4;
+            }
+            if(eX > cX){
+                eSpeedX = 4;
+            }
+            if(eY < cY){
+                eSpeedY = -4;
+            }
+            if(eY > cY){
+                eSpeedY = 4;
+            }
+            if(dist(eX,eY,cX,cY)<50){
+                 timer = timer + 1;
+                 if(timer === 1){
+                    tagged = false;
+                 }
+                 if(timer > 5){
+                     timer = 0;
+                 }
+            }        
+            //TAG
+           
+            
+              
+        
+        
+        //enemy boundaries
+         if(eX > width){
+            eX = -50;
+        }
+        if(eX < -50){
+            eX = width;
+        }
+        if(eY > height){
+            eY = -50;
+        }
+        if(eY < 0){
+            eY = height;
+        }
+        
+    
+    }
+}
+}
+        
+    </script>
+</html>

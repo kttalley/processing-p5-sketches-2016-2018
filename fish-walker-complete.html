@@ -1,0 +1,195 @@
+
+    <script src="lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(displayWidth,displayHeight);
+            rectMode(CENTER);
+            angleMode(DEGREES);
+        }
+        let fishWalker = {
+        pos: createVector(400,300),
+        vel: createVector(0,0),
+        acc: createVector(-0.1,-0.2),
+        //acc: p5.Vector.fromAngle(120),
+        timer: 2,
+        face: 10,
+        update: function () {
+            this.pos.add(this.vel);
+            this.vel.add(this.acc);
+            this.acc.rotate(this.face);
+            this.acc.setMag(0.05);
+        
+        },
+        colide: function() {
+            if(this.pos.x > width){
+                this.pos.x = width;
+                this.vel.x = -this.vel.x;
+                //this.face = 90;
+            }
+            if(this.pos.x < 0){
+                this.pos.x = 0;
+                this.vel.x = -this.vel.x;
+                //this.face = 90;
+            }
+            if(this.pos.y > 500){
+                this.pos.y = 500;
+                this.vel.y = -this.vel.y;
+                //this.face = 90;
+            }
+            if(this.pos.y < 0){
+                this.pos.y = 0;
+                //this.face = 90;
+                this.vel.y = -this.vel.y;
+            }
+        },
+        draw: function () {
+            let s = this.pos.x /this.pos.y * 0.1;
+            translate(this.pos.x,this.pos.y);
+            //scale(s);
+            /*
+            if(s> 12){
+                background(random(255),100,random(255));
+                fill(random(255),100,random(255));
+            }*/
+            rotate(-this.vel.x*20);
+            //rectMode(CENTER);
+            fish(0,0,this.pos.x/4,this.pos.y/4,this.pos.y/1.5,2*this.pos.x/this.pos.y * 0.2);
+            resetMatrix();
+        },
+        };
+        const fishy =  function () {
+            fishWalker.colide();
+            fishWalker.update();
+            fishWalker.draw();
+        };
+        var fish = function (x,y,r,g,b,sze){
+            translate(x,y);
+            rotate(fishWalker.pos.x/10);
+            scale(sze);
+            stroke(100);
+            noStroke();
+            //body
+            fill(r,g,b);
+            ellipse(0,0,25,50);
+            //tail fin
+            fill(r-75,g-75,b-75);
+            triangle(0,20,-5,45,5,55);
+            //arm fins
+            //l
+            triangle(-12,-5,-22,15,-17,20);
+            //r
+            triangle(12,-5,22,15,17,20);
+            fill(255);
+            //left eye
+            ellipse(-10,-15,10,10);
+            //right eye
+            ellipse(10,-15,10,10);
+            fill(25);
+            //left pupil
+            ellipse(-10,-15,3,3);
+            //right pupil
+            ellipse(10,-15,3,3);
+            resetMatrix();
+            
+        };
+        function Bubble (x,y,sze,xspeed,yspeed){
+        this.x = x;
+        this.y = y;
+        this.sze = sze;
+        this.xspeed = xspeed;
+        this.yspeed = yspeed;
+        var pop = false;
+        var boop = 1;
+        var timer = 0;
+        var bubTimer = 0;
+        var bubPush = [];
+        this.floatn = function(){ //float is a global function
+            this.y = this.y - this.yspeed;
+            if(this.y < 700){
+                pop = false;
+            }
+            if(this.y < 200){
+                pop = true;
+            }
+            
+            if(timer < 200){
+                timer = timer + 1;
+                this.x = this.x + this.xspeed;
+            }
+            if(timer > 50){
+                this.xspeed = -this.xspeed*1.1;
+                this.sze = this.sze - 0.25;
+            }
+            if(timer > 100){
+                this.xspeed = -this.xspeed*1.1;
+                this.sze = this.sze - 0.5;
+            }
+            if(timer > 200){
+                timer = 0;
+            }
+        };
+        this.draw = function(){
+            
+            if(pop === false){
+                fill(170,200,255.15);
+            ellipse(this.x,this.y,this.sze,this.sze);
+            fill(255,255,255,200);
+            ellipse(this.x + this.sze/4,this.y-this.sze/7,this.sze/4,this.sze/4);
+            }
+            if(pop === true){
+                fill(255,255,255,150);
+                ellipse(this.x,this.y,this.sze*1.25,this.sze/2);
+                this.sze = this.sze+ boop;
+            }
+            
+        };
+        this.repo = function () {
+            if(this.y < 150){
+                this.y = 600;
+            }
+            bubTimer = bubTimer + 1;
+            if(bubTimer > 150){
+                
+            bubPush.push(new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+            new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)));
+            
+                
+            }
+            if(bubTimer > 450){
+                //bubPush.length =[];
+                //bubTimer = 0;
+            }
+            
+        };
+        }
+        var bubbles = [
+            new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+            new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+            new Bubble(random(150,800),600,random(10,100),random(-3,3),random(8)),
+            new Bubble(random(150,800),600,random(10,100),random(-3,3),random(8))
+        ];
+        var bublTimer = 0;
+        draw = function () {
+            background(0,200,200);
+            fishy();
+            for(var b = 0; b < bubbles.length; b++){
+                noStroke();
+                bubbles[b].draw();
+                bubbles[b].floatn();
+            }
+            bublTimer = bublTimer + 1;
+            if(bublTimer > 100){
+                delete bubbles[b];
+            bubbles.push(
+                new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+                new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+                new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8))
+            );
+            bublTimer = 0;
+            }
+            
+        };
+        </script>
+        
+</html>

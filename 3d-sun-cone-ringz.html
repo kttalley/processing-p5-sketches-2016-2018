@@ -1,0 +1,123 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup() {
+    createCanvas(displayWidth, displayHeight, WEBGL);
+
+}
+
+function coneRing (x,y,z){
+    translate(x,y,z);
+    directionalLight(20,20,20,200,0,-100);
+    rotateY(frameCount* 0.01);
+    specularMaterial(50);
+    rotateZ(frameCount * -0.11);
+    torus(150,15);
+    rotateZ(frameCount * 0.21);
+    box(120,135,100);
+    resetMatrix();
+    translate(0,-200);
+    translate(x,y,z);
+    //camera(mouseX,mouseY,camZ);
+    rotateY(frameCount * 0.01);
+    specularMaterial(30,0,30);
+    //directionalLight(220,20,220,-200,0,-100);
+    cone(200);
+    resetMatrix();
+}
+
+function cellShadeSun(x,y,z) {
+    var glow = 0;
+    var glowRate = 1;
+    var camZ = 0;
+    
+    //sun
+    ambientLight(250);
+    translate(x,y,z);
+    directionalLight(255,255,255,0,0,-2000);
+    camera(mouseX,mouseY,camZ);
+    rotateX(frameCount * 0.02);
+    rotateY(frameCount * 0.01);
+    rotateZ(frameCount * 0.01);
+    specularMaterial(250,60-glow/2);
+    sphere(500+glow/2);
+    specularMaterial(250,250,0,90+glow/3);
+    sphere(400-glow/3);
+    specularMaterial(250,250,0,100+glow/2);
+    sphere(300-glow/2);
+    specularMaterial(250);
+    sphere(100);
+    resetMatrix();
+    
+}
+var glow = 0;
+    var glowRate = 1;
+    
+
+var camX = 0;
+var camY = 0;
+var camZ = 0;
+
+function draw() {
+    glow = glow + glowRate;
+    if(glow >  100){
+        glowRate = -glowRate;
+    }
+    if(glow <  -100){
+        glowRate = -glowRate;
+    }
+    
+    if(key == 'w' && keyIsPressed){
+        camZ = camZ- 10;
+    }
+    if(key == 's' && keyIsPressed){
+        camZ = camZ+ 10;
+    }
+    background(20,150,255);
+    pointLight(255,255,255,100+glow,mouseX-500,mouseY-500);
+    //sun
+    ambientLight(250);
+    translate(0,-750,-2800);
+    directionalLight(255,255,255,0,0,-2000);
+    camera(mouseX,mouseY,camZ);
+    rotateX(frameCount * 0.02);
+    rotateY(frameCount * 0.01);
+    rotateZ(frameCount * 0.01);
+    specularMaterial(250,60-glow/2);
+    sphere(500+glow/2);
+    specularMaterial(250,250,0,90+glow/3);
+    sphere(400-glow/3);
+    specularMaterial(250,250,0,100+glow/2);
+    sphere(300-glow/2);
+    specularMaterial(250);
+    sphere(100);
+    resetMatrix();
+    translate(0,750,-2000);
+    camera(mouseX,mouseY,camZ);
+    //ground
+    specularMaterial(40+glow/3,200+glow/4,120+glow/4);
+    //rotateZ(frameCount * 0.01);
+     //rotateY(frameCount * 0.01);
+    plane(displayWidth*5, displayHeight*2.9,displayDensity);
+    resetMatrix();
+    camera(mouseX,mouseY,camZ);
+    directionalLight(20,20,20,200,0,-100);
+    rotateY(frameCount* 0.01);
+    specularMaterial(50);
+    rotateZ(frameCount * -0.11);
+    torus(150,15);
+    rotateZ(frameCount * 0.21);
+    box(120,135,100);
+    resetMatrix();
+    translate(0,-200);
+    camera(mouseX,mouseY,camZ);
+    rotateY(frameCount * 0.01);
+    specularMaterial(30,0,30);
+    //directionalLight(220,20,220,-200,0,-100);
+    cone(200);
+    coneRing(200,200,100);
+
+}
+    </script>
+</html>

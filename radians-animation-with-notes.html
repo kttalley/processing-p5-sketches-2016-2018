@@ -1,0 +1,26 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        function setup () {
+            createCanvas(1000,1000);
+}
+
+var st = 0;
+var x = 0;
+var r = 0;
+var rate = 1;
+var rateSlow = 0.1;
+
+draw = function () {
+    noFill();
+    st = st + rate;
+    stroke(random(100,255),0,random(255));
+    strokeWeight(0.01+r);
+    r = r + rateSlow;
+    translate(400,300);
+    rotate(r);
+    ellipse(0,0,5+st,300);
+
+};
+    </script>
+</html>

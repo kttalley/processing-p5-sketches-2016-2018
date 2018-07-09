@@ -1,0 +1,52 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        var drawMode = 'none';
+        function setup () {
+            createCanvas(1000,1000);
+        }
+
+function button (x, y, title, pressed) {
+    fill(20,40,200);
+    rect(x,y,300,100);
+    textSize(45);
+    fill(0);
+    text(title, x+50, y+50);
+    if (mouseX > x && mouseX < x + 300) {
+        if (mouseY > y && mouseY < y + 100) {
+            if (mouseIsPressed) {
+                pressed();
+            }
+        }
+    }
+}
+
+function setPencil () {
+    drawMode = 'pencil';
+}
+
+function setEraser () {
+    drawMode = 'eraser';
+}
+
+function setNone () {
+    drawMode = 'none';
+}
+
+draw = function () {
+    button(100,50,'Cancel', setNone);
+    button(100,200,'Pencil', setPencil);
+    button(100,350,'Eraser', setEraser);
+    noStroke();
+    if (mouseIsPressed) {
+        if (drawMode == 'pencil') {
+            fill(0);
+            ellipse(mouseX, mouseY, 10, 10);
+        } else if (drawMode == 'eraser') {
+            fill(255);
+            ellipse(mouseX, mouseY, 10, 10);
+        }
+    }
+};
+    </script>
+</html>

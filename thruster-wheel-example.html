@@ -1,0 +1,131 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+            angleMode(DEGREES);
+        }
+        var thruster = function (x,y) {
+rectMode(CENTER);
+strokeWeight(0);
+fill(169);
+stroke(0);
+rect(x,y,30,30);
+stroke(0);
+line(x-5,y,x-15,y-40);
+line(x+5,y,x+15,y-40);
+stroke(255,255,0);
+line(x-5,y-10,x+5,y-10);
+stroke(0);
+quad(x+5,y,x+15,y-40,x-15,y-40,x-5,y);
+line(x-15,y-40,x+15,y-40);
+fill(0,153,204);
+stroke(255,255,0);
+strokeWeight(5);
+line(x-5,y-10,x+5,y-10);
+strokeWeight(0);
+stroke(0);
+strokeWeight(1);
+triangle(x-15,y-40,x,y-60,x+15,y-40);
+};
+var rectx = 450;
+var recty = 350;
+var degs = 270;
+var angle = 0;
+var linex = 0;
+var liney = 0;
+var gunL = 50;
+var rads = 0;
+var ballx = rectx+linex+25;
+var bally = recty+liney-20;
+var velocity = 0;
+var velx = 0;
+var vely = 0;
+var path = [];
+var grav = 0.6;
+var r = 0.0;
+var initialx = 0;
+var initialy = 0;
+var shotvelx = 0;
+var shotvely = 0;
+draw = function () {
+fill(255,255,255,170);
+rect(0,0,2000,2000);
+//wheel
+translate(0,0);
+fill(255);
+strokeWeight(10);
+ellipse(rectx,recty,200,200);
+strokeWeight(1);
+//thruster
+stroke(0);
+ if(keyCode == LEFT_ARROW && keyIsPressed === true){
+     degs = degs-3;
+     r=r-0.052;
+}
+ 
+ if(keyCode == RIGHT_ARROW && keyIsPressed === true){
+     degs = degs+3;
+     r=r+0.052;
+ 
+}
+ if(key == 'f' && keyIsPressed === true){
+     velocity = 15;
+
+
+    
+}
+     if (velocity > 0){
+         velocity -= 0.5;
+     
+     }
+     if (velocity <= 0){
+         velocity = 0;
+     }
+
+     rectx -= cos(rads) * velocity;
+     recty -= sin(rads) * velocity;
+
+     if(rectx > 900){
+     rectx = 900;
+     }
+     
+     if(recty > 550){
+     recty = 550;  
+     }
+     
+     if(rectx < 50){
+     rectx = 50;
+     }
+     
+     if(recty < 50){
+     recty = 50;  
+     }
+     
+     
+textSize(50);
+fill(255,0,0);
+text(velocity, 50,50);
+
+rads = (degs / 180)*PI;
+
+linex = cos(rads) * gunL;
+liney = sin(rads) * gunL;
+
+line(rectx,recty,rectx + linex, recty + liney);
+
+translate(rectx,recty);
+rotate(r);
+strokeWeight(1);
+thruster(0,0);
+resetMatrix();
+
+fill(255,153,0);
+ellipse(rectx,recty,15,15);
+fill(169);
+ellipse(rectx,recty,7,7);
+};
+frameRate(2);
+    </script>
+</html>

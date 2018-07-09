@@ -1,0 +1,38 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script src = "lib/p5.dom.js"></script>
+    <script>
+        new p5 ();
+        var mic;
+function setup(){
+ mic = new p5.AudioIn();
+ mic.start();
+ createCanvas(1000,1000);
+}
+function draw(){
+ micLevel = mic.getLevel();
+
+ colorLevel = map(micLevel,0, 0.001, 1, 100);
+background(colorLevel*0.07,0,100);
+//  ellipse(width/2, constrain(height-micLevel*height, 0, height), 100, 100);
+ ellipse(width/2, colorLevel*0.1, 100, 100);
+    fill(colorLevel* 0.07);
+    textSize(25+colorLevel*0.1);
+    text(colorLevel,10,250);
+    
+}
+
+
+// var mic;
+// function setup(){
+//  mic = new p5.AudioIn()
+//  mic.start();
+// }
+// function draw(){
+//  background(0);
+//  micLevel = mic.getLevel();
+//  ellipse(width/2, constrain(height-micLevel*height*5, 0, height), 10, 10);
+// }
+        
+    </script>
+</html>

@@ -1,0 +1,30 @@
+<html>
+    <script src="lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        var fidget = function (x,y,s){
+    translate(x,y);
+    //scale(s);
+    rotate(r);
+    ellipse(0,0,50,50);
+    ellipse(-75,35,50,50);
+    ellipse(75,35,50,50);
+    ellipse(0,-75,50,50);
+    resetMatrix();
+};
+var r = 0;
+var s = 0.5;
+draw = function () {
+    background(100,10);
+  stroke(random(255),random(255),random(255));
+  strokeWeight(random(25));
+    s = s + 0.001;
+r = r + 0.1;
+fidget(mouseX,mouseY,s);
+//rect(150,100,50,50);
+};
+    </script>
+</html>

@@ -1,0 +1,109 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup() {
+    angleMode(DEGREES);
+    width = 850;
+    height = 600;
+    createCanvas(width, height,  WEBGL);
+}
+    
+function BoxParticle(x,y,z,m){
+    this.pos = createVector(this.x,this.y,this.z);
+    this.vel = createVector(0,0,0);
+    this.acc = createVector(0,0,0);
+    this.mass = m;
+    this.applyForce = function(force) {
+        let forceCopy = force.copy();
+        this.acc.add(forceCopy);
+        forceCopy.div(this.mass);
+    };
+    this.draw = function(){
+      translate(this.pos.x,this.pos.y,this.pos.z);
+      camera(mouseX,mouseY,camZ);
+      rotateX(this.vel.y);
+      box(m*10);
+      resetMatrix();
+    };
+    this.update = function() {
+      this.pos.add(this.vel);
+      this.vel.add(this.acc);
+      this.acc.set(0,0,0);
+    };
+    this.edges = function () {
+      if(this.pos.x > width - 150){
+          this.pos.x = width - 150;
+          this.vel.x *= -1;
+      }  
+      if(this.pos.x < -700){
+          this.pos.x = -700;
+          this.vel.x *= -1;
+      }  
+      if(this.pos.y < -150){
+          this.pos.y = -150;
+          this.vel.y *= -1;
+      }  
+      if(this.pos.y > height-150){
+          this.pos.y = height-150;
+          this.vel.y *= -1;
+      }  
+      if(this.pos.z < -850){
+          this.pos.z = -850;
+          this.vel.z *= -1;
+      }  
+      if(this.pos.z >150){
+          this.pos.z = 150;
+          this.vel.z *= -1;
+      }  
+    };
+
+}    
+let gravity;
+let grav = function() {
+    gravity = createVector(0,0.01,0); 
+};
+let windiness;
+let wind = function () {
+    windiness = createVector(0.01,-0.02,0);
+};
+    
+let boxParticles = [
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(1,5)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(0.1,1)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(1,3)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(1,4)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(0.1,1)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(0.1,1)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(1,5)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(0.1,1)),
+    new BoxParticle(random(-500,250),random(-400,-250),random(-100,100),random(0.1,1)),
+];    
+    
+        let camZ = 0;
+function draw() {
+    //background(255,0,255);
+    // translate(mouseX,mouseY);
+    //     camera(mouseX,mouseY,camZ);
+    // box(200);
+    // resetMatrix();
+        if(key == 'w' && keyIsPressed){
+            camZ=camZ -5;
+        }
+        if(key == 's' && keyIsPressed){
+            camZ=camZ + 5;
+        }
+    for ( var p = 0; p < boxParticles.length; p++){
+        grav();
+        wind();
+        boxParticles[p].applyForce(gravity.mult(boxParticles[p].mass));
+        boxParticles[p].draw();
+        boxParticles[p].update();
+        boxParticles[p].edges();
+        if(mouseIsPressed){
+            boxParticles[p].applyForce(windiness);
+        }
+    }
+}
+    </script>
+</html>

@@ -1,0 +1,87 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        function setup() {
+    createCanvas(800, 600, WEBGL);
+}
+
+let Chair = {
+  chairSeatHeight: 100,
+  chairWidth: 60,
+  chairDepth: 50,
+  chairBackHeight: 100,
+  chairFrameThickness: 10,
+  
+  drawChair: function () {
+      //back
+      push();
+      rotateY(frameCount * 0.01);
+      translate(this.chairWidth/2, this.chairBackHeight/1.70);
+      box(this.chairWidth, this.chairBackHeight, this.chairFrameThickness);
+      pop();
+      resetMatrix();
+      
+      //seat
+      push();
+      rotateY(frameCount * 0.01);
+      translate(this.chairWidth/2, this.chairBackHeight + this.chairFrameThickness/2, this.chairDepth/2 -this.chairFrameThickness/2);
+      box(this.chairWidth, this.chairFrameThickness, this.chairDepth);
+      pop();
+      resetMatrix();
+      
+      //legs
+      push();
+      rotateY(frameCount * 0.01);
+      translate(this.chairFrameThickness/2, this.chairBackHeight + this.chairSeatHeight/2 + this.chairFrameThickness, 0);
+      box(this.chairFrameThickness, this.chairSeatHeight, this.chairFrameThickness);
+      pop();
+      resetMatrix();
+      
+      push();
+      rotateY(frameCount * 0.01);
+      translate(this.chairWidth - this.chairFrameThickness/2, this.chairBackHeight + this.chairSeatHeight/2, this.chairDepth - this.chairFrameThickness);
+      box(this.chairFrameThickness, this.chairSeatHeight, this.chairFrameThickness);
+      pop();
+      resetMatrix();
+      
+      push();
+      rotateY(frameCount * 0.01);
+      translate(this.chairWidth - this.chairFrameThickness/2, this.chairBackHeight + this.chairSeatHeight/2 + this.chairFrameThickness, 0);
+      box(this.chairFrameThickness, this.chairSeatHeight, this.chairFrameThickness);
+      pop();
+      resetMatrix();
+      
+      push();
+      rotateY(frameCount * 0.01);
+      translate(this.chairFrameThickness/2, this.chairBackHeight + this.chairSeatHeight/2, this.chairDepth - this.chairFrameThickness);
+      box(this.chairFrameThickness, this.chairSeatHeight, this.chairFrameThickness);
+      pop();
+      resetMatrix();
+      
+      
+  },
+  scrambleChair: function () {
+    this.chairSeatHeight = random(100, 200);
+    this.chairWidth      = random(100, 200);
+    this.chairDepth      = random(100, 200);
+    this.chairBackHeight = random(100, 200);
+  },
+};
+function roto(mousePressed) {
+    var mouseX = frameCount;
+}
+
+
+function draw() {
+    //translate(mouseX-width/2,0);
+    Chair.drawChair();
+    roto();
+    if(mouseIsPressed){
+        Chair.scrambleChair();
+        
+        
+    }
+
+}
+    </script>
+</html>

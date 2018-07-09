@@ -1,0 +1,87 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup() {
+    createCanvas(1000, 1000, WEBGL);
+}
+
+let walker = {
+    pos:createVector(width/2, 0, -1500),
+    target: 0,
+    vel: createVector(0,0,0),
+    acc: 0,
+    
+   updt: function () {
+       this.target = createVector(mouseX,mouseY,-300);
+       this.acc = p5.Vector.sub(this.target, this.pos);
+       this.acc.mult(0.000005);
+       this.acc.normalize();
+       //this.acc= createVector(random(-0.1,0.1),random(-0.1,0.1),random(-0.1,0.1));
+       this.vel.add(this.acc);
+       this.pos.add(this.vel);
+       /*
+       if(this.pos.z > 100){
+           this.pos.z = 100;
+           this.acc.z = -this.acc.z;
+       }
+       if(this.pos.z < -100){
+           this.pos.z = -100;
+           this.acc.z = -this.acc.z;
+       }
+       if(this.pos.x < 50){
+           this.pos.x = 50;
+            this.acc.x = -this.acc.x;
+           
+       }
+       if(this.pos.x > 550){
+           this.pos.x = 550;
+            this.acc.x = -this.acc.x;
+           
+       }
+       if(this.pos.y > 550){
+           this.pos.y = 550;
+            this.acc.y = -this.acc.y;
+           
+       }
+       if(this.pos.y < 50){
+           this.pos.y = 50;
+            this.acc.y = -this.acc.y;
+           
+       }*/
+       
+    },
+    draw: function (){
+       translate(this.pos.x-width/20,this.pos.y-width/30,this.pos.z);
+       rotateZ(this.acc.x/50);
+       rotateY(this.acc.y/50);
+       cone(height/80,height/40);
+       resetMatrix();
+       translate(this.pos.x+width/20,this.pos.y,this.pos.z-width/40);
+       rotateX(this.pos.z/50);
+       rotateY(this.pos.y/50);
+       cone(height/80,height/40);
+       resetMatrix();
+       translate(this.pos.x-width/10,this.pos.y-width/40,this.pos.z);
+       rotateX(this.acc.z/5);
+       rotateY(this.acc.x/5);
+       cone(height/80,height/40);
+       resetMatrix();
+       translate(this.pos.x+width/50,this.pos.y,this.pos.z-width/40);
+       rotateX(this.pos.x/50);
+       rotateY(this.pos.z/50);
+       cone(height/80,height/40);
+       resetMatrix();
+    },
+};
+
+const creature = function () {
+    walker.updt();
+    walker.draw();
+};
+function draw () {
+    //translate(mouseX,mouseY);
+    creature();
+}
+    </script>
+</html>

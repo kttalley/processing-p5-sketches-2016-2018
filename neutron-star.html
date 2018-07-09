@@ -1,0 +1,56 @@
+<html>
+
+    <script src = "lib/p5.js"></script>
+<script>
+
+new p5();
+function setup () {
+    createCanvas(500,500);
+    background(0);
+}
+var x = 0;
+var y = 0;
+var z = 0;
+var rate1 = 0.001;
+var rate2 = 1;
+var rate3 = 0.1;
+var timer = 0;
+draw = function () {
+   
+    translate(500,0);
+    rotate(0.8+rate2);
+    ellipseMode(CENTER);
+    timer = timer +rate1;
+    noStroke();
+    fill(0);
+    stroke(255,255,255,100-x);
+    strokeWeight(0.05);
+    x = x + rate2;
+    z = z + rate2;
+    y = y + rate3;
+        rotate(0.08);
+        ellipse(250,250,400,150+z);
+        ellipse(250,250,150+z,400+y);
+        strokeWeight(0.5+rate1);
+    ellipse(250,250,200+x,200+z);
+    ellipse(250,250,145+x,145+z);
+     fill(random(255),random(255),10);
+    // translate(-500,0);
+    noStroke();
+    ellipse(250,250,5,5);
+    ellipseMode(CENTER);
+    //rotate(.04+x);
+    ellipse(250,250,25,5);
+    
+    ellipse(250,250,5,25);
+    if(z > 200){
+        z = -z;
+    }
+if(x>200){
+    x = -x;
+}
+fill(0);
+    rect(850,0,200,2000);
+};
+</script>
+</html>

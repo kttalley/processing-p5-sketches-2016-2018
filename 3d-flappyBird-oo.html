@@ -1,0 +1,130 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup() {
+    createCanvas(displayWidth, displayHeight, WEBGL);
+
+}
+
+
+let flappy = {
+    birdX: -500,
+    birdY: 0,
+    birdZ: 0,
+    grav: createVector(0,1,0),
+    pos: createVector(0,0,0),
+    vel: createVector(0,0,0),
+    acc: createVector(0,0,0),
+    update: function () {
+      this.pos = createVector(this.birdX,this.birdY,this.birdZ);
+      this.acc = createVector(0,0,0);
+      this.vel.add(this.acc);
+      this.pos.add(this.vel);
+    },
+    draw: function () {
+        camera(mouseX-width/2,0);
+        translate(this.pos.x+12,this.pos.y+25,this.pos.z);
+        cone(50);
+        resetMatrix();
+        
+       camera(mouseX-width/2,0);
+        translate(this.pos.x-12,this.pos.y+25,this.pos.z);
+        cone(50);
+        resetMatrix();
+        
+        camera(mouseX-width/2,0);
+        translate(this.pos.x,this.pos.y,this.pos.z);
+        sphere(45);
+        resetMatrix();
+    },
+    
+};
+
+let blockade = {
+    camX: 0,
+    camY: 0,
+    camZ: 0,
+    pos: createVector(0,0,0),
+    vel: createVector(0,0,0),
+    acc: createVector(0,0,0),
+    update: function () {
+      this.pos = createVector(this.camX,this.camY,this.camZ);
+      this.acc = createVector(0,0,5);
+      this.vel.add(this.acc);
+      this.pos.add(this.vel);
+      if(this.pos.z> 200&&this.camZ> 200){
+          this.camZ = -500;
+          this.posZ = -500;
+      }
+    },
+    draw:function(){
+        push();
+        translate(this.pos.x,this.pos.y,this.pos.z);
+        //fill(255,0,255);
+        box(200,50);
+        pop();
+    },
+    
+};
+
+const Flappy = function () {
+  flappy.update();
+  flappy.draw();  
+};
+const view1 = function () {
+     blockade.update();
+    blockade.draw();
+};
+
+let grav = 1;
+let timer = 0;
+let countDownTimer = 10;
+
+function draw() {
+    flappy.vel.y += grav;
+     flappy.acc.y += flappy.vel.y;
+     if(keyIsPressed){
+         if(timer <= 6){
+            grav = -10;
+            timer = timer + 1;
+         }else{
+             grav = 1;
+             countDownTimer -= 1;
+             if(countDownTimer < 1){
+                 timer = 0;
+                 countDownTimer = 20;
+             }
+         }
+     }
+     if(timer === 0){
+         countDownTimer = 10;
+     }
+    background(100,200,255);
+    //sun
+    push();
+    camera(mouseX-width/2,0);
+    translate(0,0,-3000);
+    sphere(displayWidth/2);
+    resetMatrix();
+    pop();
+    //ground
+    push();
+    camera(mouseX-width/2,0);
+    translate(0,1200,-500);
+    box(displayWidth*5,displayWidth);
+    resetMatrix();
+    pop();
+    push();
+    resetMatrix();
+    
+    Flappy();
+    pop();
+    push();
+    view1();
+    pop();
+    
+}
+        
+    </script>
+</html>

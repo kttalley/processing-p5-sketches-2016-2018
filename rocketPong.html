@@ -1,0 +1,428 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        var Rocket = {
+    x: 0,
+    y: 0,
+    timer: 0,
+    
+    rocketL: function (){
+        translate(this.x, this.y);
+        noStroke();
+        fill(0,102,153);
+        triangle(0,0,30,0,15,30);
+        fill(130,150,153);
+        triangle(30,-30,15,15,50,15);
+        fill(0,102,153);
+        triangle(30,0,60,45,30);
+        //rocket smoke
+        fill(130,150,153,100);
+        triangle(0,timer/500,20,timer/500,10,random(10,20)+timer/50);
+        resetMatrix();
+    },
+    
+    rocketR: function (){
+      translate(this.x, this.y);
+      noStroke();
+      fill(0,102,153);
+      triangle(30,0,60,0,45,30);
+      fill(130,150,153);
+      triangle(30,-30,15,15,50,15);
+      fill(0,102,153);
+      triangle(0,0,30,0,15,30);
+      //rocket smoke
+      fill(130,150,153,100);
+      triangle(0,this.timer/500,20,this.timer/500,10,random(10,20)+this.timer/50);
+      resetMatrix();
+    },
+    /*
+    rocketSmoke: function () {
+    fill(130,150,153,100);
+    triangle(0,timer/500,20,timer/500,10,random(10,20)+timer/50);
+    //sca
+};  
+    },
+    */
+    
+    rocketLaunch: function() {
+     if(keyCode === UP && keyIsPressed){
+       fill(random(100,255),random(100,120),random(150),random(100,200));
+       triangle(this.x+10,this.y+30+this.timer/100,this.x+30,this.y+random(40,50)+this.timer/25,this.x+50,this.y+30+this.timer/100);
+       fill(random(190,255),random(120,220),random(150),random(50,150));
+       triangle(this.x,this.y+30+this.timer/200,this.x+30,this.y+random(3,50)+this.timer/25,this.x+60,this.y+30+this.timer/200);
+          
+          if(this.timer < 5){
+           this.yvel = -50;
+          this.timer = this.timer + 1;
+           this.fuel = this.fuel -1;
+       }
+       if(this.timer >= 5){
+          this.yvel = -20;
+          this.timer = this.timer + 3;
+          this.fuel = this.fuel -1;
+       }
+    if(timer>=30){
+        this.yvel = -5.5;
+        this.timer = this.timer + 1; //allows jump to be held for varying amounts of time
+        this.fuel = this.fuel -2;
+        
+    }
+        if(this.timer >= 50){
+            this.yvel = -2.75;
+            this.timer = this.timer +3;
+            this.fuel = this.fuel -3;
+        }
+            //if(timer >= 100){
+            //yvel = -0.75;
+           // timer = timer + 3;
+       // }
+        if(this.timer >= 200){
+            
+            this.yvel = 0.25;
+            this.timer = this.timer +3;
+            this.fuel = this.fuel -4;
+        }
+        if(this.timer >= 1300){
+            this.yvel = 1;
+            this.timer = this.timer +3;
+            this.fuel = this.fuel -5;
+        }
+        if(this.timer >= 1500){
+            fill(100,100,100,255);
+       triangle(this.x-15,this.y+15+this.timer/1000,this.x+45,this.y+80+this.timer/25,this.x+60,this.y+15+this.timer/1000);
+            this.yvel = 15;
+            this.timer = this.timer +3;
+        }
+        if(this.timer >= 1600){
+            this.yvel = 30;
+            this.timer = this.timer +3;
+        }
+       
+   }
+    },
+    
+    /*
+  if(keyCode === RIGHT && keyIsPressed){
+      rocketR(x,y);
+      x = x - xvel;
+       //smoke(x+20+smokex,y+20+smokey);
+       //mokey = smokey + 1;
+    if(timer <= 20){
+        xvel = -2;
+        timer = timer + 1; //allows jump to be held for varying amounts of time
+        }
+        if(timer <= 80){
+            xvel = -12;
+            timer = timer +3;
+        }
+   }
+
+    if(keyCode === LEFT && keyIsPressed){
+     rocketL(x,y);
+      x = x + xvel;
+       //smoke(x+20+smokex,y+20+smokey);
+       //mokey = smokey + 1;
+        if(keyReleased === true){
+            ellipse(200,200,200,200);
+        }
+    if(timer <= 40){
+        xvel = 5;
+        timer = timer + 1; //allows jump to be held for varying amounts of time
+        }
+        if(timer <= 80){
+            xvel = -12;
+            timer = timer +3;
+        }
+   }
+};
+*/
+
+
+rocketL: function(x,y){
+    noStroke();
+    fill(0,102,153);
+    triangle(x,y,x+30,y,x+15,y+30);
+    fill(130,150,153);
+    triangle(x+30,y-30,x+15,y+15,x+50,y+15);
+    fill(0,102,153);
+    triangle(x+30,y,x+60,y,x+45,y+30);
+},
+
+rocketR : function(x,y){
+    noStroke();
+    fill(0,102,153);
+    triangle(x+30,y,x+60,y,x+45,y+30);
+    
+    fill(130,150,153);
+    triangle(x+30,y-30,x+15,y+15,x+50,y+15);
+    fill(0,102,153);
+    triangle(x,y,x+30,y,x+15,y+30);
+    
+},
+
+smoke: function(x,y){
+    //x2 = x2
+    fill(130,150,153,100);
+    triangle(x,y+timer/500,x+20,y+timer/500,x+10,y+random(10,20)+timer/50);
+    //sca
+}
+/*var bomb = function (bx,by){
+    boom = boom + 5;
+        fill(255,255,100,100);
+        ellipse(bx+25,by-shooty,boom+150,boom+150);
+        fill(255,255,0,170);
+        ellipse(bx+25,by-shooty,boom,boom);
+         if(keyCode === CONTROL && keyReleased){
+         shooty = shooty + 5;
+             if(shooty>700){
+                 
+                 shooty = 0;
+             }
+         }
+};
+*/
+}
+var bomby= 0;
+var boom = 25;
+var boomx = 0;
+var boomy = 0;
+var smokex = 0;
+var smokey = 0;
+var shooty = 0;
+var x2 = 275;
+var y2 = 325;
+var x = 250;
+var y = 0;
+var xvel = 0;
+var move = 0;
+var yvel = 0;
+var gravity = 0;
+var rate = 0.005;
+var xrate = 0.005;
+var timer = 0;
+var sliderRocket = 0;
+var sliderH = 725;
+var slider = 0;
+var sliderRate = 5;
+var fuel = 700;
+var health = 1000;
+
+draw = function () {
+   background(100);
+   fill(255,0,0);
+   //fuel meter
+   rect(400,600,100+fuel/10,20);
+   if(fuel <-10
+   ){
+       yvel = 0;
+       fuel = fuel+50;
+        if(fuel>700){
+            fuel = 700;
+        }
+       timer = 0;
+   }
+   rocketL(x,y);
+    smoke(x+20+smokex,y+20+smokey);
+    //gravity stuff
+    xvel = xvel + xrate;
+     y = y + yvel;
+    yvel = yvel + gravity; 
+    gravity = gravity + rate;
+    if(y > 900){
+                    y = 900;
+                    timer = 0;
+                }
+    
+    //slider movement
+   slider = slider + sliderRate;
+   
+    fill(255);
+    rect(slider,sliderH,50,25,50);
+    if(slider>900){
+        sliderRate=-sliderRate;
+    }
+    if(slider<-10){
+        sliderRate=-sliderRate;
+    }
+    
+    if(dist(x,y,slider,700)<50){
+        yvel = 0;
+        timer = 0;
+      y = 700;
+      x = slider;
+      if(keyIsPressed){
+          switch(keyCode){
+              
+        case UP_ARROW:
+        yvel = -30;
+          timer = timer + 1;
+          fuel = fuel -3;
+              break;
+              case DOWN:
+                  y=800;
+                  y = y + 30;
+                  
+                  if(y>900){
+                      y = 900;
+                  }
+          break;
+          case LEFT_ARROW:
+              x = x- 50;
+               rocketL(x,y);
+                //x = x + xvel;
+              break;
+              case RIGHT_ARROW:
+              x = x+ 50;
+               rocketL(x,y);
+                //x = x + xvel;
+              break;
+          }
+      }
+    
+        
+    }
+   
+    
+                
+  
+   if(keyCode === UP_ARROW && keyIsPressed){
+       fill(random(100,255),random(100,120),random(150),random(100,200));
+       triangle(x+10,y+30+timer/100,x+30,y+random(40,50)+timer/25,x+50,y+30+timer/100);
+       fill(random(190,255),random(120,220),random(150),random(50,150));
+       triangle(x,y+30+timer/200,x+30,y+random(3,50)+timer/25,x+60,y+30+timer/200);
+          
+          if(timer < 5){
+           yvel = -50;
+           timer = timer + 1;
+           fuel = fuel -1;
+       }
+       if(timer >= 5){
+           yvel = -20;
+           timer = timer + 3;
+           fuel = fuel -1;
+       }
+    if(timer>=30){
+        yvel = -5.5;
+        timer = timer + 1; //allows jump to be held for varying amounts of time
+        fuel = fuel -2;
+        
+    }
+        if(timer >= 50){
+            yvel = -2.75;
+            timer = timer +3;
+            fuel = fuel -3;
+        }
+            //if(timer >= 100){
+            //yvel = -0.75;
+           // timer = timer + 3;
+       // }
+        if(timer >= 200){
+            
+            yvel = 0.25;
+            timer = timer +3;
+            fuel = fuel -4;
+        }
+        if(timer >= 1300){
+            yvel = 1;
+            timer = timer +3;
+            fuel = fuel -5;
+        }
+        if(timer >= 1500){
+            fill(100,100,100,255);
+       triangle(x-15,y+15+timer/1000,x+45,y+80+timer/25,x+60,y+15+timer/1000);
+            yvel = 15;
+            timer = timer +3;
+        }
+        if(timer >= 1600){
+            yvel = 30;
+            timer = timer +3;
+        }
+       
+   }
+  if(keyCode === RIGHT_ARROW && keyIsPressed){
+      rocketR(x,y);
+      x = x - xvel;
+       //smoke(x+20+smokex,y+20+smokey);
+       //mokey = smokey + 1;
+    if(timer <= 20){
+        xvel = -2;
+        timer = timer + 1; //allows jump to be held for varying amounts of time
+        }
+        if(timer <= 80){
+            xvel = -12;
+            timer = timer +3;
+        }
+   }
+
+    if(keyCode === LEFT_ARROW && keyIsPressed){
+     rocketL(x,y);
+      x = x + xvel;
+       //smoke(x+20+smokex,y+20+smokey);
+       //mokey = smokey + 1;
+        if(keyReleased === true){
+            ellipse(200,200,200,200);
+        }
+    if(timer <= 40){
+        xvel = 5;
+        timer = timer + 1; //allows jump to be held for varying amounts of time
+        }
+        if(timer <= 80){
+            xvel = -12;
+            timer = timer +3;
+        }
+   }
+
+   if(keyCode === CONTROL && keyIsPressed){
+       
+    
+       
+   
+     
+       boom = boom + 5;
+        fill(255,255,100,100);
+        ellipse(x+25,y-shooty,boom+150,boom+150);
+        fill(255,255,0,170);
+        ellipse(x+25,y-shooty,boom,boom);
+         if(keyCode === CONTROL && keyReleased){
+         shooty = shooty + 5;
+             if(shooty>700){
+                 
+                 shooty = 0;
+             }
+         
+        if(boom>100){
+            
+                boom = boom - 15;
+                boom = 0;
+    
+           }
+         }   
+   
+   
+   /*
+   if(keyCode === SPACE && keyIsPressed){
+    ellipse(x+50,y-yvel,7,200);
+     //boom = boom + 5;
+        //fill(255,255,100,100);
+        //ellipse(x+25,y-yvel,boom+150,boom+150);
+        //fill(255,255,0,170);
+        //ellipse(x+25,y-yvel,boom,boom);
+         y = 900; //makes a floor
+        timer = 0; //resets timer when block lands on ground
+            if(boom>200){
+                boom = boom - 30;
+                boom = 0;
+                resetMatrix();
+            }
+     }
+       */
+    
+}
+};
+        
+    </script>
+</html>

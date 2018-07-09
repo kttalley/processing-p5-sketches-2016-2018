@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<script src = "lib/p5.js"></script>
+<script>
+new p5();
+function Point (x,y) {
+    this.x = x;
+    this.y = y;
+    this.equals = function (obj) {
+        return obj.x == this.x && obj.y == this.y;
+    };
+    this.log = function () {
+        console.log(this.x,this.y);
+    };
+    this.toString = function () {
+        var x = Number(this.x);
+        var y = Number(this.y);
+        return String(x) + ',' + String(y);
+    };
+}
+
+
+function resetMap (height, width) {
+    var vertices = [];
+    var map = [];
+    for (var i = 0; i < height; i++) {
+        map[i] = [];
+        for (var j = 0; j < width; j++) {
+            if (i % 2 && j % 2) {
+                vertices.push(new Point(j,i));
+                map[i][j] = 'o';
+            } else {
+                map[i][j] = 'w';
+            }
+        }
+    }
+    var state = { vertices: vertices, map: map };
+    return state;
+    
+}
+
+function containsPoint(arr, point) {
+    for(var i = 0; i < arr.length; i++) {
+        if (arr[i].x == point.x && arr[i].y == point.y) return true;
+    }
+    return false;
+}
+
+function printPoints(arr) {
+    for(var i = 0; i < arr.length; i++) {
+        arr[i].log();
+    }
+}
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+function getNeighbors(v) {
+    var neighbors = [];
+    var width = map[0].length;
+    var height = map.length;
+    if (v.x + 2 < width) {
+        neighbors.push(new Point(v.x + 2, v.y));
+    }
+    if (v.x - 2 > 0) {
+        neighbors.push(new Point(v.x - 2, v.y));
+    }
+    if (v.y + 2 < height) {
+        neighbors.push(new Point(v.x, v.y + 2));
+    }
+    if (v.y - 2 > 0) {
+        neighbors.push(new Point(v.x, v.y - 2));
+    }
+    return neighbors;
+}
+
+function getRemovedWalls (vertices) {
+    var Q = [];
+    var current = vertices[0];
+    var visited = [current];
+    var walls = [];
+    while(visited.length < vertices.length) {
+        //var neighbors = getNeighbors(current).filter(function (n) {
+           // return containsPoint(visited, n) === false;
+        };
+        if(neighbors.length > 0) {
+            var index = getRandomInt(neighbors.length);
+            if(index == neighbors.length) index--;
+            var n = neighbors[index];
+            Q.push(current);
+            var w = getWall(current, n);
+            walls.push(w);
+            current = n;
+            if(!containsPoint(visited, n)) {
+                visited.push(n);
+            }
+        } else {
+            current = Q.pop();
+        }
+    return walls;
+}
+
+function getWall(v1, v2) {
+    var w = new Point(v1.x, v1.y);
+    if (v1.x < v2.x) w.x++;
+    if (v1.x > v2.x) w.x--;
+    if (v1.y < v2.y) w.y++;
+    if (v1.y > v2.y) w.y--;
+    return w;
+}
+
+
+var red = { x:1, y:1 };
+var green = { x:0, y:0 };
+var blue = new Point(57,57);
+var greenTrail = [];
+var walls = [];
+var path = [];
+var map = [];
+
+noStroke();
+draw = function () {
+    if(walls.length == 0) {
+        if(path.length == 0) {
+            red = { x:1, y:1 };
+            green = { x:1, y:1 };
+            greenTrail = [];
+            var state = resetMap(59,59);
+            var vertices = state.vertices;
+            map = state.map;
+            path = [];
+            walls = getRemovedWalls(vertices);
+        }
+        else {
+            var p = path.pop();
+            map[p.y][p.x] = 'g';
+        }
+    } else {
+        var w = walls.pop();
+        map[w.y][w.x] = 'o';
+        red.x = w.x;
+        red.y = w.y;
+        if (walls.length == 0) {
+            map[1][1] = 'g';
+            path = bfs(new Point(57,57));
+        }
+    }
+    for(var y = 0; y < map.length; y++) {
+        for(var x = 0; x < map[y].length; x++) {
+            if(x == red.x && y == red.y){
+                fill(210,195,195);
+                rect(x*25, y*25, 25, 25);
+            } else if(x == blue.x && y == blue.y){
+                fill(100,200,255);
+                rect(x*25, y*25, 25, 25);
+            } else if(map[y][x] == 'w'){
+                fill(130,255,255);
+                rect(x*25, (y*25)-14, 25, 25);
+                fill(130,195,195);
+                rect(x*25, (y*25)+10, 25, 25);
+
+            } else if(map[y][x] == 'o'){
+                fill(130,115,115);
+                rect(x*25, (y*25)+3, 25, 25);
+            }
+            if(map[y][x] == 'g'){
+                fill(120,255,160);
+                rect(x*25, y*25, 25, 25);
+            }
+        }
+    }
+    
+};
+
+function getSuccessors (x,y) {
+    var successors = [];
+    if (map[x+1][y].code == 111) successors.push(new Point(x+1,y));
+    if (map[x-1][y].code == 111) successors.push(new Point(x-1,y));
+    if (map[x][y+1].code == 111) successors.push(new Point(x,y+1));
+    if (map[x][y-1].code == 111) successors.push(new Point(x,y-1));
+    return successors;
+}
+
+function bfs (goal) {
+    var root = new Point(1,1);
+    var Q = [];
+    var distances = {};
+    var parents = {};
+    Q.push(root);
+    distances[root.toString()] = 0;
+    while(Q.length != 0) {
+        current = Q.pop();
+        current.log();
+        if(current.x == goal.x && current.y == goal.y) {
+            var newPath = [];
+            while(parents[current.toString()]) {
+                newPath.push(new Point(current.y, current.x));
+                current = parents[current.toString()];
+            }
+            return newPath;
+        }
+        var successors = getSuccessors(current.x, current.y);
+        for(var i = 0; i < successors.length; i++) {
+            var s = successors[i];
+            var sKey = s.toString();
+            var curKey = current.toString();
+            if(distances[sKey] == undefined) {
+                distances[sKey] = distances[curKey] + 1;
+                parents[sKey] = current;
+                Q.push(s);
+            }
+        }
+    }
+    return [];
+}
+</script>
+</html>

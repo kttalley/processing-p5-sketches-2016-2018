@@ -1,0 +1,39 @@
+<html>
+<script src = "lib/p5.js"></script>
+<script>
+new p5();
+
+function setup () {
+    createCanvas(1000,1000);
+}
+
+var rectY = [0, 15, 30];
+var elp = [500,450,25,50];
+
+draw = function() {
+
+  background(50);
+
+  noStroke();
+
+  rectMode(CENTER);
+
+  fill(255);
+
+  for (var i = 0; i < rectY.length; i++) {
+
+    rect((i+1)*100, rectY[i], 50, 25);
+
+    rectY[i] += 1;
+
+  }
+
+  
+
+  ellipse(elp[0],elp[1],elp[2],elp[3]);
+
+  
+
+};
+</script>
+</html>

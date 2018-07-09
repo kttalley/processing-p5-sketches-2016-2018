@@ -1,0 +1,228 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup(){
+            createCanvas(600,550);
+        }
+        var br0 = {
+    x : 150,
+    y : 150,
+    xSpeed: 5,
+    ySpeed: 0,
+    spin: false,
+    r : 0,
+    rSpeed : 0,
+    draw: function (){
+        translate(this.x,this.y);
+        rotate(this.r);
+        this.r = this.r + this.rSpeed;
+        rectMode(CENTER);
+        fill(10,100,255);
+        rect(0,0,50,50);
+        rectMode(CORNER);
+        resetMatrix();
+    },
+    boundary: function (){
+        //char colision
+        if(br0.x< 75){
+            br0.x = 75;
+        }
+        if(br0.x> 475){
+            br0.x = 475;
+        }
+        if(br0.y< 75){
+            br0.y = 75;
+        }
+    },
+    
+};
+var ball = {
+    size: 25,
+    x: 100,
+    y: 150,
+    xSpeed: 3,
+    ySpeed: 10,
+    draw: function(){
+        translate(this.x,this.y);
+        fill(200,10,50);
+        ellipse(0,0,this.size,this.size);
+        fill(200,10,50,100);
+        ellipse(0,0,this.size*1.25,this.size*1.25);
+        fill(200,10,50,75);
+        ellipse(0,0,this.size*1.5,this.size*1.5);
+        fill(200,10,50,55);
+        ellipse(0,0,this.size*1.75,this.size*1.75);
+        resetMatrix();
+    },
+    boundary: function(){
+        this.x = this.x + this.xSpeed;
+        this.y = this.y + this.ySpeed;
+        if(this.x>500 - this.size){
+            this.xSpeed = -this.xSpeed;
+        }
+        if(this.x<50 + this.size){
+            this.xSpeed = -this.xSpeed;
+        }
+        if(this.y<50 + this.size){
+            this.ySpeed = -this.ySpeed;
+        }
+        if(this.y>500 - this.size){
+            this.ySpeed = -this.ySpeed;
+        }
+    },
+};
+var rocket = function(x,y){
+    translate(x+22.5,y+30);
+    rotate(br0.r);
+    br0.r = br0.r + br0.rSpeed;
+    noStroke();
+    fill(0,102,153);
+    triangle(0,0,30,0,15,30);
+    fill(130,150,153);
+    triangle(30,-30,15,15,50,15);
+    fill(0,102,153);
+    triangle(30,0,60,0,45,30);
+    resetMatrix();
+};
+
+var grav = 1;
+var timer = 0;
+var lives = 3;
+var score = 0;
+var countDown = 5000;
+var startScreen = true;
+var gameScreen = false;
+var loseScreen = false;
+draw = function () {
+    //this is the game screen
+    if(gameScreen === true && startScreen === false){
+            
+        //gravity
+        br0.y = br0.y + br0.ySpeed;
+        br0.ySpeed = br0.ySpeed + grav;
+        //char jump
+        if(br0.y > 475){
+            br0.y = 475;
+            br0.ySpeed = 0;
+            br0.spin = false;
+            br0.r = 0;
+            timer = 0;
+        }
+        if(br0.spin === false){
+            br0.rSpeed = 0;
+        }
+        if(key == ' ' && keyIsPressed){
+            if(timer <= 2){
+                br0.spin = true;
+            br0.ySpeed = -25;
+            timer = timer + 1;
+            }
+        }
+        if(br0.spin === true){
+            br0.rSpeed = 0.2;
+        }
+        //char movement
+        if(key == 'd' && keyIsPressed) {
+            br0.x = br0.x + br0.xSpeed;
+        }
+        if(key == 'a' && keyIsPressed) {
+            br0.x = br0.x - br0.xSpeed;
+        }
+        
+        //level
+        noStroke();
+        background(50);
+        fill(200);
+        rect(50,50,450,500,100);
+        fill(50);
+        rect(50,500,450,100);
+        //character
+        br0.draw();
+        br0.boundary();
+        //obstacle
+        ball.draw();
+        ball.boundary();
+        //colision
+        if(dist(br0.x,br0.y,ball.x,ball.y)<ball.size){
+            background(255,0,0);
+            lives = lives - 1;
+            br0.x = random(75,475);
+            br0.y = 175;
+            ball.x = random(75,475);
+            ball.y = 75+ball.size;
+            ball.ySpeed = random(3,25);
+            ball.xSpeed = random(3,12);
+            ball.size = random(5,50);
+        }
+        //style points
+        if(br0.spin === true){
+            score = score + 1;
+        } else {
+            score = score + 0;
+        }
+        //scoreSystem
+        fill(200);
+        textSize(18);
+        text("Style Points",490,50);
+        textSize(18);
+        text(score,525,75);
+        textSize(24);
+        text("Lives:",525,150);
+        fill(10,100,255);
+        text(""+lives,550,175);
+        fill(200);
+        textSize(18);
+        text("COUNT",525,300);
+        text("DOWN:",528,325);
+        fill(200,10,50);
+        text(countDown,535,370);
+        countDown = countDown - 1;
+        
+         if(countDown < 1){
+        startScreen = true;
+        gamescreen = false;
+        loseScreen = false;
+    }
+    }
+    
+    //winscreen
+   
+    if(gameScreen === false && startScreen === true){
+        background(50);
+        fill(255);
+        textSize(50);
+        text("nice!",250,250);
+        text("style points:"+score,100,350);
+        text("click to play again",50,450);
+        if(mouseIsPressed){
+            gameScreen = true;
+            loseScreen = false;
+            startScreen = false;
+        }
+    }
+    
+    
+    //loseScreen
+   if(lives < 1){
+       loseScreen = true;
+       gameScreen = false;
+       startScreen = false;
+   }
+   if(gameScreen === false &&
+        startScreen === true){
+       background(50);
+        fill(255);
+        textSize(50);
+        text("oof",250,250);
+        text("style points:"+score,100,350);
+        text("click to play again",50,450);
+        if(mouseIsPressed){
+            gameScreen = true;
+            startScreen = false;
+        }
+   }
+};
+        
+    </script>
+</html>

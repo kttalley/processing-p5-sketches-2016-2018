@@ -1,0 +1,175 @@
+<html>
+    <script src="lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        // global variables that will store where
+// you currently are in the array
+var curLev = 0;
+var curSpot = 0;
+
+// handles drawing the objects in the array
+// set to 0 after everything is drawn
+var offsetX = 0;
+var offsetY = 0;
+var startingX = 50;
+var startingY = 50;
+
+// these allow you to customize the array to make
+// the player and and empty spots look however
+// you want
+var tile = '0';
+var player = 'x';
+var apple = '.';
+
+// handles when the apples will appear
+var score = 0;
+var randomLev = round(random(6));
+var randomSpot = round(random(6));
+
+// this is the 'playing field'
+var field = [
+    [tile, tile, tile, tile, tile, tile, tile],
+    [tile, tile, tile, tile, tile, tile, tile],   
+    [tile, tile, tile, tile, tile, tile, tile],
+    [tile, tile, tile, tile, tile, tile, tile],   
+    [tile, tile, tile, tile, tile, tile, tile],   
+    [tile, tile, tile, tile, tile, tile, tile],
+    [tile, tile, tile, tile, tile, tile, tile],
+    ];
+
+// these allow the constraints of the array to
+// dynamically change as you simply add or take away
+// from the array
+var maxLev = field.length - 1;
+var minLev = 0;
+var minSpot = 0;
+var maxSpot = field[0].length - 1;
+
+// these are used to reset the previous spots
+// that the player was in back to an empty spot
+
+var oldSpot = 0;
+var oldLevel = 0;
+
+draw = function () {
+    background(255);
+   
+    // draws player
+    field[curLev][curSpot] = player;
+   
+    // stores location before it is changed so that
+    // it can be changed to an empty spot later
+    oldLev = curLev;
+    oldSpot = curSpot;
+   
+    textSize(50);
+   
+    // the outer for loop draws the levels in the array
+    for (var i=0; i<field.length; i++){
+        // the inner for loop draws the spots in each level
+        for (var j=0; j<field[i].length; j++){
+           
+            if (field[i][j] == tile){
+                fill(0, 0, 0);
+                text(tile, startingX + offsetX, startingY + offsetY);
+                //rect(startingX + offsetX, startingY + offsetY, 50, 50);
+            }
+            else if (field[i][j] == player){
+                fill(0,0,255);
+                text(player, startingX + offsetX, startingY + offsetY);
+                //rect(startingX + offsetX, startingY + offsetY, 50, 50);
+            }
+            else if (field[i][j] == apple){
+                fill(255, 0, 0);
+                text(apple, startingX + offsetX, startingY + offsetY);
+            }
+            else{
+                fill(0,255,0);
+                text('?', startingX + offsetX, startingY + offsetY);
+            }
+           
+            // handles drawing the spots
+            offsetX += 55;
+           
+        }
+        // handles drawing the spots
+        offsetY += 55;
+        offsetX = 0;
+    }
+   
+    // resets variables after drawing spots because
+    // they are no longer needed
+    offsetX = 0;
+    offsetY = 0;
+   
+    // handles user input
+    if (key=='a' && keyIsPressed){
+        if (curSpot > minSpot){
+            curSpot -= 1;
+        }
+       
+    }
+    if (key=='d' && keyIsPressed){
+        if (curSpot < maxSpot){
+            curSpot += 1;
+        }
+       
+    }
+    if (key=='w' && keyIsPressed){
+        if (curLev > minLev){
+            curLev -= 1;
+        }
+       
+    }  
+    if (key=='s' && keyIsPressed){
+        if (curLev < maxLev){
+            curLev += 1;
+        }
+       
+    }  
+   
+    // sets previously hosted spots back to an empty tile
+    // but only if they have not been shot
+    field[oldLev][oldSpot] = tile;
+    field[randomLev][randomSpot] = apple;
+   
+    if (randomLev == curLev && randomSpot == curSpot){
+        randomLev = round(random(6));
+        randomSpot = round(random(6));
+        score += 1;
+    }
+   
+    // aesthetics of the stats box haha
+    fill(100);
+    noStroke();
+    rect(490, 0, 200, 1000);
+
+    fill(255);
+    textSize(40);
+    text('STATS:', 500, 60);
+    text('----------',500, 75);
+   
+    textSize(25);
+    text('HOW TO PLAY:', 500, 250);
+    text('---------------------', 500, 265);
+   
+    textSize(20);
+    fill(0);
+    text('Eat the apple \ndenoted by the \nred period!', 500, 290);
+   
+    fill(0,255,0);
+    textSize(20);
+    text('current level: ' + (curLev + 1), 500, 110);
+    text('current spot: ' + (curSpot + 1), 500, 135);
+   
+    fill(255,0,255);
+    text('SCORE: ' + score, 500, 185);
+   
+   
+   
+};
+    </script>
+</html>

@@ -1,0 +1,44 @@
+<html>
+<script src = "lib/p5.js"></script>
+<script>
+new p5();
+
+function setup () {
+    createCanvas(1000,1000);
+}
+
+
+Alien = function(x, y, s){
+    translate(x,y);
+    scale(s);
+    noStroke();
+    fill(30,255,10,40);
+    ellipse(0,-15,200,200);
+    fill(30,255,10,50);
+    ellipse(0,-15,175,175);
+    fill(30,255,10,75);
+    ellipse(0,-15,150,150);
+    //alien
+    fill(0,255,0);
+    //bezier(534,234,)
+    rect(-16,-30,30,30,20);
+    ellipse(0,-35,15,20);
+    fill(0);
+    ellipse(3,-40, 2,2);
+    ellipse(-3,-40, 2,2);
+    //ufo
+    fill(0,255,255,100);
+    ellipse(0,-25,50,75);
+    fill(255,102,255);
+    ellipse(0,0,150,30);
+    resetMatrix();
+  
+    
+};
+
+draw = function () {
+    background(255);
+    Alien(500,500,1/2);
+};
+</script>
+</html>

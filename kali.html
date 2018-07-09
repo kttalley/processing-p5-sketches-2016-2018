@@ -1,0 +1,26 @@
+<html>
+    <script src="lib/p5.js"></script>
+    <script>
+        function setup() {
+            createCanvas(1000,1000);
+            background(0);
+        }
+        let pulse = 1;
+let circle = 0;
+let x = 0;
+//translate(600,0);
+draw = function(){
+    x = x + 5;
+    circle = circle + pulse;
+    translate(mouseX,mouseY);
+    scale(0.25);   // translate(500,500);
+
+    pulse = pulse - 0.01;
+    rotate(0.1+circle);
+    noFill();
+    strokeWeight(12 + pulse);
+    stroke(random(0,100),random(0,250), random(100,250));
+    ellipse (550,550,random(100,600)+circle,random(100,750)+circle);
+};
+    </script>
+</html>

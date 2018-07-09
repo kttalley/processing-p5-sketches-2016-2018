@@ -1,0 +1,1351 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        let knight = function(x,y,size){
+    translate(x,y);
+    scale(size);
+    fill(200);
+    rect(650,400,100,100);
+    rect(300,400,100,100);
+    rect(400,400,250,300);
+    rect(400,200,250,200);
+    rect(600,700,50,150);
+    rect(400,700,50,150);
+    rect(650,500,50,150);
+    rect(350,500,50,150);
+    fill(250,0,0);
+    rect(500,100,50,100);
+    rect(550,50,50,100);
+    rect(600,50,50,50);
+    fill(0,0,0);
+    rect(500,300,50,100);
+    rect(450,250,50,50);
+    rect(550,250,50,50);
+    rect(350,850,100,50);
+    rect(600,850,100,50);
+    resetMatrix();
+};
+
+var hallway1 = function (){
+    background(255);
+    noStroke();
+    fill(0);
+    rect(50,50,1200,750);
+    fill(0,51,0);
+    rect(50,350,25,100);
+    rect(1175,350,25,100);
+    fill(180,140,140);
+    rect(75,350,1100,100);
+    rect(50,300,1150,50);
+    rect(50,450,1150,50);
+    if(CharX < 50){
+        CharX = 50;
+    }
+    if(CharX > 1150){
+        CharX = 1150;
+    }
+    if(CharY < 300){
+        CharY = 300;
+    }
+    if(CharY > 400){
+        CharY = 400;
+    }
+    resetMatrix();
+};
+    
+var smallrm1 = function (){
+    background(255);
+    fill(0);
+    rect(50,50,1200,750);
+    fill(225);
+    rect(200,150,850,400);
+    fill(0,51,0);
+    rect(200,400,25,100);
+    rect(900,525,100,25);
+    fill(250);
+    rect(450,300,100,100);
+    knight(CharX,CharY,0.1);
+    fill(0);
+    resetMatrix();
+
+    if(CharX < 200){
+        CharX = 200;
+    }
+    if(CharX > 950){
+        CharX = 950;
+    }
+    if(CharY < 150){
+        CharY = 150;
+    }
+    if(CharY > 450){
+        CharY = 450;
+    }
+    
+    if(CharX > 380 && CharX < 400){
+       if(CharY > 200 && CharY < 400){
+       CharX = 380;
+   }
+   }
+    if(CharX > 350 && CharX < 550){
+      if(CharY > 200 && CharY < 210){
+        CharY = 200;
+    }
+    }
+    if(CharX > 480 && CharX < 520){
+        if(CharY > 250 && CharY < 400){
+        CharX = 520;
+            
+    }
+    }
+    if(CharX > 400 && CharX < 500){
+    if(CharY < 400 && CharY > 300){
+        CharY = 400;
+    }
+    }
+    
+ 
+    resetMatrix();
+    
+    
+    };
+
+var spawn = function (){
+        fill(0,0,0);
+        rect(50,50,1300,800);
+        fill(110,110,110);
+        rect(250,250,750,350);
+        fill(0,51,0);
+        rect(750,575,100,25);
+        rect(975,350,25,100);
+        rect(550,250,100,25);
+        rect(250,300,25,100);
+        fill(255,255,0);
+        rect(600,400,50,100);
+        if(CharX < 250){
+            CharX = 250;
+        }
+        if(CharX > 900){
+            CharX = 900;
+        }
+        if(CharY < 250){
+            CharY = 250;
+        }
+        if(CharY > 500){
+            CharY = 500;
+        }
+    };
+
+var hallway2 = function (){
+    noStroke();
+    fill(0);
+    rect(50,50,1300,1200);
+    fill(225);
+    rect(850,50,200,650);
+    rect(50,500,800,200);
+    fill(0,51,0);
+    rect(900,50,100,25);
+    rect(50,550,25,100);
+    resetMatrix();
+    
+
+    if (CharX < 850 && CharY < 500){
+        CharX = 850;
+    }
+    if (CharX > 950){
+        CharX = 950;
+    }
+    if (CharY < 0){
+        CharY = 0;
+    }
+    if (CharY > 600){
+        CharY = 600;
+    }
+    };
+
+var smallrm2 = function(){
+    noStroke();
+    fill(0);
+    rect(50,50,1200,1200);
+    fill(225);
+    rect(350,150,500,600);
+    fill(0,51,0);
+    rect(825,600,25,100);
+    rect(350,200,25,100);
+    
+    if(CharX < 350){
+        CharX = 350;
+    }
+    if(CharX > 750){
+        CharX = 750;
+    }
+    if(CharY < 150){
+        CharY = 150;
+    }
+    if(CharY > 650){
+        CharY = 650;
+    }
+    };
+
+var bigrm1 = function(){
+    noStroke();
+    fill(0);
+    rect(50,50,1200,1200);
+    fill(110);
+    rect(100,100,1050,600);
+    fill(0,51,0);
+    rect(1125,150,25,100);
+    rect(500,100,100,25);
+    rect(100,350,25,100);
+    
+     if(CharX < 100){
+        CharX = 100;
+    }
+    if(CharX > 1100){
+        CharX = 1100;
+    }
+    if(CharY > 600){
+        CharY = 600;
+    }
+    if(CharY < 100){
+        CharY = 100;
+    }
+       
+    resetMatrix();
+    };
+
+var hallway3 = function(){
+    noStroke();
+    fill(0);
+    rect(50,50,1300,1300);
+    fill(225);
+    rect(400,250,200,550);
+    rect(600,250,600,200);
+    fill(0,51,0);
+    rect(450,775,100,25);
+    rect(1175,300,25,100);
+    if(CharX < 400){
+        CharX = 400;
+    }
+    if(CharX > 1150){
+        CharX = 1150;
+    }
+    if(CharX > 500 && CharY > 350){
+        CharX = 500;
+    }
+    if(CharY < 250){
+        CharY = 250;
+    }
+    };
+
+var bigrm2 = function(){
+    fill(0);
+    rect(50,50,1350,900);
+    fill(220);
+    rect(100,100,1150,700);
+    fill(0,51,0);
+    rect(550,775,100,25);
+    rect(650,100,100,25);
+    rect(150,775,100,25);
+     if(CharY < 100){
+         CharY = 100;
+     }
+    if(CharX < 100){
+         CharX = 100;
+     }
+    if(CharX > 1150){
+         CharX = 1150;
+      
+     }
+     if(CharY > 700){
+         CharY = 700;
+     }
+    };
+
+var bossrm = function(){
+        fill(0);
+    rect(50,50,1350,1350);
+    fill(90);
+    rect(100,100,1150,600);
+    fill(0,51,0);
+    rect(650,675,100,25);
+    if(CharY < 100){
+          CharY = 100;
+      }
+      if(CharX < 100){
+          CharX = 100;
+      }
+      if(CharX > 1150){
+          CharX = 1150;
+          
+      }
+      if(CharY > 600){
+          CharY = 600;
+      }
+        }; 
+
+var smallrm3 = function(){
+        fill(0);
+    rect(50,50,1350,1350);
+    fill(90);
+    rect(300,200,750,650);
+    fill(0,51,0);
+    rect(1025,300,25,100);
+    if(CharY < 200){
+      CharY = 200;
+  }
+  if(CharX < 300){
+      CharX = 300;
+  }
+  if(CharX > 950){
+      CharX = 950;
+      
+  }
+  if(CharY > 750){
+      CharY=750;
+  }
+    };
+
+var itemrm = function(){
+    fill(0);
+    rect(50,50,1350,850);
+    fill(100);
+    rect(250,250,850,450);
+    fill(0,51,0);
+    rect(1075,400,25,100);
+    fill(140);
+    rect(600,500,150,25);
+    rect(625,475,100,25);
+    if (CharY + 85 > 475 && CharY + 85 < 500 && CharX + 50 > 625 && CharX + 50 < 725){
+        CharY = 390;
+    }
+    if (CharY + 85 > 500 && CharY + 85 < 525 && CharX + 50 > 600 && CharX + 50 < 750){
+        CharY = 410;
+    }
+    if (CharY < 525 && CharY > 500 && CharX > 600 && CharX < 750){
+        CharY = 525;
+    }
+    
+  if(CharY < 250){
+      CharY = 250;
+  }
+  if(CharX < 250){
+      CharX = 250;
+  }
+  if(CharX > 1025){
+      CharX = 1025;
+      
+  }
+  if(CharY > 600){
+      CharY = 600;
+  }
+
+  
+  
+    };
+    
+var hallway4 = function(){
+    fill(0);
+    rect(50,50,1300,850);
+    fill(110);
+    rect(600,50,200,800);
+    fill(0,51,0);
+    rect(650,50,100,25);
+    rect(650,825,100,25);
+  if(CharY < 50){
+      CharY = 50;
+  }
+
+  if(CharX < 600){
+      CharX = 600;
+  }
+  if(CharX > 700){
+      CharX = 700;
+      
+  }
+  if(CharY > 850){
+      CharY = 850;
+  }
+    };
+var heartrm = function(){
+    fill(0);
+    rect(50,50,1350,850);
+    fill(110);
+    rect(300,300,750,400);
+    fill(0,51,0);
+    rect(625,300,100,25);
+    fill(250,0,0);
+    rect(575,450,200,150);
+    fill(255,255,0);
+    rect(625,475,100,100);
+  if(CharY < 300){
+      CharY = 300;
+  }
+  if(CharX < 300){
+      CharX = 300;
+  }
+  if(CharX > 950){
+      CharX = 950;
+  }
+  if(CharY > 600){
+      CharY = 600;
+  }
+   if(CharX > 575 && CharX < 725){
+       if(CharY > 450){
+          HP = 200;
+       }
+        } 
+   
+    };
+var spiderObj = {
+    HP: 200,
+    SpeedX: 5,
+    SpeedY: 5,
+    x: 750,
+    y: 250,
+    display: function(){
+        
+        translate(this.x,this.y);
+        scale(0.2);
+        fill(0,0,0);
+        rect(350,250,250,200);
+        rect(600,400,100,50);
+        rect(700,450,50,100);
+        rect(250,400,100,50);
+        rect(200,450,50,100);
+        rect(550,450,50,50);
+        rect(600,500,50,50);
+        rect(350,450,50,50);
+        rect(300,500,50,50);
+        rect(600,350,50,50);
+        rect(650,300,100,50);
+        rect(150,350,50,50);
+        rect(800,400,50,150);
+        rect(300,350,50,50);
+        rect(200,300,100,50);
+        rect(750,350,50,50);
+        rect(100,400,50,150);
+        fill(250,0,0);
+        rect(400,300,50,50);
+        rect(500,300,50,50);
+        triangle(400,400,450,400,425,450);
+        triangle(500,400,550,400,525,450);
+        resetMatrix();
+        },
+    moves: function(){
+        this.x = this.x + this.SpeedX;
+        this.y = this.y + this.SpeedY;
+    if(this.x < 100){
+        this.SpeedX = -this.SpeedX;
+    }
+    if(this.x > 950){
+        this.SpeedX = -this.SpeedX;
+    }
+    
+    if(this.y > 450){
+        this.SpeedY = -this.SpeedY;
+    }
+    if(this.y < 100){
+        this.SpeedY = -this.SpeedY;
+    }
+    },
+    HPbar: function(){
+    fill(255,0,0);
+    rect(this.x,this.y-10,this.HP,20);
+    }
+};
+var skeleton = function(x,y,size){
+        translate(x,y);
+        scale(size);
+        fill(255,255,153);
+        rect(500,250,450,300);
+        rect(550,200,350,50);
+        rect(600,550,250,200);
+        fill(0);
+        rect(550,300,150,150);
+        rect(750,300,150,150);
+        rect(650,500,50,100);
+        rect(750,500,50,100);
+        rect(650,675,20,75);
+        rect(700,675,20,75);
+        rect(775,675,20,75);
+        rect(740,675,20,75);
+        fill(255,0,0);
+        rect(600,350,50,50);
+        rect(800,350,50,50);
+        resetMatrix();
+    };
+var ghost = function (x,y,size){
+    translate(x,y);
+    scale(size);   
+    fill(230,230,240);
+    rect(350,250,250,250);
+    rect(400,200,150,50);
+    rect(350,500,50,50);
+    rect(450,500,50,50);
+    rect(550,500,50,50);
+    fill(230,0,0);
+    rect(400,300,50,50);
+    rect(500,300,50,50);
+    resetMatrix();
+};
+var gatekeeperObj = {
+    HP : 600,
+    SpeedX: 3,
+    x: 300,
+    y: 200,
+    
+    display: function(){
+    translate(this.x,this.y);
+    scale(0.2);
+    fill(0,0,50);
+    rect(550,400,350,250);
+    rect(500,300,100,150);
+    rect(850,300,100,150);
+    rect(650,300,150,100);
+    rect(700,150,50,150);
+    rect(550,200,50,100);
+    rect(850,200,50,100);
+    rect(450,700,550,550);
+    rect(300,650,150,50);
+    rect(1000,650,150,50);
+    rect(1000,700,200,150);
+    rect(250,700,200,150);
+    rect(450,1300,550,100);
+    rect(500,1400,450,50);
+    rect(900,1500,150,200);
+    rect(400,1500,150,200);
+    rect(900,1800,150,150);
+    rect(1050,1850,100,100);
+    rect(400,1800,150,150);
+    rect(300,1850,100,100);
+    rect(1050,1200,100,100);
+    rect(300,1200,100,100);
+    fill(0);
+    rect(1050,850,100,350);
+    rect(300,850,100,350);
+    rect(500,1250,450,50);
+    rect(900,1700,150,100);
+    rect(400,1700,150,100);
+    rect(950,1400,50,100);
+    rect(900,1450,50,50);
+    rect(500,1450,50,50);
+    rect(450,1400,50,100);
+    rect(800,450,50,100);
+    rect(750,500,50,100);
+    rect(600,450,50,100);
+    rect(650,500,50,100);
+    rect(600,650,250,50);
+    resetMatrix();
+    },
+    
+    moves: function(){
+    this.x = this.x + this.SpeedX;
+    
+    if(this.x < 100){
+        this.SpeedX = -this.SpeedX;
+    }
+    if(this.x > 1250){
+        this.SpeedX = - this.SpeedX;
+    }
+    },
+    
+    HPbar: function (){
+    fill(255,0,0);
+    rect(100,750,this.HP,50);
+    },
+    };
+var theforgottenObj = {
+    HP: 500,
+    x: 600,
+    y: 300,
+    
+    display: function(){
+    
+    translate(this.x,this.y);
+    scale(size);
+    fill(30);
+    rect(700,100,250,400);
+    rect(750,50,150,50);
+    rect(750,500,150,50);
+    rect(200,550,50,150);
+    rect(1400,550,50,150);
+    fill(80);
+    rect(650,550,350,600);
+    rect(700,1150,250,50);
+    rect(750,1200,150,50);
+    rect(800,1250,50,50);
+    rect(1000,550,400,150);
+    rect(250,550,400,150);
+    rect(600,1150,450,50);
+    rect(550,1200,550,50);
+    rect(500,1250,650,100);
+    fill(250,250,130);
+    rect(900,200,50,250);
+    rect(850,200,50,150);
+    fill(250);
+    rect(850,250,100,50);
+    fill(0);
+    rect(850,250,50,50);
+    resetMatrix();
+    },
+    
+    HPbar: function(){
+    fill(255,0,0);
+    rect(100,750,this.HP,50);
+    },
+    };
+var spiderqueenObj = {
+    HP:300,
+    SpeedX:7,
+    SpeedY:7,
+    x:150,
+    y:150,
+    
+    display: function(){
+    translate(x,y);
+    scale(size);
+    fill(0);
+    rect(750,250,400,50);
+    rect(1150,300,50,250);
+    rect(700,300,50,250);
+    rect(750,550,400,50);
+    rect(750,300,400,250);
+    rect(1150,600,50,50);
+    rect(1200,650,50,100);
+    rect(700,600,50,50);
+    rect(650,650,50,100);
+    rect(1200,450,100,50);
+    rect(1300,500,50,50);
+    rect(1350,550,50,150);
+    rect(600,450,100,50);
+    rect(550,500,50,50);
+    rect(500,550,50,150);
+    rect(1200,400,50,50);
+    rect(1250,350,50,50);
+    rect(1300,300,100,50);
+    rect(1400,350,50,50);
+    rect(1450,400,50,200);
+    rect(650,400,50,50);
+    rect(600,350,50,50);
+    rect(500,300,100,50);
+    rect(450,350,50,50);
+    rect(400,400,50,200);
+    fill(250,250,0);
+    rect(850,200,200,50);
+    rect(1000,150,50,50);
+    rect(850,150,50,50);
+    rect(925,150,50,50);
+    fill(250,30,0);
+    rect(800,300,50,50);
+    rect(850,350,50,50);
+    rect(1050,300,50,50);
+    rect(1000,350,50,50);
+    fill(250);
+    triangle(850,500,950,500,900,600);
+    triangle(950,500,1050,500,1000,600);
+    resetMatrix();
+    },
+    
+    moves: function(){
+    this.x = this.x + this.SpeedX;
+    this.y = this.y + this.SpeedY;
+    
+    if(this.x < 100){
+        this.SpeedX = -this.SpeedX;
+    }
+    if(this.x > 1250){
+        this.SpeedX = -this.SpeedX;
+    }
+    if(this.y < 100){
+        this.SpeedY = -this.SpeedY;
+    }
+    if(this.y > 700){
+        this.SpeedY = -this.SpeedY;
+    }
+    },
+    
+    HPbar: function(){
+    fill(255,0,0);
+    rect(100,750,this.HP,50);
+    },
+    };
+var thebetrayedbodyObj = {
+    x:550,
+    y:200,
+    display:function(){
+    translate(x,y);
+    scale(size);
+    fill(10);
+    rect(500,300,600,600);
+    rect(700,250,200,50);
+    rect(350,200,200,200);
+    rect(1050,200,200,200);
+    rect(900,900,200,300);
+    rect(1100,1100,100,100);
+    rect(500,900,200,300);
+    rect(400,1100,100,100);
+    rect(1150,650,100,100);
+    rect(350,650,100,100);
+    fill(40);
+    rect(500,750,600,50);
+    rect(775,350,50,200);
+    rect(725,400,150,50);
+    fill(60);
+    rect(1150,400,100,250);
+    rect(350,400,100,250);
+    fill(0,51,0);
+    rect(1250,675,400,50);
+    fill(0);
+    rect(1650,725,50,50);
+    rect(1700,775,50,50);
+    rect(1750,825,50,50);
+    rect(1800,875,50,50);
+    rect(1850,925,100,100);
+    resetMatrix();
+    },
+    };
+var thebetrayedheadObj = {
+    HP:450,
+    SpeedX:5,
+    SpeedY:5,
+    x:550,
+    y:100,
+    
+    display:function(){
+    translate(x,y);
+    scale(size);
+    fill(100);
+    rect(500,250,450,300);
+    rect(550,200,350,50);
+    rect(600,550,250,200);
+    fill(0);
+    rect(550,300,150,150);
+    rect(750,300,150,150);
+    rect(650,500,50,100);
+    rect(750,500,50,100);
+    rect(650,675,20,75);
+    rect(700,675,20,75);
+    rect(775,675,20,75);
+    rect(740,675,20,75);
+    fill(255,0,0);
+    rect(600,350,50,50);
+    rect(800,350,50,50);
+    resetMatrix();
+    },
+    
+    
+    };
+var generalssword = function(x,y,size){
+    noStroke();
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(51,51,0);
+    rect(10,10,1,2);
+    rect(8,9,5,1);
+    fill(60);
+    rect(9,2,3,7);
+    rect(10,1,1,1);
+    resetMatrix();
+    };
+var crownofthefallenprince = function (x,y,size){
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(255,255,0);
+    rect(6,6,9,2);
+    rect(6,5,2,1);
+    rect(9,5,3,1);
+    rect(13,5,2,1);
+    rect(6,4,1,1);
+    rect(10,4,1,1);
+    rect(14,4,1,1);
+    fill(255,0,0);
+    rect(7,6,1,1);
+    rect(10,6,1,1);
+    rect(13,6,1,1);
+    resetMatrix();
+    };
+var scepterofthecourtwizard = function(x,y,size){
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(255,255,0);
+    rect(8,4,1,8);
+    rect(7,1,3,3);
+    fill(0,0,250);
+    rect(7,2,1,1);
+    rect(9,2,1,1);
+    rect(8,3,1,1);
+    rect(8,1,1,1);
+    resetMatrix();
+    };
+var armorofthedead = function(x,y,size){
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(20);
+    rect(6,3,4,6);
+    rect(5,2,2,2);
+    rect(9,2,2,2);
+    resetMatrix();
+    };
+var inventory = function(x,y){
+    translate(x,y);
+    scale(size);
+    background(0);
+    fill(0,0,153);
+    rect(50,50,1300,800);
+    fill(60);
+    rect(850,100,150,250);
+    rect(550,150,150,150);
+    rect(350,150,150,150);
+    rect(150,150,150,150);
+    rect(100,400,100,100);
+    rect(250,400,100,100);
+    rect(400,400,100,100);
+    rect(550,400,100,100);
+    rect(700,400,100,100);
+    rect(850,400,100,100);
+    rect(1000,400,100,100);
+    rect(1150,400,100,100);
+    rect(100,550,100,100);
+    rect(250,550,100,100);
+    rect(400,550,100,100);
+    rect(550,550,100,100);
+    rect(700,550,100,100);
+    rect(850,550,100,100);
+    rect(1000,550,100,100);
+    rect(1150,550,100,100);
+    rect(100,700,100,100);
+    rect(250,700,100,100);
+    rect(400,700,100,100);
+    rect(550,700,100,100);
+    rect(700,700,100,100);
+    rect(850,700,100,100);
+    rect(1000,700,100,100);
+    rect(1150,700,100,100);
+    fill(0);
+    rect(50,360,1300,15);
+    rect(1225,75,50,50);
+    fill(250);
+    textSize(50);
+    text("X",1235,120);
+    resetMatrix();
+    };
+var swordUP = function(x,y,size){
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(0,51,0);
+    rect(950,1400,50,100);
+    rect(850,1350,250,50);
+    fill(200);
+    rect(900,1000,150,350);
+    rect(950,950,50,50);
+    resetMatrix();
+    };
+var swordDOWN = function(x,y,size){
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(0,51,0);
+    rect(500,950,50,100);
+    rect(400,1050,250,50);
+    fill(200);
+    rect(450,1100,150,350);
+    rect(500,1450,50,50);
+    resetMatrix();
+    };
+var swordRIGHT = function(x,y,size){
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(0,51,0);
+    rect(400,700,100,50);
+    rect(500,600,50,250);
+    fill(200);
+    rect(550,650,350,150);
+    rect(900,700,50,50);
+    resetMatrix();
+    };
+var swordLEFT = function(x,y,size){
+    translate(x,y);
+    scale(size);
+    noStroke();
+    fill(0,51,0);
+    rect(850,450,100,50);
+    rect(800,350,50,250);
+    fill(200);
+    rect(450,400,350,150);
+    rect(400,450,50,50);
+    resetMatrix();
+    };
+var swords = false; 
+var room = 0;
+var CharX = 575;
+var CharY = 400;
+var SpeedX = 5;
+var itemPositions = [];
+var SpeedY = 5;
+var SkelX = 500;
+var SkelY = 300;
+var Speed = 5;
+var bulletX = SkelX;
+var bulletY = SkelY;
+var equipped = [];
+var ghostX = 150;
+var ghostY = 150;
+var CHP = 200;
+var currentInv = [];
+var bosses = [
+    gatekeeperObj,
+    theforgottenObj,
+    spiderqueenObj,
+    [thebetrayedbodyObj, thebetrayedheadObj]
+];
+var chooseBoss = round(random(bosses.length - 1));
+var items = [
+        generalssword,
+        crownofthefallenprince,
+        scepterofthecourtwizard,
+        armorofthedead
+];
+var chooseItems = round(random(items.length - 1));
+var inv = false;
+var pressed = false;
+var spiders = 200;
+
+draw = function (){
+background(0);
+    //controls
+    {
+    if(keyIsDown(68)){
+            CharX=CharX+4;
+    } 
+    if(keyIsDown(65)){
+            CharX=CharX-4;
+    }
+    if(keyIsDown(83)){
+             CharY=CharY+4;
+    }
+    if(keyIsDown(87)){
+            CharY=CharY-4;
+    }
+
+    }
+    
+    if(room === 0){
+    spawn(0);
+    knight(CharX,CharY,0.1);
+    
+        if(CharX < 300 && CharY < 300){
+          room = 6;
+          CharX = 1000;
+          CharY = 300;
+        }
+        if(CharX > 850 && CharY > 300){
+            room = 1;
+            CharX = 200;
+            CharY = 300;
+        }
+        if(CharX > 550 && CharY < 275){
+            room = 7;
+            CharX = 650;
+            CharY = 650;
+        } 
+         
+         if(CharX > 750 && CharX < 850){
+             if(CharY > 450 && CharY < 600){
+                room = 12;
+              CharX = 650;
+              CharY = 150;
+             }
+         }
+    }
+    
+    if(room === 1){
+    hallway1();
+    knight(CharX,CharY,0.1);
+    
+        if(CharX < 100 && CharY > 350){
+            room = 0;
+            CharX = 800;
+            CharY = 350;
+        }
+        if(CharX > 1100 && CharY > 300){
+            room = 2;
+            CharX = 300;
+            CharY = 400;
+        }
+    }
+
+    if(room === 2){
+        smallrm1();
+        knight(CharX,CharY,0.1);
+        
+        if(CharX < 250 && CharY > 350){
+            room = 1;
+            CharX = 1000;
+            CharY = 350;
+        } 
+        if(CharY > 410 && CharX > 850){
+            room = 3;
+            CharX = 950;
+            CharY = 150;
+        }
+    spiderObj.display();
+    spiderObj.moves();
+    spiderObj.HPbar();
+    if(spiderObj.HP < 0){
+        spiderObj.x = 2000;
+        spiderObj.y = 2000;
+    }
+    
+    if(dist(spiderObj.x,spiderObj.y,CharX,CharY+20) < 50){
+        if(swords === true){
+        spiderObj.HP = spiderObj.HP - 20;
+         
+    }
+    }
+    
+    if(dist(spiderObj.x,spiderObj.y,CharX,CharY) < 20){
+        CHP = CHP - 2;
+    }
+    if(CHP < 0){
+        exit();
+    }
+    }
+    
+    if(room === 3){
+    hallway2();
+    knight(CharX,CharY,0.1);
+    
+    if(CharX < 950 && CharY < 100){
+        room = 2;
+        CharX = 850;
+        CharY = 400;
+    }
+    if(CharX < 100 && CharY > 550){
+        room = 4;
+        CharX = 750;
+        CharY = 600;
+    }
+    }
+    
+    if(room === 4){
+        smallrm2();
+        knight(CharX,CharY,0.1);
+        
+       if(CharX < 800 && CharY > 600){
+            room = 3;
+            CharX = 300;
+            CharY = 550;
+        }
+        if(CharX < 400 && CharY < 200){
+            room = 5;
+            CharX = 950;
+            CharY = 150;
+        }
+    }
+    
+    if(room === 5){
+    bigrm1();
+    knight(CharX,CharY,0.1);
+    
+    if(CharX > 1000 && CharY < 350){
+    room = 4;
+    CharX = 150;
+    CharY = 350;
+    }
+    if(CharX < 500 && CharY < 150){
+    room = 6;
+    CharX = 450;
+    CharY = 700;
+    }
+    if(CharX < 200 && CharY > 350){
+    room = 14;
+    CharX = 900;
+    CharY = 400;
+    }
+     
+    skeleton(SkelX,SkelY,0.2);
+    SkelY = SkelY + Speed;
+    if(SkelY > 500){
+       Speed = -Speed;
+    }
+    if(SkelY < 100){
+       Speed = -Speed;
+    }
+    ellipse(bulletX, bulletY, 20, 20);
+    bulletX = bulletX - 10;
+    if (bulletX < 100){
+        bulletX = SkelX;
+        bulletY = SkelY;
+    }
+    if(dist(bulletX,bulletY,CharX,CharY) < 50){
+        HP = HP - 5;
+    }
+        if(HP === 0){
+            exit();
+        }
+    }
+
+    if(room === 6){
+        hallway3();
+        knight(CharX,CharY,0.1);
+        
+        if(CharX < 550 && CharY > 700){
+            room = 5;
+            CharX = 500;
+            CharY = 200;
+        }
+        if(CharX > 1050 && CharY < 500){
+            room = 0;
+            CharX = 350;
+            CharY = 300;
+        }
+    }
+     
+    if(room === 7){
+        hallway4();
+        knight(CharX,CharY,0.1);
+    
+        if(CharX > 650 && CharY > 600){
+            room = 0;
+            CharX = 550;
+            CharY = 350;
+        }
+        if(CharX < 650 && CharY < 100){
+            room = 8;
+            CharX = 550;
+            CharY = 650;
+        }
+    }
+    
+    if(room === 8){
+    bigrm2();
+    knight(CharX,CharY,0.1);
+    
+        if(CharX < 550 && CharY > 725){
+            room = 7;
+            CharX = 650;
+            CharY = 150; 
+        }
+        if(CharX < 650 && CharY < 150){
+            room = 9;
+            CharX = 650; 
+            CharY = 550;
+        }
+        if(CharX < 150 && CharY < 750){
+            room = 10;
+            CharX = 900;
+            CharY = 200;
+        }
+        
+    ghost(ghostX,ghostY,0.3);
+    ghostX = ghostX + SpeedX;
+    if(x > 1300){
+        SpeedX = -SpeedX;
+    }
+    if(ghostX < 0){
+        SpeedX = -SpeedX;
+    }
+    ghostY = ghostY + SpeedY;
+    if(ghostY > 800){
+        SpeedY = -SpeedY;
+    }
+    if(ghostY < 0){
+        SpeedY = -SpeedY;
+    }
+    if(dist(ghostX,ghostY,CharX,CharY) < 50){
+        HP = HP - 5;
+    }
+    if(HP === 0){
+        exit();
+    }
+        
+    }
+    
+    if(room === 9){
+        bossrm();
+        knight(CharX,CharY,0.1);
+        
+        if (bosses[chooseBoss][0] == thebetrayedbody){
+            bosses[chooseBoss][0](300, 300, 0.2);
+            bosses[chooseBoss][1](400,200,0.2);
+        
+        }
+        else if (bosses[chooseBoss] == gatekeeperObj){
+            bosses[chooseBoss].display();
+        }
+            
+        
+        else{
+            bosses[chooseBoss](300,200,0.2);
+        }
+    }
+    
+    if(room === 10){
+    hallway2();
+    knight(CharX,CharY,0.1);
+    
+         if(CharX < 900 && CharY < 150){
+             room = 8;
+             CharX = 150;
+             CharY = 650;
+         }
+         if(CharX < 50 && CharY < 600){
+            room = 11;
+            CharX = 900;
+            CharY = 300;
+         }
+         }
+
+    if(room === 11){
+    smallrm3();
+    knight(CharX,CharY,0.1);
+    
+       if(CharY > 330 && CharX > 920){
+            room = 10;
+            CharX = 150;
+            CharY = 550;
+          }
+    }
+    
+    if(room === 12){
+    hallway4();
+    knight(CharX,CharY,0.1);
+    
+        if(CharX > 600 && CharX < 750){
+        if(CharY < 100){
+        room = 0;
+        CharX = 750;
+        CharY = 450;
+        }
+        }
+        if(CharX > 650 && CharX < 750){
+        if(CharY > 650 && CharY < 850){
+        room = 13;
+        CharX = 625;
+        CharY = 350;
+        }
+        }
+    }
+    
+    if(room === 13){
+    heartrm();
+    knight(CharX,CharY,0.1);
+    
+        if(CharX > 600 && CharX < 750){
+        if(CharY < 350){
+        room = 12;
+        CharX = 650;
+        CharY = 650;
+        }
+        }
+        }
+    
+    if(room === 14){
+    itemrm();
+    knight(CharX,CharY,0.1);
+    if(CharX > 950 && CharX < 1100){
+    if(CharY > 350 && CharY < 500){
+    room = 5;
+    CharX = 200;
+    CharY = 350;
+    }
+    }
+    
+    if (currentInv.length === 0){
+        items[chooseItems](600,350,8);
+    }
+
+    if (CharX > 575 && CharX < 655){
+       if (CharY > 350 && CharY < 550){
+           if (!currentInv.includes(items[chooseItems])){
+               currentInv.push(items[chooseItems]);
+              
+           }
+       }
+   }
+
+    }
+ 
+    //HP system
+    {fill(255,0,0);
+     rect(50,100,CHP,50);
+     fill(255);
+     textSize(20);
+     text(CHP,50,150);
+     if(CHP > 200){
+         CHP = 200;
+    }
+}
+
+    if(keyIsDown(73)){
+             inv = true;
+    }
+    
+    if (inv === true){
+        inventory(0,0);
+        
+        if(mouseX > 1225 && mouseX < 1275){
+            if(mouseY > 75 && mouseY < 125){
+                if (mouseIsPressed){
+                    inv = false;
+                }
+                
+            }
+        }
+
+
+        for (var i = 0; i < currentInv.length; i++){
+            currentInv[i](75, 400, 8);
+        }
+        
+        for (var j = 0; j<equipped.length; j++){
+            equipped[j](150, 150, 8);
+        }
+        
+           if (mouseX > 100 && mouseX < 200){
+                if(mouseY > 400 && mouseY < 500){
+                    if (currentInv.length > 0){
+                        if (mouseIsPressed){
+                            if (!equipped.includes(currentInv[0])){
+                                equipped.push(currentInv[0]);
+                                
+                            }
+                            
+                        }
+                    }
+                }
+       
+            }
+
+    }
+    
+    //sword mechanics
+    {
+    if((keyIsDown(38))){
+        swordUP(CharX - 40, CharY - 150, 0.1);
+        swords = true;
+    }
+    if((keyIsDown(40))){
+        swordDOWN(CharX,CharY,0.1);
+    }
+    if((keyIsDown(39))){
+        swordLEFT(CharX - 75,CharY,0.1);
+    }
+    if((keyIsDown(37))){
+        swordRIGHT(CharX + 50,CharY - 20,0.1);
+    }}
+
+};
+        
+    </script>
+</html>

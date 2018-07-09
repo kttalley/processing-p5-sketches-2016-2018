@@ -1,0 +1,75 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup(){
+            createCanvas(1000,1000);
+        }
+        function draw() {
+            var tileSize = 50;
+var player = '@';
+var tile = 'x';
+var block = '0';
+
+var map = [
+  [block,player,block,block,block,block,block], 
+  [block,tile,tile,tile,tile,tile,block], 
+  [block,tile,tile,tile,tile,tile,block], 
+  [block,tile,tile,tile,tile,tile,block], 
+  [block,tile,tile,tile,tile,tile,block], 
+  [block,tile,tile,tile,tile,tile,block], 
+  [block,block,block,block,block,block,block], 
+    ];
+function toXY(i) {
+    return i * tileSize;
+}
+
+function drawTile (i, j , tile) {
+    var x = toXY(i);
+    var y = toXY(j);
+    if (tile) {
+        /*
+        fill(100);
+        rect(x, y, tileSize, tileSize);
+        */
+        textSize(tileSize);
+        fill(100);
+        text(tile,x,y);
+    }
+    if (block) {
+        textSize(tileSize);
+        fill(255);
+        text(block,x,y);
+    }
+    if (player) {
+        textSize(24);
+        fill(255,0,0);
+        text(player,x,y);
+    }
+}
+
+function drawMap () {
+    for(var i = 0; i < map.length; i++) {
+        for(var j = 0; j < map[i].length; j++ ) {
+            drawTile(i, j, map[i][j]);
+        }
+    }
+}
+
+draw = function () {
+  /*
+     // the outer for loop draws the levels in the array
+    for (var i=0; i<map[i].length; i++){
+        // the inner for loop draws the spots in each level
+        for (var j=0; j<map[j].length; j++){
+           //text()
+        }
+    }    
+*/
+drawMap();
+
+};
+        }
+
+    </script>
+</html>

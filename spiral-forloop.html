@@ -1,0 +1,41 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        var sizes; 
+var width;
+var height;
+
+function setup() {
+    createCanvas(1000,1000);
+    noFill();
+    sizes = [];
+    width = 1000;
+    height = 1000;
+    background(100,200,200);
+    for (var s = 0; s < 100; s++){
+        var randomValue = random(5,1500);
+        sizes.push(randomValue);
+    }
+}
+function hypno (x, y, r) {
+    var rRate = 0;
+    rRate = rRate + r;
+    translate(x,y);
+    rotate(rRate);
+    for (var i = 0; i < sizes.length; i++){
+        ellipse(0,0, sizes[i],sizes[i]);
+    }
+    resetMatrix();
+}    
+var ro;
+draw = function () {
+    stroke(mouseY/100*mouseX/100,mouseY/2,mouseX/4);
+    background(mouseX/4,mouseY/2,mouseX/100*mouseY/100);
+   // ro = ro+ 0.1;
+    translate(600,550);
+    //rotate(ro);
+    hypno (0,0,0.1);
+};
+    </script>
+</html>

@@ -1,0 +1,111 @@
+<html>
+<script src = "lib/p5.js"></script>
+
+<script>
+new p5 ();
+function setup () {
+    createCanvas(1000,1000);
+}
+var tileSize = 100;
+//map[0] is first row
+//map[1] is second
+//map[2] is third etc.
+
+//map[i] is number of rows
+//map[j] is number of characters??
+var map1 = [
+    [1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,0,0,1,1,1,0,0,1],
+    [1,1,1,1,0,0,0,1,1,0,0,1],
+    [1,1,1,1,0,0,0,1,0,0,0,1],
+    [1,1,1,1,1,1,1,1,0,0,0,1],
+    [1,1,0,0,0,1,1,0,0,0,0,1],
+    [1,1,0,0,0,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1]
+    
+    
+    
+    ];
+    
+var map2 = [
+    [0,1,0,0,0,0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0]
+    
+    
+    
+    ];
+    
+var map3 = [
+    [0,1,0,0,0,0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,1,1,1,0],
+    [0,1,0,0,1,0,0,0,1,1,1,0],
+    [0,1,0,0,1,0,0,0,1,1,1,0],
+    [0,1,1,1,1,1,1,1,1,1,1,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0]
+    
+    
+    
+    ];
+
+
+function toXY(i) {
+    return i * 100;
+}
+
+function drawTile(i, j, tile) {
+    var x = toXY(i);
+    var y = toXY(j);
+    if (tile) {
+        fill(100);
+        rect(x, y, tileSize, tileSize);
+    } else {
+        fill(255);
+        rect(x,y,tileSize, tileSize);
+    }
+}
+//.length denotes row
+//map[i].length denotes number of characters
+function drawMap1() {
+    for(var i = 0; i < map1.length; i++) {
+        for( var j = 0; j < map1[3].length; j++) {
+            drawTile(j,i, map1[i][j]);
+        }
+    }
+}
+
+function drawMap2() {
+    for(var i = 0; i < map2.length; i++) {
+        for( var j = 0; j < map2[i].length; j++) {
+            drawTile(j,i, map2[i][j]);
+        }
+    }
+}
+
+function drawMap3() {
+    for(var i = 0; i < map3.length; i++) {
+        for( var j = 0; j < map3[i].length; j++) {
+            drawTile(j,i, map3[i][j]);
+        }
+    }
+}
+
+function player(x,y,size){
+    rect(x,y,size,size);
+}
+
+draw = function () {
+    background(0);
+    noStroke();
+//drawMap1();
+drawMap2();
+};
+</script>
+</html>

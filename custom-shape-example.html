@@ -1,0 +1,50 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        var pent = function(x,y){
+    push();
+  translate(x,y);
+  
+  beginShape();
+vertex(600+x,400+y);
+vertex(650+x,355+y);
+vertex(750+x,355+y);
+vertex(800+x,400+y);
+
+endShape();  
+pop();
+};
+draw = function () {
+    background(0);
+    //beginShape();
+bezier(350,150,320,200,290,220,301,255);
+bezier(550,250,750,350,741,240,700,200);
+bezier(500,250,440,315,400,275,350,250);
+//ndShape();
+
+beginShape();
+
+vertex(30, 20);
+
+bezierVertex(80, 0, 80, 75, 30, 75);
+
+//bezierVertex(50, 80, 60, 25, 30, 20);
+
+endShape();
+
+beginShape();
+vertex(600,400);
+vertex(650,355);
+vertex(750,355);
+vertex(800,400);
+
+endShape();
+
+pent(500,700);
+};
+    </script>
+</html>

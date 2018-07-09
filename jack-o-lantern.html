@@ -1,0 +1,121 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        function jack(x,y,s){
+    translate(x,y);
+    noStroke();
+    scale(s+glow/2);
+    //cast shadow
+    fill(220,50);
+   // ellipse(35,15,100,30);
+    //pumpkin body
+    fill(21,123,72);
+    rect(-5,-40,12,50,0,255,0,0);
+    fill(51,153,102);
+    rect(-10,-40,12,50,0,255,0,0);
+
+    fill(255,153,0);
+    ellipse(-20,0,60,55);
+    fill(220,120,0);
+    ellipse(-15,0,60,52);
+    fill(255,153,0);
+    ellipse(-10,0,60,52);
+    fill(255,153,0);
+    ellipse(20,0,60,55);
+    fill(220,120,0);
+    ellipse(15,0,60,52);
+    fill(255,153,0);
+    ellipse(10,0,60,52);
+    fill(220,120,0);
+    ellipse(1,0,60,52);
+     fill(255,153,0);
+    ellipse(0,0,50,53);
+    
+    //mouth
+    fill(255,255,70-glow);
+    ellipse(0,10,45,20+glow/3);
+    fill(255,153,0);
+    ellipse(0,2,45,20);
+     fill(255,255,70,70-glow);
+    ellipse(0,16,50,15+glow/2);
+    fill(255,150,0);
+    beginShape();
+    vertex(-20,8);
+    vertex(20,8);
+    vertex(15,13);
+    vertex(13,13);
+    vertex(10,8);
+    endShape();
+    beginShape();
+    vertex(-40,10);
+    vertex(0,10);
+    vertex(-5,15);
+    vertex(-7,15);
+    vertex(-10,10);
+    endShape();
+    beginShape();
+    vertex(-30,10);
+    vertex(10,10);
+    vertex(5,15);
+    vertex(3,15);
+    vertex(0,10);
+    endShape();
+    beginShape();
+    vertex(-50,8);
+    vertex(-10,8);
+    vertex(-15,13);
+    vertex(-17,13);
+    vertex(-20,8);
+    endShape();
+    fill(255,255,60,50+glow/18);
+    ellipse(0,16,60,17+glow/2);
+    fill(255,255,60,20+glow/8);
+    ellipse(0,16,70,20);
+     fill(255,150,0);
+   // ellipse(0,10,20,5);
+    resetMatrix();
+}
+
+    var glow = 0;
+    var glowRate = 0.15;
+function glowing(x,y,s){
+    translate(x,y);
+    scale(s+glow/15);
+    noStroke();
+    //fill(0);
+    //ellipse(0,0,350,350);
+    fill(255,255,70,255-glow);
+    ellipse(0,0,120,120);
+    fill(255,255,70,202-glow);
+    ellipse(0,0,160+glow/3,160+glow/3);
+    fill(255,255,70,180+glow/2);
+    ellipse(0,0,200-glow/2,200-glow/2);
+    fill(255,255,70,125+glow/2);
+    ellipse(0,0,250+glow/2,250+glow/2);
+    fill(255,255,70,75-glow*2);
+    ellipse(0,0,320-glow,320-glow);
+    glow = glow + glowRate;
+    if(glow>50){
+        glowRate = -glowRate;
+    }
+    if(glow<0){
+        glowRate = -glowRate;
+    }
+    resetMatrix();
+    
+}
+
+
+
+draw = function () {
+    background(50+glow);
+    jack(500,350,2);
+    glowing(450,325,0.09);
+    glowing(550,325,0.09);
+};
+    </script>
+</html>

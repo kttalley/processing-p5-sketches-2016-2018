@@ -1,0 +1,190 @@
+<html>
+    <script src="lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(2000,2000);
+        }
+        var charx = 300;
+var chary = 500;
+var charspd = 5;
+var charhealth = 20;
+var timer = 0;
+var enemyx = 1850;
+var enemyy = 550;
+var enemyspd = 10;
+
+var inside1 = false;
+var inside2 = false;
+var inside3 = false;
+var inside4 = false;
+var inside5 = false;
+
+var underground1 = false;
+
+var outside = true;
+var swordx = 0;
+var swordy = 0;
+draw = function () {
+      if(dist(charx,chary,enemyx,enemyy)<50){
+            charhealth=charhealth - 1;
+        }
+        if(charhealth<1){
+            background(0);
+            text("you died",500,500);
+            exit();
+        }
+    if(outside === true){
+        noStroke();
+        background(20,150,200);
+        //platform
+        fill(100);
+        rect(0,100,1950,1950);
+        fill(255);
+        rect(150,150,1750,1750);
+        fill(200);
+        quad(150,150,50,450,50,1600,150,1900);
+         //buildings
+        fill(153,153,102);
+        rect(300,200,400,200,10);
+        fill(103,103,52);
+        triangle(300,200,500,150,700,200);
+        //door 1
+        fill(100);
+        rect(600,300,50,100);
+        if(dist(charx,chary,630,360)<40){
+            outside = false;
+            inside1 = true;
+        }
+    
+    
+        //character
+        fill(100);
+        rect(charx,chary,50,50);
+        if(mouseIsPressed){
+            swordx = charx+50;
+            swordy = chary;
+            rect(swordx,swordy,50,20);
+            if(dist(swordx,swordy,enemyx,enemyy)<50){
+               background(255,0,0);
+                
+    
+                enemyx = 1800;
+                enemyy = random(150,1000);
+                
+            }
+            else{
+                rotate(0.3);
+                pop();
+            }
+        }
+       if(keyIsPressed){
+             switch(key){
+              
+            case 'a':
+                charx = charx - charspd;
+                break;
+            case 'd':
+                charx = charx + charspd;
+                break;
+            case 'w':
+                chary = chary - charspd;
+                break;
+            case 's':
+              chary = chary + charspd;
+            }
+        } //char movement
+       
+      
+        
+        //enemy
+        fill(255,0,0,50);
+        ellipse(enemyx,enemyy,50,50);
+        enemyx = enemyx - enemyspd;
+        enemyy = enemyy +random(-10,10);
+        
+        if(enemyx<0){
+            enemyx = 1850;
+            enemyy = random(150,1900);
+        }
+    
+     
+        
+    }
+    
+    if(outside === false&&inside1 === true){
+        background(40);
+        //room
+        fill(255);
+        rect(100,100,650,350);
+        fill(175);
+        rect(100,100,650,50);
+        //door
+        fill(175);
+        rect(600,400,50,50);
+        //underground
+        fill(0);
+        ellipse(200,200,75,50);
+        if(dist(charx,chary,200,200)<20){
+            inside = false;
+            underground1 = true;
+        }
+        //char
+        fill(100);
+        rect(charx,chary,50,50);
+        if(keyIsPressed){
+             switch(key){
+              
+            case 'a':
+                charx = charx - charspd;
+                break;
+            case 'd':
+                charx = charx + charspd;
+                break;
+            case 'w':
+                chary = chary - charspd;
+                break;
+            case 's':
+              chary = chary + charspd;
+            }
+        } //char movement
+        
+        if(dist(charx,chary,600,450)<50){
+            outside = true;
+            inside1 = false;
+        }
+    }
+    
+    if(underground1===true&&inside===false){
+        //passageway
+        background(0);
+        fill(175);
+        rect(150,150,200,1000);
+        fill(75);
+        rect(charx,chary,50,50);
+        rect(350,950,1500,300);
+    }
+    
+    
+fill(0);
+textSize(36);
+text(outside,800,350);
+timer = timer + 1;
+//healthbar
+        fill(170,50,10);
+        rect(charx-50,chary-100,charhealth*10,30);
+if(timer>50){
+    fill(255,0,0,50);
+    timer = 0;
+    ellipse(enemyx,enemyy+random(500),50,50);
+    
+     //enemy
+        fill(255,0,0,50);
+        ellipse(enemyx,enemyy,50,50);
+        enemyx = enemyx - enemyspd;
+        enemyy = enemyy +random(-10,10);
+
+}
+};
+    </script>
+</html>

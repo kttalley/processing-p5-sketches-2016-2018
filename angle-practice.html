@@ -1,0 +1,50 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup() {
+            createCanvas(1000, 1000);
+        }
+        var angle = 0;
+
+
+var x = 500;
+var y  = 500;
+var speed = 10;
+var speedx = 0;
+var speedy = 0;
+
+var enx = 500;
+var eny = 50;
+var enspeed = 5;
+var enspeedy = 0;
+var enspeedx = 0;
+
+
+draw = function () {
+angle = atan((mouseX - enx) / (mouseY - eny));
+
+enx = cos(angle) * enspeed;
+enspeedy = sin(angle) * enspeed;
+
+enx = enx + enspeedx;
+eny = eny + enspeedy;
+
+
+if(mouseX*100 >= enx){
+    enx += enspeedx;
+    eny += enspeedy;
+}
+else{
+    enx = enx - enspeedx;
+}
+
+noStroke();
+noFill();
+ellipse(mouseX,mouseY,50,50);
+stroke(0);
+rect(enx, eny, 50, 50);
+};
+        
+    </script>
+</html>

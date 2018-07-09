@@ -1,0 +1,96 @@
+<html>
+  
+  <script src = "lib/p5.js"></script>
+  <script>
+      new p5();
+      function setup(){
+          createCanvas(1000,1000);
+      }  
+      function Bubble (x,y,sze,xspeed,yspeed){
+  this.x = x;
+  this.y = y;
+  this.sze = sze;
+  this.xspeed = xspeed;
+  this.yspeed = yspeed;
+  var pop = false;
+  var boop = 1;
+  var timer = 0;
+  var bubTimer = 0;
+  var bubPush = [];
+  this.floatn = function(){ //float is a global function
+    this.y = this.y - this.yspeed;
+    if(this.y < 700){
+        pop = false;
+    }
+    if(this.y < 200){
+        pop = true;
+    }
+    
+    if(timer < 200){
+        timer = timer + 1;
+        this.x = this.x + this.xspeed;
+    }
+    if(timer > 50){
+        this.xspeed = -this.xspeed*1.1;
+        this.sze = this.sze - 0.25;
+    }
+    if(timer > 100){
+        this.xspeed = -this.xspeed*1.1;
+        this.sze = this.sze - 0.5;
+    }
+    if(timer > 200){
+        timer = 0;
+    }
+  };
+  this.draw = function(){
+      
+    if(pop === false){
+        fill(170,200,255.15);
+      ellipse(this.x,this.y,this.sze,this.sze);
+      fill(255,255,255,200);
+      ellipse(this.x + this.sze/4,this.y-this.sze/7,this.sze/4,this.sze/4);
+      }
+     if(pop === true){
+        fill(255,255,255,150);
+        ellipse(this.x,this.y,this.sze*1.25,this.sze/2);
+        this.sze = this.sze+ boop;
+      }
+      
+  };
+  this.repo = function () {
+      if(this.y < 150){
+          this.y = 600;
+    }
+    bubTimer = bubTimer + 1;
+    if(bubTimer > 150){
+        
+    bubPush.push(new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+    new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)));
+    
+        
+    }
+    if(bubTimer > 450){
+        //bubPush.length =[];
+        //bubTimer = 0;
+    }
+      
+  };
+}
+
+var bubbles = [
+    new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+    new Bubble(random(150,800),600,random(10,100),random(-1,3),random(8)),
+    new Bubble(random(150,800),600,random(10,100),random(-3,3),random(8)),
+    new Bubble(random(150,800),600,random(10,100),random(-3,3),random(8))
+];
+draw = function () {
+    background(0,200,200);
+    for(var b = 0; b < bubbles.length; b++){
+        bubbles[b].draw();
+        bubbles[b].floatn();
+        bubbles[b].repo();
+        
+    }
+};
+    </script>
+</html>

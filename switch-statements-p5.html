@@ -1,0 +1,63 @@
+<html>
+    <script src="lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup() {
+            createCanvas(1000, 1000);
+}
+
+var x = 0;
+var y = 0;
+function draw() {
+// switch statements:
+// choose an action based on 
+// the value of a variable.
+
+// switch (myVar) {
+//      case *Value*:
+//          ... do something ...
+//          break;
+//      default:
+//          ... do something else ...
+// }
+
+// without break statement, other
+// cases can execute afterwards.
+// IE. the default case will always execute
+// if you're missing break statements
+    background(255);
+    rect(x,y,25,25);
+    if (keyIsDown(key)) {
+        switch (key) {
+            case 'a':
+                x = x -5;
+                rect(100,100,100,100);
+                break;
+            case 's':
+                y = y + 5;
+                ellipse(400,100,100,100);
+                break;
+            case 68:
+                x = x + 5;
+                rect(100,400,100,100);
+                break;
+            case 'w' :
+                y = y - 5;
+                break;
+                case 'q' :
+                    y = y - 5;
+                    x = x - 5;
+                    break;
+                    case 'e' :
+                        x = x + 5;
+                        y = y - 5;
+                        break;
+            default:
+                ellipse(400,400,100,100);
+        }
+    }
+
+}
+    
+    </script>
+</html>

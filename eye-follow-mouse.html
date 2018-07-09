@@ -1,0 +1,45 @@
+<html>
+  <script src = "lib/p5.js"></script>
+  <script>
+      new p5();
+      function setup(){
+          createCanvas(1000,1000);
+      }
+        var pupilx = 250;
+var pupily = 250;
+var speedx = 5;
+var speedy = 5;
+draw = function () {
+    background(100);
+fill(255);
+ellipse(250,250,350,350);
+fill(0);
+ellipse(pupilx,pupily,125,125);
+//pupilx = mouseX;
+if(pupilx<150){
+    pupilx = 150;
+}
+if(pupilx>310){
+    pupilx = 310;
+}
+if(pupily<120){
+    pupily = 120;
+}
+if(pupily>360){
+    pupily = 360;
+}
+if(pupilx<mouseX){
+    pupilx = pupilx + speedx;
+}
+if(pupilx>mouseX){
+    pupilx = pupilx - speedx;
+}
+if(pupily<mouseY){
+    pupily = pupily + speedy;
+}
+if(pupily>mouseY){
+    pupily = pupily - speedy;
+}
+};
+    </script>
+</html>

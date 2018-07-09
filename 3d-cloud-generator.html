@@ -1,0 +1,89 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        let cls, rws;
+        let sc = 10;
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        
+        let terrain = [];
+        
+        let flying = 0;
+        let terrainR = -100;
+        function setup () {
+            cls = width*2 / sc;
+            rws = height*2 / sc;
+            
+             
+        
+            for(let x = 0; x < cls; x++) {
+                terrain[x] = [];
+                for(let y = 0; y < rws - 1; y++) {
+                    terrain[x][y] = 0; //specify default value for now.
+                }
+            }
+            angleMode(DEGREES);
+            createCanvas(700,500,WEBGL);
+           
+            // noFill();
+           
+            // fill(255);
+        }
+        let glow = 0;
+        let glowRate = 1;
+       
+        function draw () {
+            glow = glow+glowRate;
+            terrainR += 1;
+            flying -= 0.1;
+            var yoff = flying;
+            for (var y = 0; y < rws; y++) {
+                var xoff = 0;
+                for (var x = 0; x < cls; x++) {
+                    terrain[x][y] = map(noise(xoff, yoff), 0, 1, -100, 100);
+                    xoff += 0.2;
+                }
+                yoff += 0.2;
+            }
+            background(50,100,200);
+            //sun
+        ambientLight(250);
+        translate(0,-750,-2800);
+        directionalLight(255,255,255,0,0,-2000);
+        // camera(mouseX,mouseY,camZ);
+        rotateX(frameCount * 0.02);
+        rotateY(frameCount * 0.01);
+        rotateZ(frameCount * 0.01);
+        specularMaterial(250,60-glow/2);
+        sphere(500+glow/2);
+        specularMaterial(250,250,0,90+glow/3);
+        sphere(400-glow/3);
+        specularMaterial(250,250,0,100+glow/2);
+        sphere(300-glow/2);
+        specularMaterial(250);
+        sphere(100);
+        resetMatrix();
+        // translate(0,750,-2000);
+        // camera(mouseX,mouseY,camZ);
+            // translate(width/2,height/2);
+            rotateX(95);
+            translate(-width,-height*2);
+            for(let y = 0; y < rws; y++) {
+                strokeWeight(0.25)
+            stroke(250,50);
+            fill(100,150);
+                beginShape(TRIANGLE_STRIP);
+                for(let x = 0; x < cls; x++) {
+                    // camera(0.0)
+                    // vertex(x*sc, y*sc,terrain[x][y]);
+                    // vertex(x*sc, (y+1)*sc, terrain[x][y+1]);
+                    vertex(x*sc, y*sc, terrain[x][y]);
+                    vertex(x*sc, (y+1)*sc, terrain[x][y+1]);
+                }
+                endShape();
+            }
+        }
+        
+    </script>
+</html>

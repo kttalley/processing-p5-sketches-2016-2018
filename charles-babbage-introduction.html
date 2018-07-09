@@ -1,0 +1,68 @@
+<hmtl>
+<script src = "lib/p5.js"></script>
+<script>
+function setup () {
+       createCanvas(1000,1000);
+}
+
+
+let timer = 0;
+let seconds = 0;
+draw = function () {
+    //background
+    background(255);
+    //character design
+    noStroke();
+    fill(200);
+    rect(300,600,250,400);
+    quad(400,500,300,600,550,600,450,500);
+    stroke(0);
+    fill(240);
+    quad(535,400,500,335,400,315,360,400);
+    fill(255);
+    rect(350,350,200,200,100,50);
+    //eyes
+    ellipse(400,450,25,25);
+    ellipse(550,450,25,25);
+    //mouth
+    fill(100);
+    rect(450,500,75,20,50);
+    //timer and timer display
+    timer = timer + 1;
+    if(timer > 60){
+        seconds = seconds + 1;
+        timer = 0;
+    }
+    fill(100);
+    textSize(24);
+    text("timer: "+timer, 150,50);
+    text("seconds: "+seconds, 150, 100);
+    
+    if(seconds>1){
+        noStroke();
+        fill(205);
+        triangle(550,525,600,475,600,550);
+        rect(575,375,400,200,100);
+    }
+    if(seconds>2){
+        fill(0);
+        text("Hello world,",650,450);
+    }
+     if(seconds>3){
+        fill(0);
+        text("my name is",790,450);
+    }
+      if(seconds>4){
+        fill(0);
+        text("Charles Babbage",700,500);
+    }
+    if(seconds>6){
+        background(50);
+    }
+    if(seconds>8){
+        seconds = 0;
+        timer = 0;
+    }
+};
+</script>
+</html>

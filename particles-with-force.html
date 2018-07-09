@@ -1,0 +1,268 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        // function setup() { 
+//   var v = createVector(40, 50);
+//   console.log(v);
+//   copyVector1(v);
+// } 
+
+// function copyVector1(vec) {
+//   var f = vec.copy();
+//   console.log(f);
+//   copyVector2(f);
+// }
+
+// function copyVector2(vec) {
+//   var f = vec.copy();
+//   console.log(f);
+//   copyVector3(f);
+// }
+
+// function copyVector3(vec) {
+//   var f = vec.copy();
+//   console.log(f);
+// }
+
+let forceCopy;
+
+function GlowingParticle(x,y,m,s){
+    let glow = 2;
+    let glowRate = 0.55;
+    this.pos = createVector(x,y);
+    this.acc = createVector(0,0);
+    this.vel = createVector(0,0);
+    this.mass = createVector(m*random(-0.25,0.25),m*random(-0.25,0.25));
+    
+    this.applyForce = function(force) {
+        forceCopy = force; //we don't want gravity;s changes to compound
+        //so we make a copy of the force variable
+        //so that each instance of the prototype doesn't affect the const grav
+        this.acc.add(this.mass); 
+        this.mass.div(forceCopy);
+      
+    };
+    
+    this.update = function () {
+      this.vel.add(this.acc);
+      this.pos.add(this.vel);
+      this.acc.set(0,0);
+    };
+    this.display = function(){
+        translate(this.pos.x,this.pos.y);
+        scale(s); //added exaggeration for eye animation
+        noStroke();
+        //background frame incase of no looping background
+        //fill(0);
+        //ellipse(0,0,350,350);
+        fill(255,255,255,155-glow);
+        ellipse(0,0,120,120);
+        fill(255,255,255,102-glow);
+        ellipse(0,0,160+glow/3,160+glow/2.8);
+        fill(255,255,255,80+glow/2);
+        ellipse(0,0,200-glow/2,200-glow/2.8);
+        fill(255,255,255,65+glow/2);
+        ellipse(0,0,250+glow/2,250+glow/2.4);
+        fill(255,255,255,35+glow/2.4);
+        ellipse(0,0,320-glow,320-glow);
+        //animation
+        glow = glow + glowRate;
+        if(glow>30){
+            glowRate = -glowRate;
+        }
+        if(glow<0){
+            glowRate = -glowRate;
+        }
+        resetMatrix();
+    };
+    this.edges = function () {
+        
+      if(dist(mouseX,mouseY,this.pos.x,this.pos.y)<10){
+          this.vel.y *= -1;
+          this.vel.x *= -1;
+      }
+      if(this.pos.x > width - 150){
+          this.pos.x = width - 150;
+          this.vel.x *= -1;
+      }  
+      if(this.pos.x < 150){
+          this.pos.x = 150;
+          this.vel.x *= -1;
+      }  
+      if(this.pos.y < -150){
+          this.pos.y = -150;
+          this.vel.y *= -1;
+      }  
+      if(this.pos.y > height-150){
+          this.pos.y = height-150;
+          this.vel.y *= -1;
+      }  
+    };
+}
+
+function setup() {
+    createCanvas(1000,1000);
+}
+let gravity;
+let wind;
+
+
+
+let glows = [
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25)),
+        new GlowingParticle(random(150,width-150),random(150,height-150),random(1,5),random(0.1, 0.25))
+    ];
+
+const Gravity = function(){
+    gravity = createVector(0.01,0.1);
+};
+const Wind = function () {
+    wind = createVector(0.1,-0.1);
+};
+const Forces = function(){
+          Gravity();
+          Wind();
+};
+function draw() {
+    background(0);
+    for(var i = 0; i < glows.length; i++){
+        // let Particles = function () {
+        //     glows[i].display();
+        //     glows[i].update();
+        //     glows[i].edges();
+        //     glows[i].applyForce(gravity);
+        //       if(mouseIsPressed){
+        //           glows[i].applyForce(wind);
+        //       }
+        // };
+         glows[i].display();
+        glows[i].update();
+        glows[i].edges();
+        glows[i].applyForce(gravity * GlowingParticle.mass);
+        if(mouseIsPressed){
+            glows[i].applyForce(wind);
+        }
+        Forces();
+        // Particles();
+    }
+
+}
+    </script>
+</html>

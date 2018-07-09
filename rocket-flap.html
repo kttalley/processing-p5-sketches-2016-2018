@@ -1,0 +1,240 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        let grav;
+
+function setup() {
+    rectMode(CENTER);
+    angleMode(DEGREES);
+    createCanvas(700, 550);
+    grav = createVector(0, 1);
+}
+
+//objects -- one of a kind
+let Backdrop = {
+    x: 1500,
+    y: 0,
+    show: function () {
+        translate(this.x, this.y);
+        background(25, 175, 255);
+        fill(20, 155, 155);
+        rect(-300, 500, 2500, 150);
+
+        for (var t = 0; t < trees.length; t ++) {
+            trees[t].draw();
+            trees[t].pan();
+        }
+
+        resetMatrix();
+    },
+    pan: function () {
+        this.x -= 0.2;
+
+        if (this.x < 1000) {
+            this.x = 1500;
+        }
+    },
+};
+
+let Flappy = {
+    pos: createVector(150, 50),
+    vel: createVector(0, 0),
+    acc: createVector(0, 0),
+    mass: createVector(0, 1),
+    face: -45,
+    asc: false,
+    timer: 0,
+    sze: 0.5,
+    
+    
+    show: function () {
+        // this.face= this.face - 1;
+        this.timer = this.timer+ 0.1;
+        translate(this.pos.x, this.pos.y);
+        scale(this.sze);
+        rotate(this.pos.y/15 - this.face);
+        fill(230,150,0,250);
+        triangle(15,25+this.timer/500,50,25+this.timer/500,32.5,random(25,55)+this.timer/50);
+        
+        noStroke();
+        fill(0, 102, 153);
+        triangle(0, 0, 0 + 30, 0, 0 + 15, 0 + 30);
+        fill(130, 150, 153);
+        triangle(0 + 30, 0 - 30, 0 + 15, 0 + 15, 0 + 50, 0 + 15);
+        fill(0, 102, 153);
+        triangle(0 + 30, 0, 0 + 60, 0, 0 + 45, 0 + 30);
+        resetMatrix();
+
+        // resetMatrix();
+    },
+    update: function () {
+        this.pos.add(this.vel);
+        this.vel.add(this.acc);
+        this.acc.add(this.mass);
+        
+        if(keyIsPressed || mouseIsPressed){
+            this.vel.y = -5;
+        }
+        
+        // if(this.asc === false){
+        //     this.acc.add(this.mass);
+        // }
+        // // this.acc.rotate(this.face*random(10));
+        // if (keyIsPressed || mouseIsPressed) {
+        //     this.asc = true;
+        // } else {
+        //     this.asc = false;
+        // }
+
+        // if (this.asc === true) {
+        //     this.acc.y = -0.25;
+        // }
+        
+        //boundaries
+        if(this.pos.y > height){
+            this.vel.y = random(-10,-20);
+            this.face = random (-200, 200);
+            this.face = this.face-random(-20, 20);
+        }
+    },
+    applyForce: function (force) {
+        let forceCopy = force;
+        this.mass.div(forceCopy);
+
+        // this.acc.set(0,0);
+    },
+};
+
+//classes -- instantiating many
+function Tree(x, y, sze) {
+    this.x = x;
+    this.y = y;
+    this.sze = sze;
+    var xSpeed = 5;
+
+    this.draw = function () {
+        rectMode(CORNER);
+        noStroke();
+        fill(153, 121, 70);
+        rect(this.x, this.y, this.sze / 2, this.sze * 1.5);
+        fill(180, 235, 180);
+        triangle(this.x - this.sze / 2, this.y, this.x + this.sze / 4, this.y - this.sze * 2, this.x + this.sze, this.y);
+        rectMode(CENTER);
+    };
+    this.pan = function () {
+        this.x -= 2;
+    }
+}
+
+function Tile(x, y) {
+    rectMode(CENTER);
+    translate(x, y);
+    fill(25, 180, 125);
+    rect(0, 0, 100, 100);
+    resetMatrix();
+    rectMode(CORNER);
+    if (dist(Flappy.pos.x, Flappy.pos.y, x, y) < 60) {
+        background(255, 0, 0);
+    }
+};
+
+//obstacle config
+const bottomTower3 = function (x, y) {
+  Tile(x,y);
+  Tile(x,y+100);
+  Tile(x,y+200);
+  Tile(x,y+300);
+};
+
+const topTower2 = function (x, y) {
+    Tile(x, y);
+    Tile(x, y + 100);
+    Tile(x, y + 200);
+
+    //   Tile(x,y+200);
+};
+const bottomTower2 = function (x, y) {
+    Tile(x, y);
+    Tile(x, y - 100);
+    Tile(x, y - 200);
+    //   Tile(x,y-200);
+};
+const topTower1 = function (x, y) {
+    Tile(x+50, y);
+
+    //   Tile(x,y+200);
+};
+const bottomTower1 = function (x, y) {
+    Tile(x, y);
+
+    //   Tile(x,y-200);
+};
+
+let trees = [
+    new Tree(random(50, 1600), random(400, 450), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 450), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+    new Tree(random(50, 1600), random(400, 550), random(20, 80)),
+];
+const flappy = function () {
+    Flappy.update();
+    Flappy.show();
+    Flappy.applyForce(grav);
+};
+const backdrop = function () {
+    Backdrop.show();
+    Backdrop.pan();
+};
+
+let obst1 = 800;
+let obst2 = 1200;
+let obst3 = 1600;
+let obst4 = 2000;
+let obst5 = 1800;
+function draw() {
+    for (var t = 0; t < trees.length; t ++) {
+        trees[t].draw();
+    }
+
+    backdrop();
+    flappy();
+    obst1 -= 5;
+    obst2 -= 5;
+    obst3 -= 5;
+    obst4 -= 5;
+    obst5 -= 5;
+
+    if (obst1 < -100) {
+        obst1 = random(700, 1100);
+    }
+
+    if (obst2 < -100) {
+        obst2 = random(1200, 1600);
+    }
+     if (obst3 < -100) {
+        obst3 = random(1800, 2200);
+    }
+
+    if (obst4 < -100) {
+        obst4 = random(2200, 2600);
+    }
+
+    topTower2(obst1, 0);
+    bottomTower2(obst2, 550);
+    topTower1(obst3, 0);
+    bottomTower2(obst4, 550);
+    bottomTower3(obst5, 550);
+}
+    </script>
+</html>

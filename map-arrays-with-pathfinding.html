@@ -1,0 +1,132 @@
+<html>
+    <script src = "lib/p5.js"></script>
+
+<script>
+new p5();
+function setup () {
+    createCanvas(1000,1000);
+}
+var tileSize = 50;
+
+var a = {x: 2, y: 2};
+var b = {x: 14, y: 4};
+
+//a[x] = a.x
+
+
+var map = [
+    
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,1,1,0,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,1,1,0,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,1,1,0,0,0,0,1,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1],
+    [1,0,0,0,0,1,1,0,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,1,1,0,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,1,1,0,0,0,0,1,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ];
+    
+// returns something like [{x:2, y: 2}, {x:4, y:2}]
+function getSuccessors(p) {
+    var successors = [];
+    if (p.y < map.length && (p.y + 1 !== 1)) {
+        successors.push({ x: p.x, y: p.y + 1 });
+    }
+    if (p.y > 0 && (p.y - 1 !== 1)) {
+        successors.push({ x: p.x, y: p.y - 1 });
+    }
+    if (p.x < map[0].length && (p.x + 1 !== 1)) {
+        successors.push({ x: p.x + 1, y: p.y });
+    }
+    if (p.x < map[0].length && (p.x - 1 !== 1)) {
+        successors.push({ x: p.x - 1, y: p.y });
+    }
+    return successors;
+}
+
+function dfs(a, b) {
+    var s = [];
+    var t = {};
+    var visited = {};
+    //t will look like:
+    //{
+       // '1,3' : {x: 0, y: 3 },
+        //'2,3' : {x: 1, y: 3 },
+    //}
+    //visited will look like:
+    //{
+       // '1,3' : true,
+        //'2,3' : false,
+    //}
+    t[toXYStr(a)] = 'start';
+    s.push(a);
+    while(s.length > 0) {
+        var v = s.pop();
+        if(visited[toXYStr(v)] === undefined) {
+            visited[toXYStr(v)] = true;
+            var successors = getSucessors(v);
+            for (var i = 0; i < successors.length; i++) {
+                t[toXYStr(v)] = v;
+                s.push(v);
+            }
+        }
+    }
+    // backtrack
+    var path = [];
+    if (s[toXYStr(b)] !== undefined) {
+        var current = b;
+        while (current) {
+            path.push(current);
+            current = t[toXYStr(current)];
+        } 
+    }
+    return path;
+}
+
+function toXY(i) {
+    return i * tileSize;
+}
+
+function drawTile(i, j, tile) {
+    var x = toXY(i);
+    var y = toXY(j);
+    if (tile) {
+        fill(0,0,0);
+        rect(x, y, tileSize, tileSize);
+    } else {
+        fill(255,0,0);
+        rect(x, y, tileSize, tileSize);
+    }
+}
+
+function drawA(a) {
+    fill(0,255,0);
+    var x = toXY(a.x);
+    var y = toXY(a.y);
+    rect(x, y, tileSize, tileSize);
+}
+
+function drawB(b) {
+    fill(0,0,255);
+    var x = toXY(b.x);
+    var y = toXY(b.y);
+    rect(x, y, tileSize, tileSize);
+}
+
+function drawMap() {
+    for(var i = 0; i < map.length; i++) {
+        for(var j = 0; j < map[i].length; j++) {
+            drawTile(j, i, map[i][j]);
+        }
+    }
+}
+
+draw = function () {
+    drawMap();
+    drawA(a);
+    drawB(b);
+};
+
+</script>
+</html>

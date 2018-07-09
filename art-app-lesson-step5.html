@@ -1,0 +1,306 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup (){
+            createCanvas(1000, 1000);
+        }
+        var r = 0;
+var g = 0;
+var b = 0;
+var opacity = 255;
+
+var rSlider = 850;
+var gSlider = 850;
+var bSlider = 850;
+
+var sze = 5;
+var szeSlider = 150;
+
+var brush = true;
+var eraser = false;
+
+draw = function () {
+    //user interface
+    noStroke();
+    fill(100);
+    rect(0,0,1000,50);
+    rect(0,0,50,1000);
+    //color menu
+    fill(100);
+    rect(825,75,165,165,55);
+    
+    //red slider
+    fill(255,0,0,100);
+    rect(850,100,125,20,100);
+    fill(255,0,0);
+    ellipse(rSlider,110,30,30);
+    //redslider interaction
+    if(mouseX > 850 && mouseX < 975){
+        if(mouseY > 90 && mouseY <122){
+            if(mouseIsPressed){
+                sze = 0;
+                rSlider = mouseX;
+            }
+        }
+    }
+    if(rSlider>800){
+        r = 0;
+    }
+    if(rSlider>870){
+        r = 5;
+    }
+    if(rSlider>880){
+        r = 10;
+    }
+    if(rSlider>890){
+        r = 90;
+    }
+    if(rSlider>900){
+        r = 120;
+    }
+    if(rSlider>910){
+        r = 150;
+    }
+    if(rSlider>920){
+        r = 180;
+    }
+    if(rSlider>930){
+        r = 200;
+    }
+    if(rSlider>940){
+        r = 220;
+    }
+    if(rSlider>949){
+        r = 255;
+    }
+    //green slider
+    fill(0,255,0,100);
+    rect(850,150,125,20,100);
+    fill(0,255,0);
+    ellipse(gSlider,160,30,30);
+    if(mouseX > 850 && mouseX < 975){
+        if(mouseY > 140 && mouseY <170){
+            if(mouseIsPressed){
+                gSlider = mouseX;
+            }
+        }
+    }
+    if(gSlider>800){
+        g = 0;
+    }
+    if(gSlider>870){
+        g = 5;
+    }
+    if(gSlider>880){
+        g = 10;
+    }
+    if(gSlider>890){
+        g = 90;
+    }
+    if(gSlider>900){
+        g = 120;
+    }
+    if(gSlider>910){
+        g = 150;
+    }
+    if(gSlider>920){
+        g = 180;
+    }
+    if(gSlider>930){
+        g = 200;
+    }
+    if(gSlider>940){
+        g = 220;
+    }
+    if(gSlider>949){
+        g = 255;
+    }
+    //blue slider
+    fill(0,0,255,100);
+    rect(850,200,125,20,100);
+    fill(0,0,255);
+    ellipse(bSlider,210,30,30);
+    if(mouseX > 850 && mouseX < 975){
+            if(mouseY > 195 && mouseY <225){
+                if(mouseIsPressed){
+                   bSlider = mouseX;
+                }
+            }
+        }
+    if(bSlider>800){
+        b = 0;
+    }
+    if(bSlider>870){
+        b = 5;
+    }
+    if(bSlider>880){
+        b = 10;
+    }
+    if(bSlider>890){
+        b = 90;
+    }
+    if(bSlider>900){
+        b = 120;
+    }
+    if(bSlider>910){
+        b = 150;
+    }
+    if(bSlider>920){
+        b = 180;
+    }
+    if(bSlider>930){
+        b = 200;
+    }
+    if(bSlider>940){
+        b = 220;
+    }
+    if(bSlider>949){
+        b = 255;
+    }
+    
+    //max red limit
+    if(r > 255){
+        r = 255;
+    }
+    //min red limit
+    if(r < 0){
+        r = 0;
+    }
+    //add red to brush
+    if(key == 'r' && keyIsPressed){
+        r = r + 1;
+    }
+    //subtract red from brush
+    if(key == 't' && keyIsPressed){
+        r = r - 1;
+    }
+    //max green limit
+    if(g > 255){
+        g = 255;
+    }
+    //min green limit
+    if(g < 0){
+        g = 0;
+    }
+    //add green to brush
+    if(key == 'g' && keyIsPressed){
+        g = g + 1;
+    }
+    //subtract red from brush
+    if(key == 'h' && keyIsPressed){
+        g = g - 1;
+    }
+    //max blue limit
+    if(b > 255){
+        b = 255;
+    }
+    //min blue limit
+    if(b < 0){
+        b = 0;
+    }
+    //add blue to brush
+    if(key == 'b' && keyIsPressed){
+        b = b + 1;
+    }
+    //subtract blue from brush
+    if(key == 'n' && keyIsPressed){
+        b = b - 1;
+    }
+    //size slider
+    fill(255);
+    rect(150,15,300,15,100);
+    ellipse(szeSlider, 22, 30, 30);
+    //size slider interaction
+    if(mouseX > 150 && mouseX < 450){
+        if(mouseY > 10 && mouseY < 40){
+            if(mouseIsPressed){
+                szeSlider = mouseX;
+            }
+        }
+    }
+    //lower brush size limit
+    if(szeSlider < 175){
+        sze = 5;
+    }
+    if(szeSlider > 225) {
+        sze = 15;
+    }
+    //mid brush size limit
+    if(szeSlider > 275){
+        sze = 35;
+    }
+    if(szeSlider > 325){
+        sze = 55;
+    }
+    //max brush size limit
+    if(szeSlider > 440){
+        sze = 75;
+    }
+    //brush button
+    //colorchange
+    if(brush === true){
+        fill(200);
+    }
+    if(brush === false){
+        fill(100);
+    }
+     //icon
+    rect(0,400,50,50);
+    fill(0);
+    ellipse(25,425,25,25);
+    //brush mouse interaction
+    if(mouseX > 0 && mouseX < 40){
+    if(mouseY>400 && mouseY < 445){
+        if(mouseIsPressed){
+            brush = true;
+            eraser = false;
+            }
+        }
+    }
+    
+    //eraser icon
+    //color change
+      if(eraser === true){
+            fill(200);
+        }
+        if(eraser === false){
+            fill(100);
+        }
+    rect(0,450,50,50);
+    fill(255);
+    quad(20,460,5,480,35,480,50,460);
+    //eraser mouse interaction
+    if(mouseX > 0 && mouseX < 40){
+    if(mouseY>450 && mouseY < 495){
+        if(mouseIsPressed){
+            brush = false;
+            eraser = true;
+            }
+        }
+    }   
+    //brush and eraser tools
+    if(mouseIsPressed && brush === true){
+        noStroke();
+        fill(r,g,b,opacity);
+        rectMode(CENTER);
+        rect(mouseX, mouseY, sze, sze,200);
+        rectMode(CORNER);
+    }
+    if(key == 'b' && keyIsPressed){
+        eraser = false;
+        brush = true;
+    }
+    
+    if(mouseIsPressed && eraser === true){
+        fill(255);
+        rect(mouseX,mouseY,sze,sze);
+    }
+    if(key == 'e' && keyIsPressed){
+        eraser = true;
+        brush = false;
+    }
+
+};
+    </script>
+</html>

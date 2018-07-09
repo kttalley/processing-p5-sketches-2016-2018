@@ -1,0 +1,36 @@
+<html>
+    <script>
+        function Particle (x,y,dir,speed, draw) {
+    this.x = x;
+    this.y = y;
+    this.dir = dir;
+    this.speed = speed;
+    this.draw = draw;
+    this.step = function () {
+        this.x += cos(this.dir)*this.speed;
+        this.y += sin(this.dir)*this.speed;
+    };
+    this.draw = function () {
+        this.step();
+        this.draw(this.x,this.y);
+    };
+}
+
+var drawSpark = function (x,y) {
+    fill(255,255,0);
+    ellipse(x,y,10,10);
+};
+
+let sparks = [
+    new Particle(250,375,20,10,drawSpark), 
+    new Particle(500,500,220,10,drawSpark)
+];
+
+draw = function () {
+    background(255);
+    for (let i = 0; i < sparks.length; i++) {
+        sparks[i]. draw();
+    }
+};
+    </script>
+</html>

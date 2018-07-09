@@ -1,0 +1,268 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        var birdObj;
+
+
+
+
+
+function setup() {
+            createCanvas(1000,1000, WEBGL);
+            birdObj = loadModel('https://raw.githubusercontent.com/kttalley/Sculptris-Obj/master/bird.obj', true);
+        
+                        
+        }
+
+        let flappy = {
+            birdX: -1000,
+            birdY: 0,
+            birdZ: 0,
+            grav: createVector(0,1,0),
+            pos: createVector(0,0,0),
+            vel: createVector(0,0,0),
+            acc: createVector(0,0,0),
+            update: function () {
+            this.pos = createVector(this.birdX,this.birdY,this.birdZ);
+            this.acc = createVector(0,0,0);
+            this.vel.add(this.acc);
+            this.pos.add(this.vel);
+            },
+            draw: function () {
+                camera(mouseX-width/2,0);
+                translate(this.pos.x+12,this.pos.y+25,this.pos.z);
+                cone(50);
+                resetMatrix();
+                
+            camera(mouseX-width/2,0);
+                translate(this.pos.x-12,this.pos.y+25,this.pos.z);
+                cone(50);
+                resetMatrix();
+                
+                camera(mouseX-width/2,0);
+                translate(this.pos.x,this.pos.y,this.pos.z);
+                sphere(45);
+                resetMatrix();
+            },
+            
+        };
+        let blockade = {
+            camX: 0,
+            camY: 0,
+            camZ: 0,
+            pos: createVector(0,0,0),
+            vel: createVector(0,0,0),
+            acc: createVector(0,0,0),
+            update: function () {
+            this.pos = createVector(this.camX,this.camY,this.camZ);
+            this.acc = createVector(0,0,5);
+            this.vel.add(this.acc);
+            this.pos.add(this.vel);
+            if(this.pos.z> 200&&this.camZ> 200){
+                this.camZ = -500;
+                this.posZ = -500;
+            }
+            },
+            draw:function(){
+                push();
+                translate(this.pos.x,this.pos.y,this.pos.z);
+                //fill(255,0,255);
+                //angleMode(DEGREES);
+                //rotateZ(45);
+                box(150,50,20);
+                pop();
+            },
+            
+        };
+        const blockade1 = function () {
+            blockade.update();
+            blockade.draw();
+        };
+
+
+
+        let birdX = -500;
+        let birdY= 0;
+        let birdZ= 0;
+            
+        let xR = 0;
+        let xVel = 0;
+        let yVel = 0;
+        let zVel = 0;
+        let zR = 0;
+
+        let flipL = false;
+        let flipR = false;
+        let flipF = false;
+        let flipBw = false;
+        function flapper( ) {
+            
+
+        
+            camera(birdX-width/2,birdY,birdZ);
+            translate(birdX+12-width/2,birdY+25,birdZ);
+            if(flipF === true){
+                rotateX(frameCount*0.1);
+            }
+            /*
+            cone(50);
+            resetMatrix();
+            camera(birdX-width/2,birdY,birdZ);
+            translate(birdX-12-width/2,birdY+25,birdZ);
+            if(flipF === true){
+                rotateX(frameCount*0.1);
+            }
+            cone(50);
+            resetMatrix();
+            camera(birdX-width/2,birdY,birdZ);
+            translate(birdX-width/2,birdY+25,birdZ);
+            if(flipF === true){
+                rotateX(frameCount*0.1);
+            }
+            sphere(45);
+            resetMatrix();
+            */
+            scale(0.5);
+            rotateX(200);
+             rotateZ(180+mouseX/130);
+             rotateY(mouseY/130);
+            model(birdObj);
+            //model(goldie);
+            //y movement
+            birdY += yVel;
+            yVel += grav;
+            if(keyIsDown(32)){
+                flipF === true;
+                yVel = -4;
+            }
+            if(yVel > 20){
+                yVel = 20;
+            }
+            if(birdY >375){
+                birdY = 375;
+            }
+            if(birdY< -1075){
+                birdY = 475;
+            }
+            
+            //z movement
+            birdZ += zVel;
+            zVel += zR;
+            if(keyIsDown(87)){
+                zR += -0.003;
+                if(zVel < -8){
+                    zVel = -8; //max move speed
+                    zR = 0; //max speed rate increase
+                }
+                if(zVel < -2){
+                    zR = 0;
+                }
+            }
+            if(keyIsDown(87)){
+                zR += -0.003;
+                if(zVel > 8){
+                    zVel = 8; //max move speed
+                    zR = 0; //max speed rate increase
+                }
+                if(zVel > 2){
+                    zR = 0;
+                }
+            }
+            if(birdZ > 4375){
+                birdZ = -5875;
+            }
+            if(birdZ< -5875){
+                birdZ = 4375;
+            }
+            //x movement
+            birdX += xVel;
+            xVel += xR;
+            if(keyIsDown(68)){
+                xR += 0.003;
+                if(xVel > 8){
+                    xVel = 8;
+                    xR = 0;
+                }
+                if(xVel > 2){
+                    xR = 0;
+                }
+            }
+            if(keyIsDown(65)){
+                xR += -0.003;
+                if(xVel < -8){
+                    xVel = -8;
+                    xR = 0;
+                }
+                if(xVel <  -2){
+                    xR = 0;
+                }
+            }
+            if(birdX < -2050){
+                birdX = 100;
+            }
+            if(birdX > 100){
+                birdX = -2050;
+            }
+            
+        
+        }
+
+
+
+
+        let grav = 0.07;
+
+
+
+
+        let timer = 0;
+        let countDownTimer = 10;
+
+
+        
+
+
+        function draw() {
+        
+            translate(0,0,-4000);
+            background(100,200,255);
+            resetMatrix();
+            //sun
+           translate(-1000,-2400,-5100);
+            sphere(500);
+            resetMatrix();
+            //mountain
+            camera(birdX-width/2,birdY,birdZ);
+            translate(-2800,400,-5000);
+            angleMode(DEGREES);
+            rotateX(185);
+            cone(displayWidth);
+            resetMatrix();
+            //orb
+            push();
+            camera(birdX-width/2,birdY,birdZ);
+            translate(0,0,-4000);
+            sphere(700);
+            resetMatrix();
+            pop();
+            //ground
+            push();
+            camera(birdX-width/2,birdY,birdZ);
+            translate(0,1200,-500);
+            box(displayWidth*5,displayWidth);
+            resetMatrix();
+            pop();
+            push();
+            flapper();
+            
+            resetMatrix();
+            
+            pop();
+            push();
+            blockade1();
+            pop();
+            
+        }
+    </script>
+</html>

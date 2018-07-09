@@ -1,0 +1,58 @@
+<html>
+    <script src="lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+    
+        function food (x,y){
+    rectMode(CENTER);
+    translate(x,y);
+    rotate(r);
+    fill(255,0,0);
+    rect(0,0,20,20);
+    rectMode(CORNER);
+    resetMatrix();
+}
+var r = 0.1;
+var sze = 15;
+var foodX = random(500);
+var foodY = random(500);
+var foodXspeed = random(2,7);
+var foodYspeed = random(2,6);
+
+draw = function () {
+    background(255);
+    fill(200,180,20);
+    //character
+    ellipse(mouseX,mouseY,sze,sze);
+    //food
+    r += 0.4;
+    foodX += foodXspeed;
+    foodY += foodYspeed;
+    food(foodX, foodY);
+    if(foodX > 500){
+        foodXspeed = -foodXspeed;
+    }
+    if(foodX < 0){
+        foodXspeed = -foodXspeed;
+    }
+    if(foodY < 0){
+        foodYspeed = -foodYspeed;
+    }
+    if(foodY > 550){
+        foodYspeed = -foodYspeed;
+    }
+    //distanc
+    if( dist(foodX,foodY,mouseX,mouseY)<sze){
+        sze += 1;
+        foodX = random(550);
+        foodY = random(550);
+        foodXspeed += 1;
+        foodYspeed += 1;
+    }
+    
+};
+    </script>
+</html>

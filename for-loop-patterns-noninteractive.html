@@ -1,0 +1,40 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        function forLoopPatternX () {
+    for (var x = 50; x <= width-50; x+=50){
+        for (var y = 50; y <= height-50; y+=50){
+            var lineLength = 45;
+            line(x-lineLength, y-lineLength, x+lineLength, y+lineLength);
+            line(x+lineLength,y-lineLength,x-lineLength,y+lineLength);
+        }
+    }
+}
+
+function forLoopPatternVanishing () {
+    for (var x = 50; x <= width-50; x += 50){
+        for (var y = 50; y <= height-50; y += 50){
+            line(x, y, width/2, height/2);
+        }
+    }
+}
+function forLoopPatternEll () {
+    for (var x = 50; x <= width-50; x += 50){
+        for (var y = 50; y <= height-50; y += 50){
+            var elSze = 100;
+            noFill();
+            ellipse(x,y,100,100);
+        }
+    }
+}
+draw = function(){
+    background(255);
+    forLoopPatternEll();
+    
+};
+    </script>
+</html>

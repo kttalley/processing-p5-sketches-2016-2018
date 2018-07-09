@@ -1,0 +1,90 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5 ();
+        function setup() {
+    createCanvas(displayWidth, displayHeight, P2D);
+    angleMode(DEGREES);
+    rectMode(CENTER);
+}
+
+let zombieWalker = {
+  pos: createVector(400,300),
+  vel: createVector(0,0),
+  acc: createVector(0.1,0.1),
+  //acc: p5.Vector.fromAngle(120),
+  timer: 2,
+  face: 40,
+  update: function () {
+    this.pos.add(this.vel);
+    this.vel.add(this.acc);
+    this.acc.rotate(this.face*random(-4,4));
+   
+  },
+  colide: function() {
+    if(this.pos.x > width){
+        this.pos.x = width;
+        this.vel.x = -this.vel.x;
+        //this.face = 90;
+    }
+    if(this.pos.x < 0){
+        this.pos.x = 0;
+        this.vel.x = -this.vel.x;
+        //this.face = 90;
+    }
+    if(this.pos.y > 500){
+        this.pos.y = 500;
+        this.vel.y = -this.vel.y;
+        //this.face = 90;
+    }
+    if(this.pos.y < 0){
+        this.pos.y = 0;
+        //this.face = 90;
+        this.vel.y = -this.vel.y;
+    }
+  },
+  draw: function () {
+      let s = this.pos.x /this.pos.y * 0.1;
+      translate(this.pos.x,this.pos.y);
+      //scale(s);
+      /*
+      if(s> 12){
+          background(random(255),100,random(255));
+          fill(random(255),100,random(255));
+      }*/
+      rotate(-this.vel.x*30);
+      //rectMode(CENTER);
+      rect(0,0,50,50);
+      resetMatrix();
+      if(this.pos.x > 0 && this.pos.x < 200){
+          textSize(15);
+          fill(255);
+          text("*SNORT*",this.pos.x+25,this.pos.y-25);
+      } else  if(this.pos.x > 200 && this.pos.x < 400){
+          textSize(15);
+          fill(255);
+          text("*SNARL*",this.pos.x+25,this.pos.y-25);
+      } else if(this.pos.x > 400 && this.pos.x < 600){
+          textSize(15);
+          fill(255);
+          text("*GROWL*",this.pos.x+25,this.pos.y-25);
+      } else if(this.pos.x > 600){
+          textSize(15);
+          fill(255);
+          text("*COUGH*",this.pos.x+25,this.pos.y-25);
+      }
+  },
+};
+
+const zombie =  function () {
+    zombieWalker.colide();
+    zombieWalker.update();
+    zombieWalker.draw();
+};
+
+function draw() {
+    background(150);
+    zombie();
+}
+    </script>
+</html>

@@ -1,0 +1,45 @@
+<html>
+    <script src="lib/p5.js"></script>
+    <script>
+        function staryNight(){
+    for(var sx = 0;sx<1000; sx = sx + random(10,167)){
+        for(var sy = 0; sy < 1000; sy = sy + random(10,167)){
+                strokeWeight(random(3,7));
+                stroke(255);
+                point(sx,sy);
+        }
+    }
+}
+function setup () {
+    createCanvas(width, height);
+    background(0);
+    staryNight();
+}
+var glow = 0;
+var glowRate = 0.4;
+
+function draw (){
+    //background(0);
+    noStroke();
+    fill(0);
+    ellipse(500,500,350,350);
+    fill(255,255,255,255-glow);
+    ellipse(500,500,120,120);
+    fill(255,255,255,202-glow);
+    ellipse(500,500,160+glow/3,160+glow/3);
+    fill(255,255,255,180+glow/2);
+    ellipse(500,500,200-glow/2,200-glow/2);
+    fill(255,255,255,125+glow/2);
+    ellipse(500,500,250+glow/2,250+glow/2);
+    fill(255,255,255,75+glow*2);
+    ellipse(500,500,320-glow,320-glow/2);
+    glow = glow + glowRate;
+    if(glow>25){
+        glowRate = -glowRate;
+    }
+    if(glow<0){
+        glowRate = -glowRate;
+    }
+}
+    </script>
+</html>

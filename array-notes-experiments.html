@@ -1,0 +1,64 @@
+<html>
+    <script src = "lib/p5.js"></script>
+    <script>
+        new p5();
+        function setup () {
+            createCanvas(1000,1000);
+        }
+        function draw () {
+            var cars = [ 
+    'BMW',
+    'Chevy',
+    'Saab'     //do not include , for last declaration
+    
+    ];
+    
+var fruits = [
+    'Apple',
+    'Banana',
+    'Strawberry',
+    'Pineapple'
+    ];
+    
+function isArray(x) {
+    return x.constructor.toString().indexOf("Array") > -1;
+} //displays objects as variables or arrays thru true/false
+    
+var x = cars.length;   // The length property returns the number of elements
+var y = cars.sort();   // The sort() method sorts arrays
+var z = 100;
+frameRate(1);
+draw = function () {
+    background(255);
+    //cars[] test
+    fill(0);
+    textSize(24);
+    text(cars[0],500,500);  //0 is first declared value of array, 1 is second
+    text(x,100,550); //array.length returns the number of elements
+    text(y,500,600); //the sort() method lists out your array
+    
+    
+    //fruit[] test
+    text(fruits.sort(),100,650); //sort() can be used outside of a declared var
+    text(fruits.length,500,700); //as can .length
+    
+    //array looping
+    
+    
+    //Adding elements to your Array
+    fruits.push('lemon'); //adds a 4th element to fruits[]
+    //because .push is in draw function, lemon is added over and over
+    //to fruits[]
+    
+    fruits[fruits.length] = 'Mango';  
+    // adds a new element (Lemon) to fruits
+    
+    fruits[6] = 'Blueberry'; // adds a new element (Lemon) to fruits
+
+   text (isArray(z),100,750); //displays function isArray as either true or false
+    
+    
+};
+        }
+    </script>
+</html>
